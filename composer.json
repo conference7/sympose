@@ -35,5 +35,10 @@
 		"classmap": [
 			"debug/"
 		]
-	}
+    },
+    "scripts": {
+        "post-install-cmd": [
+          "./scripts/setup-hooks.sh"
+        ]
+      }
 }
