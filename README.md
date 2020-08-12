@@ -1,5 +1,5 @@
 # Sympose
-[![<Conference7>](https://circleci.com/gh/conference7/sympose.svg?style=shield)]([<LINK>](https://circleci.com/gh/conference7/sympose))
+[![<Conference7>](https://circleci.com/gh/conference7/sympose.svg?style=shield)](https://circleci.com/gh/conference7/sympose)
 
 ## Welcome to Conference7's WordPress plugin: Sympose
 Sympose adds everything you need for to start your conference website in WordPress.
