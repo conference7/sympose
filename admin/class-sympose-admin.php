@@ -1175,6 +1175,51 @@ class Sympose_Admin {
 
 					return $output;
 				},
+				'after_field'  => function( $field_args, $field ) {
+					echo '<br/><span style="display: block; text-align: right; margin-top: 2px;"><a href="' . get_permalink( $field->value ) . '">' . __( 'Go to page', 'sympose' ) . '</a></span>';
+				},
+			),
+		);
+
+		$category->add_field(
+			array(
+				'name'       => __( 'Display people with', 'sympose' ),
+				'type'       => 'select',
+				'default_cb' => function() {
+					return sympose_get_option( 'schedule_people_format' );
+				},
+				'show_on_cb' => function() {
+					return ( sympose_get_option( 'show_people_on_schedule' ) === 'on' ? true : false );
+				},
+				'id'         => $this->prefix . 'schedule_people_format',
+				'desc'       => __( 'How would you like people to show on the schedule?', 'sympose' ),
+				'options'    => array(
+					'default'    => __( 'Default', 'sympose' ),
+					'photo'      => __( 'Photo only', 'sympose' ),
+					'name'       => __( 'Name only', 'sympose' ),
+					'photo_name' => __( 'Photo & name', 'sympose' ),
+				),
+			)
+		);
+
+		$category->add_field(
+			array(
+				'name'       => __( 'Display organisations with', 'sympose' ),
+				'type'       => 'select',
+				'default_cb' => function() {
+					return sympose_get_option( 'schedule_organisations_format' );
+				},
+				'show_on_cb' => function() {
+					return ( sympose_get_option( 'show_organisations_on_schedule' ) === 'on' ? true : false );
+				},
+				'id'         => $this->prefix . 'schedule_organisations_format',
+				'desc'       => __( 'How would you like organisations to show on the schedule?', 'sympose' ),
+				'options'    => array(
+					'default'   => __( 'Default', 'sympose' ),
+					'logo'      => __( 'Photo only', 'sympose' ),
+					'name'      => __( 'Name only', 'sympose' ),
+					'logo_name' => __( 'Logo & name', 'sympose' ),
+				),
 			)
 		);
 
@@ -1273,6 +1318,21 @@ class Sympose_Admin {
 
 		$options->add_field(
 			array(
+				'name'    => __( 'Display people with', 'sympose' ),
+				'type'    => 'select',
+				'default' => '',
+				'id'      => 'schedule_people_format',
+				'desc'    => __( 'How would you like people to show on the schedule?', 'sympose' ),
+				'options' => array(
+					'photo'      => __( 'Photo only', 'sympose' ),
+					'name'       => __( 'Name only', 'sympose' ),
+					'photo_name' => __( 'Photo & name', 'sympose' ),
+				),
+			)
+		);
+
+		$options->add_field(
+			array(
 				'name'            => __( 'Show organisations on schedule', 'sympose' ),
 				'type'            => 'checkbox',
 				'default'         => '',
@@ -1280,6 +1340,21 @@ class Sympose_Admin {
 				'sanitization_cb' => function ( $value, $field_args, $field ) {
 					return is_null( $value ) ? false : $value;
 				},
+			)
+		);
+
+		$options->add_field(
+			array(
+				'name'    => __( 'Display organisations with', 'sympose' ),
+				'type'    => 'select',
+				'default' => '',
+				'id'      => 'schedule_organisations_format',
+				'desc'    => __( 'How would you like organisations to show on the schedule?', 'sympose' ),
+				'options' => array(
+					'logo'      => __( 'Photo only', 'sympose' ),
+					'name'      => __( 'Logo only', 'sympose' ),
+					'logo_name' => __( 'Logo & name', 'sympose' ),
+				),
 			)
 		);
 
