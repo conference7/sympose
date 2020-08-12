@@ -21,7 +21,6 @@
     <exclude-pattern>*.min.css</exclude-pattern>
     <exclude-pattern>*.css</exclude-pattern>
 
-    <exclude-pattern>includes/class-tgm-plugin-activation.php</exclude-pattern>
     <exclude-pattern>public/libs/</exclude-pattern>
 
     <exclude-pattern>admin/index.php</exclude-pattern>
