@@ -550,21 +550,16 @@ class Sympose_Public {
 		$person_format       = get_term_meta( $term->term_id, $this->prefix . 'schedule_people_format', true );
 		$organisation_format = get_term_meta( $term->term_id, $this->prefix . 'schedule_organisations_format', true );
 
-
-		if ( empty( $person_format ) || $person_format === 'default' ) {
+		if ( empty( $person_format ) || 'default' === $person_format ) {
 			$person_format = sympose_get_option( 'schedule_people_format' );
 		}
 
-		if ( empty( $organisation_format ) || $organisation_format === 'default' ) {
+		if ( empty( $organisation_format ) || 'default' === $organisation_format ) {
 			$organisation_format = sympose_get_option( 'schedule_organisations_format' );
 		}
 
 		$row_args['person_format']       = $person_format;
 		$row_args['organisation_format'] = $organisation_format;
-
-
-
-		var_dump($row_args);
 
 		// Get days.
 		$terms = get_terms(
@@ -717,12 +712,12 @@ class Sympose_Public {
 				$people_args['image'] = true;
 				break;
 			case 'photo_name':
-				$people_args['name'] = true;
+				$people_args['name']  = true;
 				$people_args['image'] = true;
-			break;
+				break;
 			default:
 				$people_args['image'] = true;
-			break;
+				break;
 		}
 
 		if ( is_array( $people ) ) {
@@ -739,10 +734,10 @@ class Sympose_Public {
 		$organisations_html = '';
 
 		$organisation_args = array(
-			'name' => false,
-			'desc' => false,
+			'name'  => false,
+			'desc'  => false,
 			'image' => false,
-			'size' => 'organisation-schedule',
+			'size'  => 'organisation-schedule',
 		);
 
 		switch ( $args['organisation_format'] ) {
@@ -753,12 +748,12 @@ class Sympose_Public {
 				$organisation_args['image'] = true;
 				break;
 			case 'logo_name':
-				$organisation_args['name'] = true;
+				$organisation_args['name']  = true;
 				$organisation_args['image'] = true;
-			break;
+				break;
 			default:
 				$organisation_args['image'] = true;
-			break;
+				break;
 		}
 
 		if ( is_array( $organisations ) ) {
@@ -816,10 +811,13 @@ class Sympose_Public {
 			)
 		);
 
-		$args = array_merge($args, array(
-			'show_time'   => false,
-			'row_classes' => array( 'session-child' ),
-		));
+		$args = array_merge(
+			$args,
+			array(
+				'show_time'   => false,
+				'row_classes' => array( 'session-child' ),
+			)
+		);
 
 		// Display sessions.
 		foreach ( $children as $child ) {
