@@ -1,0 +1,126 @@
+
+.extensions-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background: $white;
+  padding: 20px;
+}
+
+.sympose-extension {
+  overflow: hidden;
+  //border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  //box-shadow: 2px 2px 2px 2px rgba(lighten($grey, 20), 0.15);
+  background: linear-gradient($white, darken($white, 5));
+  border: 2px solid $blue;
+  position: relative;
+  margin-bottom: 20px;
+
+  @include portrait-tablet {
+    width: calc(100% / 2 - 4px - 1%);
+    margin-right: 2%;
+    &:nth-child(2n+2) {
+      margin-right: 0;
+    }
+  }
+
+  @include small-desktop {
+    width: calc(100% / 3 - 4px - 1%);
+    margin-right: 1.5%;
+    &:nth-child(3n+3) {
+      margin-right: 0;
+    }
+  }
+
+  @include mid-desktop {
+    width: calc(100% / 4 - 4px - 1.133%);
+    margin-right: 1.5%;
+    &:nth-child(4n+4) {
+      margin-right: 0;
+    }
+  }
+
+  @include large-desktop {
+    width: calc(100% / 5 - 4px - 1.2%);
+    margin-right: 1.5%;
+    &:nth-child(5n+5) {
+      margin-right: 0;
+    }
+  }
+
+
+  .image {
+    padding: 20px;
+    text-align: center;
+
+    img {
+    }
+  }
+
+  .title {
+    width: 100%;
+    background: $blue;
+
+    h3 {
+      display: inline-block;
+      text-align: center;
+      color: $white;
+      margin: 0;
+      padding: 8px 20px;
+    }
+  }
+
+  .content {
+    padding: 15px 20px 10px 20px;
+    flex: 1;
+  }
+
+  .footer {
+    padding: 0 20px 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .text-link {
+      padding: 5px 0;
+      text-align: center;
+    }
+
+    .button-primary {
+      background: $orange;
+      border-color: darken($orange, 5);
+      box-shadow: 0 1px 0 darken($orange, 10);
+      text-shadow: 0 -1px 1px darken($orange, 10), 1px 0 1px darken($orange, 10), 0 1px 1px darken($orange, 10), -1px 0 1px darken($orange, 10)
+    }
+
+    form.activate-license {
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+
+    p {
+      text-align: right;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+  }
+
+  p {
+    margin: 0 0 10px 0;
+  }
+}
+
+#cmb2-metabox-sympose-extensions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+form#sympose-extensions {
+  p.submit {
+    display: none;
+  }
+}

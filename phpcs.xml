@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<ruleset name="sympose">
+    <description>PHPCS Config for Sympose</description>
+
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+
+    <config name="ignore_warnings_on_exit" value="1" />
+
+    <rule ref="WordPress"/>
+
+    <file>.</file>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/CMB2/*</exclude-pattern>
+    <exclude-pattern>*/includes/cmb2/*</exclude-pattern>
+    <exclude-pattern>*/dist/*</exclude-pattern>
+    <exclude-pattern>*/extensions/*</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>*.js</exclude-pattern>
+    <exclude-pattern>*.min.css</exclude-pattern>
+    <exclude-pattern>*.css</exclude-pattern>
+
+    <exclude-pattern>includes/class-tgm-plugin-activation.php</exclude-pattern>
+    <exclude-pattern>public/libs/</exclude-pattern>
+
+    <exclude-pattern>admin/index.php</exclude-pattern>
+    <exclude-pattern>public/index.php</exclude-pattern>
+    <exclude-pattern>index.php</exclude-pattern>
+
+
+    <config name="minimum_supported_wp_version" value="4.7"/>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="sympose"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!--<rule ref="WordPress.NamingConventions.PrefixAllGlobals">-->
+        <!--<properties>-->
+            <!--<property name="prefixes" type="array">-->
+                <!--<element value="sympose"/>-->
+            <!--</property>-->
+        <!--</properties>-->
+    <!--</rule>-->
+
+</ruleset>

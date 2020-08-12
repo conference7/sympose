@@ -1,0 +1,174 @@
+@import '../base/colors';
+@import 'lib/extensions';
+@import 'lib/schedule';
+
+table.sympose-schedule {
+  width: 100%;
+  tr {
+    &.session-child {
+      td {
+        line-height: 1;
+        a {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        span.sym img {
+          width: 75%;
+        }
+      }
+    }
+    &.running {
+      td {
+        a {
+          color: red;
+        }
+      }
+    }
+    th {
+      background: rgba(0,0,0,0.05);
+      padding: 5px;
+      h3 {
+        margin: 0;
+      }
+    }
+    td {
+      vertical-align: middle;
+      border-bottom: 1px solid #eee;
+      .inner {
+        vertical-align: middle;
+      }
+      a {
+        display: block;
+        padding: 5px;
+        text-decoration: none;
+      }
+      .sym-list {
+        overflow: hidden;
+      }
+      span.sym {
+        display: inline-block;
+      }
+      span.sym.organisation {
+        img {
+          vertical-align: middle;
+        }
+      }
+    }
+    td.sympose-read-more {
+      a {
+        text-decoration: underline;
+      }
+    }
+    &:hover {
+      td {
+        background: rgba(0,0,0,0.075);
+        color: white;
+      }
+    }
+  }
+}
+.sym-list {
+  width: 100%;
+  display: flex;
+  .list-inner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    span.sym {
+      vertical-align: top;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+  .sym.person.no-image {
+    .image {
+      display: none;
+    }
+  }
+  .sym.session.no-image {
+    .image {
+      display: none;
+    }
+  }
+  .sym.organisation.no-image {
+    .image {
+      display: none;
+    }
+  }
+}
+.sym-list.organisation {
+  .list-inner {
+    align-items: center;
+    span.sym {
+      max-width: 150px;
+      margin: 20px;
+    }
+  }
+}
+.sym-list.person {
+  .list-inner {
+    span.sym {
+      max-width: 150px;
+      margin-right: 15px;
+    }
+  }
+}
+span.sym {
+  display: inline-block;
+  text-align: center;
+  a {
+    display: block;
+    text-decoration: none;
+    .image {
+      margin-bottom: 5px;
+      min-height: 100px;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    span {
+      display: block;
+    }
+    span.desc {
+      display: inline-block;
+    }
+  }
+  .inner-content {
+    padding: 10px;
+  }
+  img {
+    margin: 0 auto;
+    display: inline-block;
+  }
+}
+span.sym.organisation {
+  .image {
+    background-size: contain;
+  }
+}
+span.sym.person {
+  a {
+    .image {
+      background-size: cover;
+      min-height: 200px;
+    }
+  }
+}
+.sympose-session-items {
+  margin-bottom: 40px;
+}
+
+.widget .sym-list {
+  flex-direction: column;
+  span.sym {
+    margin-bottom: 20px;
+  }
+}
+
+.sym-list.shortcode {
+  span.sym {
+    margin-bottom: 20px;
+  }
+}

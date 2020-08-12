@@ -1,0 +1,39 @@
+{
+    "name": "conference7/sympose",
+    "description": "Add functionality for managing conferences in WordPress",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Conference7",
+            "email": "info@conference7.com",
+            "homepage": "https://conference7.com"
+        }
+    ],
+    "support": {
+		"issues": "https://github.com/conference7/sympose/issues",
+		"forum": "https://wordpress.org/support/plugin/sympose",
+		"wiki": "https://github.com/conference7/sympose/wiki",
+		"source": "https://github.com/conference7/sympose"
+	},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.4",
+        "wp-coding-standards/wpcs": "^1.2"
+    },
+    "require": {
+        "cmb2/cmb2": "^2.7"
+    },
+	"minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+		"classmap": [
+            "classes/",
+            "public/",
+            "admin/"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"debug/"
+		]
+	}
+}

@@ -30,24 +30,25 @@ define( 'SYMPOSE_VERSION', '1.3.0' );
  * Activation function
  */
 function activate_sympose() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-sympose-activator.php';
 	Sympose_Activator::activate();
 }
 /**
  * Deactivation function
  */
 function deactivate_sympose() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-sympose-deactivator.php';
 	Sympose_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_sympose' );
 register_deactivation_hook( __FILE__, 'deactivate_sympose' );
 
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'inc/sympose-functions.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor/cmb2/cmb2/init.php';
 
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-sympose.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/sympose-general-functions.php';
-require_once __DIR__ . '/includes/cmb2/init.php';
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+	new Sympose_Debug();
+}
 
 /**
  * Start the plugin

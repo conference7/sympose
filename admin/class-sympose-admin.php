@@ -73,6 +73,84 @@ class Sympose_Admin {
 		$this->prefix    = $prefix;
 		$this->store_url = 'https://sympose.net';
 
+		$this->init();
+
+	}
+
+	public function init() {
+
+		add_action( 'admin_enqueue_scripts', array($this, 'enqueue_styles' ));
+		add_action( 'admin_enqueue_scripts', array($this, 'enqueue_scripts' ));
+
+		add_action( 'init', array($this, 'register_post_types' ));
+		add_action( 'cmb2_init', array($this, 'register_custom_fields'), 10 );
+
+		add_action( 'init', array($this, 'add_image_sizes' ));
+
+		// Session.
+		add_action( 'manage_session_posts_columns', array($this, 'session_columns' ));
+		add_action( 'manage_session_posts_custom_column', array($this, 'column_content' ));
+
+		add_action( 'pre_get_posts', array($this, 'order_by_time' ));
+
+		// People.
+		add_action( 'manage_person_posts_columns', array($this, 'person_columns' ));
+		add_action( 'manage_person_posts_custom_column', array($this, 'column_content' ));
+
+		// Organisations.
+		add_action( 'manage_organisation_posts_columns', array($this, 'organisation_columns' ));
+		add_action( 'manage_organisation_posts_custom_column', array($this, 'column_content' ));
+
+		// Add filters to dashboard.
+		add_action( 'restrict_manage_posts', array($this, 'manage_filters' ));
+
+		// Remove date filter from dashboard.
+		add_action( 'admin_head', array($this, 'remove_date_filter' ));
+
+		// Add settings page.
+		add_action( 'cmb2_init', array($this, 'settings_page'), 10 );
+
+		// Save post: Sets the post publish date to the session date/time.
+		add_action( 'save_post', array($this, 'save_post'), 20, 2 );
+
+		// Register REST.
+		add_action( 'rest_api_init', array($this, 'register_rest_routes' ));
+
+		// Register Sidebars.
+		add_action( 'widgets_init', array($this, 'register_sidebars' ));
+
+		// Cron Schedules.
+		add_filter( 'cron_schedules', array($this, 'register_cron_schedules' ));
+
+		// Link remote products function to cronjob.
+		add_action( 'sympose_refresh_extensions', array($this, 'get_sympose_extensions' ));
+
+		// Add Custom row actions.
+		add_action( 'event_row_actions', array($this, 'add_row_actions'), 10, 2 );
+
+		// Sympose Submenu Pages.
+		add_action( 'admin_menu', array($this, 'admin_sub_menu'), 20, 2 );
+
+		// Add settings link to plugin actions.
+		add_filter( 'plugin_action_links_sympose/sympose.php', array($this, 'plugin_row_actions'), 10, 2 );
+
+		// Order session on event/day and time.
+		add_filter( 'edited_event', array($this, 'republish_sessions'), 20, 2 );
+
+		// Order session on event/day and time.
+		add_filter( 'admin_footer', array($this, 'maybe_show_setup_wizard'), 20, 2 );
+
+		// Add logic to disable Quick Start.
+		add_filter( 'admin_notices', array($this, 'disable_quick_start_notice'), 20, 2 );
+
+		// Mark current submenu.
+		add_filter( 'parent_file', array($this, 'highlight_parent_menu_item'), 20, 1 );
+
+		// Mark current submenu.
+		add_filter( 'submenu_file', array($this, 'highlight_sub_menu_item'), 20, 1 );
+
+		// Mark current submenu.
+		add_filter( 'admin_notices', array($this, 'validate_sympose_license'), 20, 1 );
 	}
 
 	/**
@@ -1271,7 +1349,7 @@ class Sympose_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->sympose, plugin_dir_url( __FILE__ ) . 'css/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->sympose, plugin_dir_url( dirname(__FILE__) ) . 'css/dist/admin/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -1283,7 +1361,7 @@ class Sympose_Admin {
 
 		wp_enqueue_script(
 			$this->sympose,
-			plugin_dir_url( __FILE__ ) . 'js/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js',
+			plugin_dir_url( dirname(__FILE__) ) . 'js/dist/admin/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js',
 			array(
 				'jquery',
 				'wp-api',

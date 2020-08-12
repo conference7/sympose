@@ -1,0 +1,14 @@
+.sympose-sidebars {
+  .sympose-widget {
+    .sym-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      flex-direction: row;
+      text-align: center;
+      .sym {
+        margin-right: 20px;
+      }
+    }
+  }
+}

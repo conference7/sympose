@@ -61,6 +61,21 @@ class Sympose_Public {
 		$this->sympose = $sympose;
 		$this->version = $version;
 		$this->prefix  = $prefix;
+
+		$this->init();
+	}
+
+	public function init() {
+		add_action( 'wp_enqueue_scripts', array($this,  'enqueue_styles' ));
+		add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts' ));
+
+		// Shortcode.
+		add_action( 'init', array($this, 'shortcodes' ));
+
+		// Add related info to content.
+		add_filter( 'the_content', array($this, 'add_content' ));
+
+		add_filter( 'sidebars_widgets', array($this, 'change_sidebars' ));
 	}
 
 	/**
@@ -766,9 +781,8 @@ class Sympose_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_script( 'sympose-font-awesome', plugin_dir_url( __FILE__ ) . 'libs/font-awesome/svg-with-js/js/fontawesome-all.js', array(), $this->version, true );
 		if ( sympose_get_option( 'enable_css' ) ) {
-			wp_enqueue_style( $this->sympose, plugin_dir_url( __FILE__ ) . 'css/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->sympose, plugin_dir_url( dirname(__FILE__) ) . 'css/dist/public/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'css', array(), $this->version, 'all' );
 		}
 	}
 
@@ -778,7 +792,7 @@ class Sympose_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->sympose, plugin_dir_url( __FILE__ ) . 'js/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->sympose, plugin_dir_url( dirname(__FILE__) ) . 'js/dist/public/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array( 'jquery' ), $this->version, false );
 	}
 
 	/**

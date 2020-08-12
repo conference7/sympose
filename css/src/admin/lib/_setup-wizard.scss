@@ -1,0 +1,105 @@
+.sympose-setup-wizard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: rgba(darken($blue, 20%), 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  display: none;
+  > .content {
+    width: 90%;
+    max-height: 80%;
+    background: rgba($white, 1);
+    box-shadow: 2px 2px 30px 10px rgba($grey, 0.25);
+    border: 1px solid rgba($blue, 1);
+    border-radius: 2px;
+    overflow-y: auto;
+
+    .sympose-setup-wizard-header {
+      background: $blue;
+      h1 {
+        color: $white;
+        margin: 0;
+        font-weight: 400;
+      }
+      padding: 20px;
+    }
+
+    .sympose-setup-wizard-notices {
+      padding-top: 10px;
+      ul {
+        margin: 0;
+         li {
+           background: $blue;
+           margin: 20px;
+           padding: 10px 20px;
+           color: $white;
+           p {
+             margin: 0;
+             color: $white;
+           }
+           a {
+             color: $white;
+           }
+         }
+      }
+    }
+
+    .sympose-setup-wizard-content {
+      padding: 20px;
+      p {
+        margin: 0 0 1em 0;
+      }
+      .wizard-content {
+        display: none;
+        > .wrap {
+          margin: 0;
+        }
+      }
+      .wizard-content:nth-child(1) {
+        display: block;
+      }
+      .notice {
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 50px 0 0 0;
+      li {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        &:last-child {
+          margin-right: 0;
+        }
+        a.button {
+          border-radius: 0;
+          display: inline-block;
+          font-size: 115%;
+          padding: 10px 20px;
+          @include buttonStyle($blue, $white);
+          height: auto;
+        }
+
+        &:first-child a.button {
+          @include buttonStyle(lighten($grey, 50%), $grey);
+        }
+
+        > .spinner {
+          display: none;
+        }
+      }
+    }
+  }
+}

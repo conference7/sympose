@@ -19,3 +19,7 @@ Start out by cloning the Sympose repository to your local machine by running the
 git clone git@github.com:conference7/sympose.git
 cd sympose
 ```
+
+## Todo
+- [ ] Automatically add pre-commit hook (composer?)
+- [ ] 

@@ -1,0 +1,82 @@
+//Simple media queries mixins for phone and tablet. Including variables of the basic mobile size, portrait and landscape orientation in sass. Can be quick applied in a mini site.
+// Author: Millie Lin
+// website: www.millielin.com
+
+// ***** Breakpoints for Responsive Screen
+// width scale for phone
+$phone-min-width: 320px !default;
+$phone-max-width: 504px !default;
+// height scale for phone
+$phone-min-height: 346px !default;
+$phone-max-height: 695px !default;
+// width scale for tablet
+$tablet-min-width: 480px !default;
+$tablet-max-width: 1024px !default;
+// height scale for tablet
+$tablet-min-height: 800px !default;
+$tablet-max-height: 1440px !default;
+// Desktop Scale
+$small-desktop-min-width: 1025px !default;
+$small-desktop-max-width: 1300px !default;
+// Desktop Scale
+$mid-desktop-min-width: 1300px !default;
+$mid-desktop-max-width: 1600px !default;
+// Desktop Scale
+$large-desktop-min-width: 1600px !default;
+$large-desktop-max-width: 100% !default;
+
+// Mixins
+// For portrait phone and landscape phone
+@mixin phone(){
+  @media screen and (min-width: $phone-min-width) and (max-height: $phone-max-height){
+    @content;
+  }
+}
+// For portrait phone
+@mixin portrait-phone() {
+  @media screen and (min-width: $phone-min-width) and (max-width: $phone-max-width) {
+    @content;
+  }
+}
+// For landscape phone
+@mixin landscape-phone(){
+  @media screen and (min-height: $phone-min-height) and (max-height: $phone-max-height) and (orientation: landscape){
+    @content;
+  }
+}
+// For portrait tablet and landscape tablet
+@mixin tablet(){
+  @media screen and (min-width: $tablet-min-width) and (max-height: $tablet-max-height){
+    @content;
+  }
+}
+// For portrait tablet
+@mixin portrait-tablet() {
+  @media screen and (min-width: $tablet-min-width) and (max-width: $tablet-max-width) {
+    @content;
+  }
+}
+// For landscape tablet
+@mixin landscape-tablet(){
+  @media screen and (min-height: $tablet-min-height) and (max-height: $tablet-max-height) and (orientation: landscape){
+    @content;
+  }
+}
+// For desktop
+@mixin small-desktop(){
+  @media screen and (min-width: $small-desktop-min-width) and (max-width: $small-desktop-max-width) {
+    @content;
+  }
+}
+// For desktop
+@mixin mid-desktop(){
+  @media screen and (min-width: $mid-desktop-min-width) and (max-width: $mid-desktop-max-width) {
+    @content;
+  }
+}
+// For desktop
+@mixin large-desktop(){
+  @media screen and (min-width: $large-desktop-min-width) {
+    @content;
+  }
+}
