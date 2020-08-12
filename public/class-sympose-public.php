@@ -544,6 +544,28 @@ class Sympose_Public {
 			return __( 'Error: The event does not exist.', 'sympose' );
 		}
 
+		$row_args = array();
+
+		// How should people and organisations show on the schedule?
+		$person_format       = get_term_meta( $term->term_id, $this->prefix . 'schedule_people_format', true );
+		$organisation_format = get_term_meta( $term->term_id, $this->prefix . 'schedule_organisations_format', true );
+
+
+		if ( empty( $person_format ) || $person_format === 'default' ) {
+			$person_format = sympose_get_option( 'schedule_people_format' );
+		}
+
+		if ( empty( $organisation_format ) || $organisation_format === 'default' ) {
+			$organisation_format = sympose_get_option( 'schedule_organisations_format' );
+		}
+
+		$row_args['person_format']       = $person_format;
+		$row_args['organisation_format'] = $organisation_format;
+
+
+
+		var_dump($row_args);
+
 		// Get days.
 		$terms = get_terms(
 			array(
@@ -624,7 +646,7 @@ class Sympose_Public {
 
 			// Display sessions.
 			foreach ( $posts as $post ) {
-				$this->render_schedule_row( $post, $settings, $term, array(), $show_edit_link );
+				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link );
 			}
 		}
 
@@ -680,16 +702,35 @@ class Sympose_Public {
 
 		$people_html = '';
 
+		$people_args = array(
+			'name'  => false,
+			'desc'  => false,
+			'image' => false,
+			'size'  => 'person-schedule',
+		);
+
+		switch ( $args['person_format'] ) {
+			case 'name':
+				$people_args['name'] = true;
+				break;
+			case 'photo':
+				$people_args['image'] = true;
+				break;
+			case 'photo_name':
+				$people_args['name'] = true;
+				$people_args['image'] = true;
+			break;
+			default:
+				$people_args['image'] = true;
+			break;
+		}
+
 		if ( is_array( $people ) ) {
 			$people_html = '<div class="sym-list">';
 			foreach ( $people as $id ) {
 				$people_html .= $this->render_item(
 					$id,
-					array(
-						'name' => false,
-						'desc' => false,
-						'size' => 'person-schedule',
-					)
+					$people_args
 				);
 			}
 			$people_html .= '</div>';
@@ -697,17 +738,36 @@ class Sympose_Public {
 
 		$organisations_html = '';
 
+		$organisation_args = array(
+			'name' => false,
+			'desc' => false,
+			'image' => false,
+			'size' => 'organisation-schedule',
+		);
+
+		switch ( $args['organisation_format'] ) {
+			case 'name':
+				$organisation_args['name'] = true;
+				break;
+			case 'photo':
+				$organisation_args['image'] = true;
+				break;
+			case 'logo_name':
+				$organisation_args['name'] = true;
+				$organisation_args['image'] = true;
+			break;
+			default:
+				$organisation_args['image'] = true;
+			break;
+		}
+
 		if ( is_array( $organisations ) ) {
 			foreach ( $organisations as $id ) {
 				$image = sympose_get_image( get_post( $id ) );
 				if ( $image ) {
 					$organisations_html .= $this->render_item(
 						$id,
-						array(
-							'name' => false,
-							'desc' => false,
-							'size' => 'organisation-schedule',
-						)
+						$organisation_args
 					);
 				}
 			}
@@ -756,16 +816,18 @@ class Sympose_Public {
 			)
 		);
 
+		$args = array_merge($args, array(
+			'show_time'   => false,
+			'row_classes' => array( 'session-child' ),
+		));
+
 		// Display sessions.
 		foreach ( $children as $child ) {
 			$this->render_schedule_row(
 				$child,
 				$settings,
 				$term,
-				array(
-					'show_time'   => false,
-					'row_classes' => array( 'session-child' ),
-				),
+				$args,
 				$show_edit_link
 			);
 		}
