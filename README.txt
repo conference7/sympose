@@ -78,6 +78,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.3.1 =
+* Add the option to show photo, name or photo and name on the schedule.
+
 = 1.3.0 =
 * Combine all Sympose settings into one menu item in the WordPress Dashboard.
 

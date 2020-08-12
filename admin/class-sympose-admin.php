@@ -1149,10 +1149,10 @@ class Sympose_Admin {
 
 		$category->add_field(
 			array(
-				'name'       => __( 'Schedule Page', 'sympose' ),
-				'type'       => 'select',
-				'id'         => $this->prefix . 'schedule_page_id',
-				'options_cb' => function () {
+				'name'        => __( 'Schedule Page', 'sympose' ),
+				'type'        => 'select',
+				'id'          => $this->prefix . 'schedule_page_id',
+				'options_cb'  => function () {
 					$parent_pages = get_pages(
 						array(
 							'parent'      => 0,
@@ -1175,8 +1175,10 @@ class Sympose_Admin {
 
 					return $output;
 				},
-				'after_field'  => function( $field_args, $field ) {
-					echo '<br/><span style="display: block; text-align: right; margin-top: 2px;"><a href="' . get_permalink( $field->value ) . '">' . __( 'Go to page', 'sympose' ) . '</a></span>';
+				'after_field' => function( $field_args, $field ) {
+					echo '<br/><span style="display: block; text-align: right; margin-top: 2px;"><a href="' . esc_url( get_permalink( absint( $field->value ) ) ) . '">';
+					esc_html__( 'Go to page', 'sympose' );
+					echo '</a></span>';
 				},
 			),
 		);
