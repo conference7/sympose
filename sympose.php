@@ -46,10 +46,6 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'inc/sympose-functions.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/cmb2/cmb2/init.php';
 
-if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
-	new Sympose_Debug();
-}
-
 /**
  * Start the plugin
  *
@@ -58,7 +54,10 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 function run_sympose() {
 
 	$plugin = new Sympose();
-	$plugin->run();
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+		new Sympose_Debug();
+	}
 
 }
 run_sympose();

@@ -20,16 +20,6 @@
 class Sympose {
 
 	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Sympose_Loader $loader Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
-
-	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
@@ -89,8 +79,6 @@ class Sympose {
 		// Widgets.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/widgets/class-sympose-session-information.php';
 
-		$this->loader = new Sympose_Loader();
-
 	}
 
 	/**
@@ -103,7 +91,7 @@ class Sympose {
 
 		$plugin_i18n = new Sympose_I18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
 
 	}
 
@@ -131,15 +119,6 @@ class Sympose {
 	}
 
 	/**
-	 * Run loader
-	 *
-	 * @since    1.0.0
-	 */
-	public function run() {
-		$this->loader->run();
-	}
-
-	/**
 	 * Get plugin name
 	 *
 	 * @return    string    Returns the name
@@ -157,16 +136,6 @@ class Sympose {
 	 */
 	public function get_prefix() {
 		return $this->prefix;
-	}
-
-	/**
-	 * Get loader
-	 *
-	 * @return    Sympose_Loader    Load the hooks
-	 * @since     1.0.0
-	 */
-	public function get_loader() {
-		return $this->loader;
 	}
 
 	/**
