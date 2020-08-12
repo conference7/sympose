@@ -1,0 +1,675 @@
+# Copyright (C) 2019 sympose
+# This file is distributed under the same license as the sympose package.
+msgid ""
+msgstr ""
+"Project-Id-Version: sympose\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: nl_BE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
+"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: app/admin/class-sympose-admin.php:78
+msgctxt "post type general name"
+msgid "Sessions"
+msgstr "Sessies"
+
+#: app/admin/class-sympose-admin.php:79
+msgctxt "post type singular name"
+msgid "Session"
+msgstr "Sessie"
+
+#: app/admin/class-sympose-admin.php:80
+msgctxt "admin menu"
+msgid "Sessions"
+msgstr "Programma"
+
+#: app/admin/class-sympose-admin.php:81
+msgctxt "add new on admin bar"
+msgid "Session"
+msgstr "Sessie"
+
+#: app/admin/class-sympose-admin.php:82
+msgctxt "session"
+msgid "Add New"
+msgstr "Nieuwe sessie"
+
+#: app/admin/class-sympose-admin.php:83
+msgid "Add New Session"
+msgstr "Nieuwe sessie toevoegen"
+
+#: app/admin/class-sympose-admin.php:84
+msgid "New Session"
+msgstr "Nieuwe sessie"
+
+#: app/admin/class-sympose-admin.php:85
+msgid "Edit Session"
+msgstr "Sessie bewerken"
+
+#: app/admin/class-sympose-admin.php:86
+msgid "View Session"
+msgstr "Bekijk sessie"
+
+#: app/admin/class-sympose-admin.php:87
+msgid "All Sessions"
+msgstr "Alle sessies"
+
+#: app/admin/class-sympose-admin.php:88
+msgid "Search Sessions"
+msgstr "Zoeken in sessies"
+
+#: app/admin/class-sympose-admin.php:89
+msgid "Parent Sessions:"
+msgstr "Hoofd Sessies:"
+
+#: app/admin/class-sympose-admin.php:90
+msgid "No sessions found."
+msgstr "Geen sessies gevonden."
+
+#: app/admin/class-sympose-admin.php:91
+msgid "No sessions found in Trash."
+msgstr "Geen sessies in de prullenbak."
+
+#: app/admin/class-sympose-admin.php:94
+msgctxt "post type general name"
+msgid "Organisations"
+msgstr "Organisaties"
+
+#: app/admin/class-sympose-admin.php:95
+msgctxt "post type singular name"
+msgid "Organisation"
+msgstr "Organisatie"
+
+#: app/admin/class-sympose-admin.php:96
+msgctxt "admin menu"
+msgid "Organisations"
+msgstr "Organisaties"
+
+#: app/admin/class-sympose-admin.php:97
+msgctxt "add new on admin bar"
+msgid "Organisation"
+msgstr "Organisatie"
+
+#: app/admin/class-sympose-admin.php:98
+msgctxt "organisation"
+msgid "Add New"
+msgstr "Nieuwe organisatie"
+
+#: app/admin/class-sympose-admin.php:99
+msgid "Add New Organisation"
+msgstr "Nieuwe organisatie toevoegen"
+
+#: app/admin/class-sympose-admin.php:100
+msgid "New Organisation"
+msgstr "Nieuwe organisatie"
+
+#: app/admin/class-sympose-admin.php:101
+msgid "Edit Organisation"
+msgstr "Organisatie bewerken"
+
+#: app/admin/class-sympose-admin.php:102
+msgid "View Organisation"
+msgstr "Bekijk organisatie"
+
+#: app/admin/class-sympose-admin.php:103
+msgid "All Organisations"
+msgstr "Alle organisaties"
+
+#: app/admin/class-sympose-admin.php:104
+msgid "Search Organisations"
+msgstr "Zoeken in organisaties"
+
+#: app/admin/class-sympose-admin.php:105
+msgid "Parent Organisations:"
+msgstr "Hoofd organisaties:"
+
+#: app/admin/class-sympose-admin.php:106
+msgid "No organisations found."
+msgstr "Geen organisaties gevonden."
+
+#: app/admin/class-sympose-admin.php:107
+msgid "No organisations found in Trash."
+msgstr "Geen organisaties in de prullenbak."
+
+#: app/admin/class-sympose-admin.php:110
+msgctxt "post type general name"
+msgid "People"
+msgstr "Personen"
+
+#: app/admin/class-sympose-admin.php:111
+msgctxt "post type singular name"
+msgid "Person"
+msgstr "Persoon"
+
+#: app/admin/class-sympose-admin.php:112
+msgctxt "admin menu"
+msgid "People"
+msgstr "Personen"
+
+#: app/admin/class-sympose-admin.php:113
+msgctxt "add new on admin bar"
+msgid "Person"
+msgstr "Persoon"
+
+#: app/admin/class-sympose-admin.php:114
+msgctxt "person"
+msgid "Add New"
+msgstr "Nieuwe toevoegen"
+
+#: app/admin/class-sympose-admin.php:115
+msgid "Add New Person"
+msgstr "Nieuw persoon toevoegen"
+
+#: app/admin/class-sympose-admin.php:116
+msgid "New Person"
+msgstr "Nieuwe persoon"
+
+#: app/admin/class-sympose-admin.php:117
+msgid "Edit Person"
+msgstr "Persoon bewerken"
+
+#: app/admin/class-sympose-admin.php:118
+msgid "View Person"
+msgstr "Persoon bekijken"
+
+#: app/admin/class-sympose-admin.php:119
+msgid "All People"
+msgstr "Alle personen"
+
+#: app/admin/class-sympose-admin.php:120
+msgid "Search People"
+msgstr "Zoeken in personen"
+
+#: app/admin/class-sympose-admin.php:121
+msgid "Parent People:"
+msgstr "Hoofdpersonen:"
+
+#: app/admin/class-sympose-admin.php:122
+msgid "No people found."
+msgstr "Geen personen gevonden."
+
+#: app/admin/class-sympose-admin.php:123
+msgid "No people found in Trash."
+msgstr "Geen personen in de prullenbak."
+
+#: app/admin/class-sympose-admin.php:127
+msgctxt "taxonomy general name"
+msgid "Events"
+msgstr "Evenementen"
+
+#: app/admin/class-sympose-admin.php:128
+msgctxt "taxonomy singular name"
+msgid "Event"
+msgstr "Evenement"
+
+#: app/admin/class-sympose-admin.php:129
+msgid "Search Events"
+msgstr "Zoeken in Evenementen"
+
+#: app/admin/class-sympose-admin.php:130
+msgid "All Events"
+msgstr "Alle evenementen"
+
+#: app/admin/class-sympose-admin.php:131
+msgid "Parent Event"
+msgstr "Hoofd evenement"
+
+#: app/admin/class-sympose-admin.php:132
+msgid "Parent Event:"
+msgstr "Hoofd Evenement:"
+
+#: app/admin/class-sympose-admin.php:133
+msgid "Edit Event"
+msgstr "Evenement bewerken"
+
+#: app/admin/class-sympose-admin.php:134
+msgid "Update Event"
+msgstr "Evenement updaten"
+
+#: app/admin/class-sympose-admin.php:135
+msgid "Add New Event"
+msgstr "Nieuwe evenement toevoegen"
+
+#: app/admin/class-sympose-admin.php:136
+msgid "New Event Name"
+msgstr "Naam van nieuwe evenement"
+
+#: app/admin/class-sympose-admin.php:137
+msgid "Events"
+msgstr "Evenementen"
+
+#: app/admin/class-sympose-admin.php:190,
+#: app/admin/class-sympose-admin.php:202,
+#: app/admin/class-sympose-admin.php:749, app/admin/class-sympose-admin.php:766
+msgid "Category"
+msgstr "Categorie"
+
+#: app/admin/class-sympose-admin.php:214
+msgid "Status"
+msgstr "Status"
+
+#: app/admin/class-sympose-admin.php:276
+msgid "Sample data generated successfully!"
+msgstr "De voorbeeld data is succesvol gegenereerd!"
+
+#: app/admin/class-sympose-admin.php:300
+msgid "Creating sample data failed. There is an event with the same name."
+msgstr ""
+"Get genereren van de voorbeeld data is niet gelukt. Er bestaat al een "
+"evenement met dezelfde naam."
+
+#: app/admin/class-sympose-admin.php:358,
+#: app/admin/class-sympose-admin.php:1090,
+#: app/admin/class-sympose-admin.php:1737
+msgid "Schedule"
+msgstr "Programma"
+
+#: app/admin/class-sympose-admin.php:365
+msgid "Go to the event schedule"
+msgstr "Ga naar het programma"
+
+#: app/admin/class-sympose-admin.php:378,
+#: app/admin/class-sympose-admin.php:1754
+msgid "Speakers"
+msgstr "Sprekers"
+
+#: app/admin/class-sympose-admin.php:387,
+#: app/admin/class-sympose-admin.php:1763
+msgid "Sponsors"
+msgstr "Sponsoren"
+
+#: app/admin/class-sympose-admin.php:506
+msgid "An error occured while creating sample data"
+msgstr "Er is een fout opgetreden tijdens het genereren van de voorbeeld data"
+
+#. translators: %s is the taxonomy name
+#: app/admin/class-sympose-admin.php:601
+msgid "Show All %s"
+msgstr "Alle %s weergeven"
+
+#: app/admin/class-sympose-admin.php:658
+msgid "Time"
+msgstr "Tijd"
+
+#: app/admin/class-sympose-admin.php:659,
+#: app/admin/class-sympose-admin.php:2087
+msgid "Day"
+msgstr "Dag"
+
+#: app/admin/class-sympose-admin.php:663,
+#: app/admin/class-sympose-admin.php:750, app/admin/class-sympose-admin.php:767
+msgid "Event"
+msgstr "Evenement"
+
+#: app/admin/class-sympose-admin.php:782, app/admin/class-sympose-admin.php:950
+msgid "Details"
+msgstr "Details"
+
+#: app/admin/class-sympose-admin.php:792
+msgid "Short description"
+msgstr "Korte omschrijving"
+
+#: app/admin/class-sympose-admin.php:801
+msgid "Image"
+msgstr "Afbeelding"
+
+#: app/admin/class-sympose-admin.php:813
+msgid "Session Details"
+msgstr "Sessie Details"
+
+#: app/admin/class-sympose-admin.php:823
+msgid "Start"
+msgstr "Start"
+
+#: app/admin/class-sympose-admin.php:835
+msgid "End"
+msgstr "Einde"
+
+#: app/admin/class-sympose-admin.php:847,
+#: app/admin/class-sympose-admin.php:912,
+#: app/admin/class-sympose-admin.php:922,
+#: app/admin/class-sympose-admin.php:2049,
+#: app/admin/class-sympose-admin.php:2093
+msgid "People"
+msgstr "Personen"
+
+#: app/admin/class-sympose-admin.php:862,
+#: app/admin/class-sympose-admin.php:894,
+#: app/public/class-sympose-public.php:386
+msgid "Go to"
+msgstr "Ga naar"
+
+#: app/admin/class-sympose-admin.php:862, app/admin/class-sympose-admin.php:894
+msgid "profile"
+msgstr "profiel"
+
+#: app/admin/class-sympose-admin.php:864, app/admin/class-sympose-admin.php:896
+msgid "edit"
+msgstr "bewerken"
+
+#: app/admin/class-sympose-admin.php:870, app/admin/class-sympose-admin.php:942
+msgid "Create new person"
+msgstr "Nieuw persoon aanmaken"
+
+#: app/admin/class-sympose-admin.php:872
+msgid "Tip: You can change the order of this list by dragging the items"
+msgstr "Tip: Je kan de volgorde aanpassen door de items te verschuiven"
+
+#: app/admin/class-sympose-admin.php:878,
+#: app/admin/class-sympose-admin.php:2050,
+#: app/admin/class-sympose-admin.php:2094
+msgid "Organisations"
+msgstr "Organisaties"
+
+#: app/admin/class-sympose-admin.php:902
+msgid "Create new organisation"
+msgstr "Nieuwe organisatie"
+
+#: app/admin/class-sympose-admin.php:961
+msgid "Start date"
+msgstr "Start datum"
+
+#: app/admin/class-sympose-admin.php:972
+msgid "Schedule Page"
+msgstr "Programma Pagina"
+
+#: app/admin/class-sympose-admin.php:983
+msgid "-- Select an option --"
+msgstr "— Selecteer een optie --"
+
+#: app/admin/class-sympose-admin.php:1026
+msgid "General"
+msgstr "Algemeen"
+
+#: app/admin/class-sympose-admin.php:1034
+msgid "Enable CSS"
+msgstr "CSS activeren"
+
+#: app/admin/class-sympose-admin.php:1058
+msgid "Generate Sample Data"
+msgstr "Voorbeeld data genereren"
+
+#: app/admin/class-sympose-admin.php:1067
+msgid "Create sample structure for a conference website."
+msgstr "Genereer een voorbeeld structuur voor een conferentie website."
+
+#: app/admin/class-sympose-admin.php:1078
+msgid "Render sidebars after post content"
+msgstr "Sidebars weergeven na een bericht/pagina"
+
+#: app/admin/class-sympose-admin.php:1098
+msgid "Show people on schedule"
+msgstr "Personen weergeven op programma"
+
+#: app/admin/class-sympose-admin.php:1110
+msgid "Show organisations on schedule"
+msgstr "Organisaties weergeven op programma"
+
+#: app/admin/class-sympose-admin.php:1218
+msgid "Sympose People"
+msgstr "Sympose Personen"
+
+#: app/admin/class-sympose-admin.php:1220
+msgid "Displays on person post types."
+msgstr "Word weergeven op persoon post types."
+
+#: app/admin/class-sympose-admin.php:1230
+msgid "Sympose Organisations"
+msgstr "Sympose organisaties"
+
+#: app/admin/class-sympose-admin.php:1232
+msgid "Displays on organisation post types."
+msgstr "Word weergegeven op organisatie post types."
+
+#: app/admin/class-sympose-admin.php:1242
+msgid "Sympose Sessions"
+msgstr "Sympose sessies"
+
+#: app/admin/class-sympose-admin.php:1244
+msgid "Displays on session post types."
+msgstr "Word weergeven op sessie post types."
+
+#: app/admin/class-sympose-admin.php:1262
+msgid "Every minute"
+msgstr "Elke minuut"
+
+#: app/admin/class-sympose-admin.php:1366
+msgid "Go to schedule"
+msgstr "Ga naar het programma"
+
+#: app/admin/class-sympose-admin.php:1378,
+#: app/admin/class-sympose-admin.php:1379
+msgid "Shortcodes"
+msgstr "Shortcodes"
+
+#: app/admin/class-sympose-admin.php:1386,
+#: app/admin/class-sympose-admin.php:1387
+msgid "Extensions"
+msgstr "Extensies"
+
+#: app/admin/class-sympose-admin.php:1410
+msgid "Sympose Shortcodes"
+msgstr "Sympose Shortcodes"
+
+#: app/admin/class-sympose-admin.php:1423
+msgid "A couple of shortcodes you can use"
+msgstr "Een aantal shortcodes die je kan gebruiken"
+
+#: app/admin/class-sympose-admin.php:1424
+msgid ""
+"Sympose automatically generates shortcodes based on the content that you "
+"create. Below, you will find shortcodes for showing the schedule, a list of "
+"people, or lists of organisations."
+msgstr ""
+"Sympose genereert automatisch shortcodes gebaseerd op de inhoud die is "
+"aangemaakt. Hieronder vind je shortcodes voor het weergeven van het "
+"programma, een lijst van mensen of lijsten van organisaties."
+
+#: app/admin/class-sympose-admin.php:1426
+msgid "Shortcodes will appear here"
+msgstr "Shortcodes worden hier weergegeven"
+
+#: app/admin/class-sympose-admin.php:1427
+msgid ""
+"As soon as you create content with sympose, available shortcodes will be "
+"displayed here.."
+msgstr ""
+"Zodra je inhoud hebt aangemaakt met Sympose worden beschikbare shortcodes "
+"hier weergegeven."
+
+#. translators: %1$s is the type of content, %2$s is the event name
+#: app/admin/class-sympose-admin.php:1459
+msgid "Show %1$s of %2$s"
+msgstr "%1$s weergeven van %2$s"
+
+#. translators: %1$s is the event name
+#: app/admin/class-sympose-admin.php:1483
+msgid "Show the schedule of %1$s"
+msgstr "Laat het programma zien van %1$s"
+
+#: app/admin/class-sympose-admin.php:1507
+msgid "Sympose Extensions"
+msgstr "Sympose Extensies"
+
+#: app/admin/class-sympose-admin.php:1515
+msgid "Extensions could not be loaded"
+msgstr "Extensies kunnen niet worden geladen"
+
+#: app/admin/class-sympose-admin.php:1516
+msgid ""
+"There was a problem retrieving the extensions. Try re-activating the plugin."
+msgstr ""
+"Er was een probleem bij het ophalen van de extensies. Probeer de plugin "
+"opnieuw te activeren."
+
+#: app/admin/class-sympose-admin.php:1556
+msgid "Settings"
+msgstr "Instellingen"
+
+#: app/admin/class-sympose-admin.php:1616
+msgid "Welcome to Sympose!"
+msgstr "Welkom bij Sympose!"
+
+#: app/admin/class-sympose-admin.php:1617
+msgid ""
+"Thanks for choosing Sympose to launch your event/conference website. This "
+"Setup wizard will guide you through the basic setup to help you configure "
+"your event or conference."
+msgstr ""
+"Bedankt voor het kiezen van Sympose. De Setup Wizard helpt je bij het "
+"opzetten van de basis voor jou evenement of conferentie."
+
+#: app/admin/class-sympose-admin.php:1618
+msgid ""
+"You can generate some sample data, use the Quick Start to set things up or "
+"skip the setup and do things your own way."
+msgstr ""
+"Je kan voorbeeld data genereren, met de Quick Start aan de slag gaan of de "
+"setup overslaan en Sympose op je eigen manier configureren."
+
+#: app/admin/class-sympose-admin.php:1619
+msgid "Get started now"
+msgstr "Nu starten"
+
+#: app/admin/class-sympose-admin.php:1619
+msgid "this process will only take a few minutes to complete!"
+msgstr "dit proces duurt maar een paar minuten!"
+
+#: app/admin/class-sympose-admin.php:1622
+msgid "Skip setup"
+msgstr "Setup overslaan"
+
+#: app/admin/class-sympose-admin.php:1623
+msgid "Setup sample data"
+msgstr "Voorbeeld data genereren"
+
+#: app/admin/class-sympose-admin.php:1624
+msgid "Quick start an event"
+msgstr "Snelle start"
+
+#: app/admin/class-sympose-admin.php:1669
+msgid "We will not show the setup wizard again."
+msgstr "We laten de setup wizard niet weer zien."
+
+#: app/admin/class-sympose-admin.php:1679
+msgid "Data saved!"
+msgstr "Data opgeslagen!"
+
+#: app/admin/class-sympose-admin.php:1691
+msgid "Seems like we got some empty fields.."
+msgstr "Het lijkt erop dat er een aantal lege velden zijn.."
+
+#. translators: %s is the event name
+#: app/admin/class-sympose-admin.php:1882
+msgid ""
+"Your event \"%1$s\" has been created. %2$sGo to the schedule%3$s, or "
+"%4$sshow an overview of the sessions for this event%5$s."
+msgstr ""
+"Je evenement “%1$s” is aangemaakt. %2$sGa naar het programma%3$s, of "
+"%4$sbekijk het overzicht van de sessies%5$s."
+
+#: app/admin/class-sympose-admin.php:1958
+msgid "Sympose Quick Start"
+msgstr "Sympose Quick Start"
+
+#: app/admin/class-sympose-admin.php:1959
+msgid ""
+"Quick start your event with this tool, fill in your event name, people, "
+"organisations and the schedule."
+msgstr ""
+"Quick start je evenement met deze tool, vul de naam in, de mensen, "
+"organisaties en het programma."
+
+#: app/admin/class-sympose-admin.php:1961
+msgid "Event Title"
+msgstr "Evenement Titel"
+
+#: app/admin/class-sympose-admin.php:1966
+msgid "Amount of days"
+msgstr "Aantal dagen"
+
+#: app/admin/class-sympose-admin.php:1971
+msgid "Start Date"
+msgstr "Start datum"
+
+#: app/admin/class-sympose-admin.php:2046,
+#: app/admin/class-sympose-admin.php:2090
+msgid "Start time"
+msgstr "Start tijd"
+
+#: app/admin/class-sympose-admin.php:2047,
+#: app/admin/class-sympose-admin.php:2091
+msgid "End time"
+msgstr "Eind tijd"
+
+#: app/admin/class-sympose-admin.php:2048,
+#: app/admin/class-sympose-admin.php:2092
+msgid "Title"
+msgstr "Titel"
+
+#: app/admin/class-sympose-admin.php:2151
+msgid "Add another session.."
+msgstr "Nog een sessie toevoegen.."
+
+#: app/admin/class-sympose-admin.php:2160
+msgid "Previous Step"
+msgstr "Vorige"
+
+#: app/admin/class-sympose-admin.php:2161
+msgid "Next Step"
+msgstr "Volgende"
+
+#: app/admin/class-sympose-admin.php:2162
+msgid "Create Event"
+msgstr "Evenement aanmaken"
+
+#. translators: %1$s is the link start tag and %2$s is the link end tag.
+#: app/admin/class-sympose-admin.php:2182
+msgid ""
+"Sympose 1.2.5 has integrated Quick Start's functionality. To prevent "
+"interference, please %1$sdisable the plugin%2$s."
+msgstr ""
+"Sympose 1.2.5 heeft Quick Start geïntrigeerd.  %1$sSchakel de plugin uit%2$s "
+"om te voorkomen dat ze fouten opleveren."
+
+#: app/public/class-sympose-public.php:198
+msgid "Nothing found."
+msgstr "Niets gevonden."
+
+#: app/public/class-sympose-public.php:300
+msgid "Nothing found"
+msgstr "Niets gevonden"
+
+#: app/public/class-sympose-public.php:539
+msgid "No event specified"
+msgstr "Geen evenement gespecificeerd"
+
+#: app/public/class-sympose-public.php:726
+msgid "Read more »"
+msgstr "Meer lezen »"
+
+#: app/public/class-sympose-public.php:838
+msgid "Error: Please set a valid date for the event."
+msgstr "Fout: Geef een goede datum in voor het evenement."
+
+#: app/admin/widgets/class-sympose-session-information.php:91
+msgid "Shows the session information."
+msgstr "Laat de sessie informatie zien."
+
+#~ msgid "Show a list of organisations in category %1$s of %2$s"
+#~ msgstr "Laat een lijst zien van organisaties in categorie %1$s van %2&s"
+
+#~ msgid "Show a list of people in category %1$s of %2$s"
+#~ msgstr "Laat een lijst van personen zien in categorie %1$s van %2$s"
