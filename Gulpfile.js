@@ -23,7 +23,7 @@ const { doesNotMatch } = require('assert');
 const { src } = require('gulp');
 const gutil = require("gulp-util");
 const zip = require("gulp-zip");
-const GulpZip = require('gulp-zip');
+const exec = require('child_process').exec;
 
 sass.compiler = require('node-sass');
 
@@ -135,6 +135,24 @@ gulp.task('dist:clean', function() {
     ]);
 });
 
+gulp.task('composer-install-no-dev', function(cb) {
+    exec('composer install --no-dev', function (err, stdout, stderr) {
+        cb(err);
+      });
+});
+
+gulp.task('dist:sync-to-svn', function(cb) {
+    exec('cp -r dist/ ../sympose-svn/trunk', function (err, stdout, stderr) {
+        cb(err);
+      });
+});
+
+gulp.task('composer-install', function(cb) {
+    exec('composer install', function (err, stdout, stderr) {
+        cb(err);
+      });
+});
+
 gulp.task('dist:build', function() {
     gutil.log(gutil.colors.green('Copying contents to ./dist'));
     return gulp.src([
@@ -174,7 +192,7 @@ gulp.task('dist:build-zip', function() {
 });
 
 // Build
-gulp.task('build', gulp.series(['dist:clean', 'dist:build', 'dist:clean-build', 'dist:build-zip']), function(cb) {
+gulp.task('build', gulp.series(['dist:clean', 'composer-install-no-dev', 'dist:build', 'dist:clean-build', 'dist:sync-to-svn', 'dist:build-zip', 'composer-install']), function(cb) {
     gutil.log(gutil.colors.green('🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉'));
     gutil.log(gutil.colors.green('Done building!'));
     return cb(null);
