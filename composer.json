@@ -28,14 +28,10 @@
 		"classmap": [
             "classes/",
             "public/",
-            "admin/"
+            "admin/",
+            "debug/"
 		]
 	},
-	"autoload-dev": {
-		"classmap": [
-			"debug/"
-		]
-    },
     "scripts": {
         "post-install-cmd": [
           "./scripts/setup-hooks.sh"
