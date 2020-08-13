@@ -1180,7 +1180,7 @@ class Sympose_Admin {
 					esc_html__( 'Go to page', 'sympose' );
 					echo '</a></span>';
 				},
-			),
+			)
 		);
 
 		$category->add_field(
