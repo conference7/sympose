@@ -3,9 +3,10 @@ Contributors: mklasen
 Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
-Tested up to: 5.1.1
+Tested up to: 5.5
 Stable tag: trunk
 Requires PHP: 5.6
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +19,7 @@ People and Organisations are displayed in different categories. The conference a
 
 **Sympose Quick Start**
 
-Since 1.2.6 we've added a quick start tool. After activating Sympose, you can start shaping your event right away! Check out the video below for an example.
+After activating Sympose, you can start shaping your event right away! Check out the video below for an example.
 
 https://www.youtube.com/watch?v=s3JBBcVYt-k
 
@@ -80,6 +81,8 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 = 1.3.1 =
 * Add the option to show photo, name or photo and name on the schedule.
+* Full code refactoring
+* Published source code on https://github.com/conference7/sympose
 
 = 1.3.0 =
 * Combine all Sympose settings into one menu item in the WordPress Dashboard.
