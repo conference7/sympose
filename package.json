@@ -39,11 +39,11 @@
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
+    "gulp-uglify-es": "^2.0.0",
     "gulp-wp-pot": "^2.4.3",
     "gulp-zip": "^5.0.2",
     "merge-stream": "^2.0.0",
     "node-sass": "^4.14.1",
-    "yargs": "^15.4.1",
-    "gulp-uglify-es": "^2.0.0"
+    "yargs": "^15.4.1"
   }
 }
