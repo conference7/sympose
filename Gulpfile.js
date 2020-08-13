@@ -18,6 +18,12 @@ const reload = browserSync.reload;
 const fs = require('fs');
 const path = require('path');
 const merge = require('merge-stream');
+const del = require('del');
+const { doesNotMatch } = require('assert');
+const { src } = require('gulp');
+const gutil = require("gulp-util");
+const zip = require("gulp-zip");
+const GulpZip = require('gulp-zip');
 
 sass.compiler = require('node-sass');
 
@@ -119,6 +125,59 @@ gulp.task('watch', function () {
 /* Watch scss, js and html files, doing different things with each. */
 gulp.task('default', gulp.series(['css', 'js', 'watch']), function () {
     //
+});
+
+gulp.task('dist:clean', function() {
+    gutil.log(gutil.colors.green('Cleaning build folder..'));
+    return del([
+        'dist/*',
+        'sympose.zip'
+    ]);
+});
+
+gulp.task('dist:build', function() {
+    gutil.log(gutil.colors.green('Copying contents to ./dist'));
+    return gulp.src([
+        '**', 
+        '!css/src/**', 
+        '!js/src/**', 
+        '!node_modules/**',
+        '!scripts/**',
+        '!.circleci',
+        '!.github',
+        '!.git',
+        '!.gitattributes',
+        '!.gitignore',
+        '!.DS_Store',
+        '!package.json',
+        '!package-lock.json',
+        '!composer.json',
+        '!composer.lock',
+        '!Gulpfile.js',
+        '!phpcs.xml',
+        '!README.md',
+        ])
+        .pipe(gulp.dest('./dist/'))
+});
+
+gulp.task('dist:clean-build', function() {
+    gutil.log(gutil.colors.green('Removing unnecessary files..'));
+    return del(['./dist/.DS_Store'])
+});
+
+gulp.task('dist:build-zip', function() {
+    gutil.log(gutil.colors.green('Creating ZIP file'));
+    return gulp.src(['./dist/**'])
+        .pipe(zip('sympose.zip'))
+        .pipe(gulp.dest('./'));
+    
+});
+
+// Build
+gulp.task('build', gulp.series(['dist:clean', 'dist:build', 'dist:clean-build', 'dist:build-zip']), function(cb) {
+    gutil.log(gutil.colors.green('🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉'));
+    gutil.log(gutil.colors.green('Done building!'));
+    return cb(null);
 });
 
 function handleErrors() {
