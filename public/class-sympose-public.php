@@ -928,7 +928,11 @@ class Sympose_Public {
 			)
 		);
 
-		$args = array_merge( $default_args, $args );
+		if ( is_array( $args ) ) {
+			$args = array_merge( $default_args, $args );
+		} else {
+			$args = $default_args;
+		}
 
 		if ( false === $id ) {
 			$id = get_the_ID();
