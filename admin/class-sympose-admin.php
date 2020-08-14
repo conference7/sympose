@@ -2014,7 +2014,8 @@ class Sympose_Admin {
 							wp_nonce_field( 'activate-license', 'activate-license', '' );
 							echo '<input type="hidden" name="download-id" value="' . esc_html( $product->info->id ) . '"/>';
 							echo '<input type="hidden" name="plugin-name" value="' . esc_html( $product->info->slug ) . '" />';
-							echo '<input class="license regular-text ltr" name="license-key" type="' . ( ! empty( esc_html( $license_key ) ) ? 'password' : 'text' ) . '" value="' . esc_html( $license_key ) . '" placeholder="' . esc_html__( 'Enter your license key..', 'sympose' ) . '" />';
+							$escaped_license_key = esc_html( $license_key );
+							echo '<input class="license regular-text ltr" name="license-key" type="' . ( ! empty( $escaped_license_key ) ? 'password' : 'text' ) . '" value="' . esc_html( $license_key ) . '" placeholder="' . esc_html__( 'Enter your license key..', 'sympose' ) . '" />';
 							submit_button( esc_html__( 'Activate', 'sympose' ), 'secondary', 'submit-license-activation', false );
 							echo '</form>';
 							echo '<p><a target="_blank" href="' . esc_url( $product->info->link ) . '">' . esc_html__( 'More information', 'sympose' ) . '</a></p>';
@@ -2812,7 +2813,8 @@ class Sympose_Admin {
 				);
 
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					$message = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'sympose' );
+					$error_message = $response->get_error_message();
+					$message = ( is_wp_error( $response ) && ! empty( $error_message ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'sympose' );
 				} else {
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 					if ( false === $license_data->success ) {
