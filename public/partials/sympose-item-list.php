@@ -43,7 +43,7 @@ endif;
 			<disv class="image">
 				<?php
                 // phpcs:disable
-                echo wp_make_content_images_responsive( $img );
+                echo wp_filter_content_tags( $img );
 				// phpcs:enable
 				?>
 			</disv>
