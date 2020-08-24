@@ -3,10 +3,10 @@ Contributors: mklasen
 Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
-Tested up to: 5.5
+Tested up to: 7.4.2
 Stable tag: trunk
-Requires PHP: 5.6
-Stable tag: 1.3.1
+Requires PHP: 5.4
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,11 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 [Extensions](https://sympose.net/extensions/?utm_source=wordpress-plugin-page) are available for download on the link below: [https://sympose.net/extensions/](https://sympose.net/extensions/?utm_source=wordpress-plugin-page)
 
 == Changelog ==
+
+= 1.3.2 =
+* Fixes the "No results found" issue when searchin for sessions in the dashboard.
+* Allow authors to use Sympose.
+* Adds a missing parameter for register_rest_route which caused a notice to show.
 
 = 1.3.1 =
 * Add the option to show photo, name or photo and name on the schedule.
