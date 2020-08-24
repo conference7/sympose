@@ -342,22 +342,22 @@ class Sympose_Admin {
 			'sympose/v1',
 			'/generate_sample_data/',
 			array(
-				'methods'  => array( 'GET', 'POST' ),
-				'callback' => array( $this, 'create_sample_data' ),
+				'methods'             => array( 'GET', 'POST' ),
+				'callback'            => array( $this, 'create_sample_data' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
-				  }
+				},
 			)
 		);
 		register_rest_route(
 			'sympose/v1',
 			'/quick_start_event',
 			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'process_quick_start' ),
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'process_quick_start' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
-				  }
+				},
 			)
 		);
 	}
