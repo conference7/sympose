@@ -1731,6 +1731,7 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => 'edit_posts'
 			),
 			array(
 				'page_title' => __( 'Events', 'sympose' ),
@@ -1744,6 +1745,7 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => 'manage_options'
 			),
 			array(
 				'page_title' => __( 'People', 'sympose' ),
@@ -1756,6 +1758,7 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => 'edit_posts'
 			),
 			array(
 				'page_title' => __( 'Person categories', 'sympose' ),
@@ -1769,6 +1772,7 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => 'manage_options'
 			),
 			array(
 				'page_title' => __( 'Organisations', 'sympose' ),
@@ -1781,6 +1785,7 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => 'edit_posts'
 			),
 			array(
 				'page_title' => __( 'Organisation categories', 'sympose' ),
@@ -1794,6 +1799,7 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => 'manage_options'
 			),
 		);
 
@@ -1805,7 +1811,7 @@ class Sympose_Admin {
 				$parent_slug,
 				$page['page_title'],
 				$page['menu_title'],
-				'edit_posts',
+				$page['capability_type'],
 				$page['callback']
 			);
 		}
@@ -1819,38 +1825,42 @@ class Sympose_Admin {
 			array( $this, 'shortcodes' )
 		);
 
-		add_submenu_page(
-			$parent_slug,
-			__( 'Extensions', 'sympose' ),
-			__( 'Extensions', 'sympose' ),
-			'edit_posts',
-			'sympose-extensions',
-			array( $this, 'extensions' )
-		);
+		if ( current_user_can( 'manage_options' ) ) {
 
-		add_submenu_page(
-			$parent_slug,
-			'Quick Start',
-			'Quick Start',
-			'edit_posts',
-			'sympose-quick-start',
-			array( $this, 'configurator' )
-		);
 
-		add_submenu_page(
-			$parent_slug,
-			__( 'Settings', 'sympose' ),
-			__( 'Settings', 'sympose' ),
-			'edit_posts',
-			esc_html(
-				add_query_arg(
-					array(
-						'page' => 'sympose',
-					),
-					'admin.php'
+			add_submenu_page(
+				$parent_slug,
+				__( 'Extensions', 'sympose' ),
+				__( 'Extensions', 'sympose' ),
+				'edit_posts',
+				'sympose-extensions',
+				array( $this, 'extensions' )
+			);
+
+			add_submenu_page(
+				$parent_slug,
+				'Quick Start',
+				'Quick Start',
+				'edit_posts',
+				'sympose-quick-start',
+				array( $this, 'configurator' )
+			);
+
+			add_submenu_page(
+				$parent_slug,
+				__( 'Settings', 'sympose' ),
+				__( 'Settings', 'sympose' ),
+				'edit_posts',
+				esc_html(
+					add_query_arg(
+						array(
+							'page' => 'sympose',
+						),
+						'admin.php'
+					)
 				)
-			)
-		);
+			);
+		}
 
 		// Remove CMB2 created page.
 		remove_menu_page( 'sympose' );
