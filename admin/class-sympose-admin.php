@@ -699,7 +699,7 @@ class Sympose_Admin {
 			echo "<select name='" . esc_attr( $taxonomy_slug ) . "' id='" . esc_attr( $taxonomy_slug ) . "' class='postform'>";
 
 			/* translators: %s is the taxonomy name */
-			echo '<option>' . sprintf( esc_html__( 'Show All %s', 'sympose' ), esc_html( $taxonomy_name ) ) . '</option>';
+			echo '<option value="">' . sprintf( esc_html__( 'Show All %s', 'sympose' ), esc_html( $taxonomy_name ) ) . '</option>';
 
 			foreach ( $terms as $term ) {
 				printf(
