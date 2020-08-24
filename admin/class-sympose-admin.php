@@ -242,6 +242,7 @@ class Sympose_Admin {
 				'hierarchical'      => true,
 				'show_in_menu'      => false,
 				'show_in_admin_bar' => true,
+				'capability_type'   => 'post',
 			)
 		);
 
@@ -259,6 +260,7 @@ class Sympose_Admin {
 				'show_in_rest'      => true,
 				'show_in_menu'      => false,
 				'show_in_admin_bar' => true,
+				'capability_type'   => 'post',
 			)
 		);
 
@@ -276,6 +278,7 @@ class Sympose_Admin {
 				'show_in_rest'      => true,
 				'show_in_menu'      => false,
 				'show_in_admin_bar' => true,
+				'capability_type'   => 'post',
 			)
 		);
 
@@ -341,6 +344,9 @@ class Sympose_Admin {
 			array(
 				'methods'  => array( 'GET', 'POST' ),
 				'callback' => array( $this, 'create_sample_data' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				  }
 			)
 		);
 		register_rest_route(
@@ -349,6 +355,9 @@ class Sympose_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'process_quick_start' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				  }
 			)
 		);
 	}
@@ -1703,7 +1712,7 @@ class Sympose_Admin {
 		add_menu_page(
 			'Sympose',
 			'Sympose',
-			'manage_options',
+			'edit_posts',
 			$parent_slug,
 			false,
 			$svg_icon,
@@ -1796,7 +1805,7 @@ class Sympose_Admin {
 				$parent_slug,
 				$page['page_title'],
 				$page['menu_title'],
-				'manage_options',
+				'edit_posts',
 				$page['callback']
 			);
 		}
@@ -1805,7 +1814,7 @@ class Sympose_Admin {
 			$parent_slug,
 			__( 'Shortcodes', 'sympose' ),
 			__( 'Shortcodes', 'sympose' ),
-			'manage_options',
+			'edit_posts',
 			'sympose-shortcodes',
 			array( $this, 'shortcodes' )
 		);
@@ -1814,7 +1823,7 @@ class Sympose_Admin {
 			$parent_slug,
 			__( 'Extensions', 'sympose' ),
 			__( 'Extensions', 'sympose' ),
-			'manage_options',
+			'edit_posts',
 			'sympose-extensions',
 			array( $this, 'extensions' )
 		);
@@ -1823,7 +1832,7 @@ class Sympose_Admin {
 			$parent_slug,
 			'Quick Start',
 			'Quick Start',
-			'manage_options',
+			'edit_posts',
 			'sympose-quick-start',
 			array( $this, 'configurator' )
 		);
@@ -1832,7 +1841,7 @@ class Sympose_Admin {
 			$parent_slug,
 			__( 'Settings', 'sympose' ),
 			__( 'Settings', 'sympose' ),
-			'manage_options',
+			'edit_posts',
 			esc_html(
 				add_query_arg(
 					array(
@@ -2814,7 +2823,7 @@ class Sympose_Admin {
 
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 					$error_message = $response->get_error_message();
-					$message = ( is_wp_error( $response ) && ! empty( $error_message ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'sympose' );
+					$message       = ( is_wp_error( $response ) && ! empty( $error_message ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'sympose' );
 				} else {
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 					if ( false === $license_data->success ) {
