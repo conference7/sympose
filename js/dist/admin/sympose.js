@@ -1,6 +1,5 @@
 "use strict";
 
-console.log('test');
 jQuery(document).ready(function ($) {
   refreshPage();
   var form = $('form#sympose-quick-start'); // Next step
