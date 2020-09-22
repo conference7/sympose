@@ -1252,6 +1252,7 @@ class Sympose_Admin {
 				'object_types' => array( 'options-page' ),
 				'option_key'   => 'sympose',
 				'position'     => 30,
+				'capability'   => apply_filters( 'sympose_manage_settings_cap', 'manage_options' ),
 			)
 		);
 
@@ -1712,7 +1713,7 @@ class Sympose_Admin {
 		add_menu_page(
 			'Sympose',
 			'Sympose',
-			'edit_posts',
+			apply_filters( 'sympose_manage_sympose', 'edit_posts' ),
 			$parent_slug,
 			false,
 			$svg_icon,
@@ -1721,9 +1722,9 @@ class Sympose_Admin {
 
 		$submenu_pages = array(
 			array(
-				'page_title' => __( 'Sessions', 'sympose' ),
-				'menu_title' => __( 'Sessions', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'Sessions', 'sympose' ),
+				'menu_title'      => __( 'Sessions', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'post_type' => 'session',
@@ -1731,11 +1732,12 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_manage_organisations_cap', 'edit_posts' ),
 			),
 			array(
-				'page_title' => __( 'Events', 'sympose' ),
-				'menu_title' => __( 'Events', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'Events', 'sympose' ),
+				'menu_title'      => __( 'Events', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'taxonomy'  => 'event',
@@ -1744,11 +1746,12 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_manage_events_cap', 'manage_options' ),
 			),
 			array(
-				'page_title' => __( 'People', 'sympose' ),
-				'menu_title' => __( 'People', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'People', 'sympose' ),
+				'menu_title'      => __( 'People', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'post_type' => 'person',
@@ -1756,11 +1759,12 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_people_organisations_cap', 'edit_posts' ),
 			),
 			array(
-				'page_title' => __( 'Person categories', 'sympose' ),
-				'menu_title' => __( '&nbsp; &rdsh; Categories', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'Person categories', 'sympose' ),
+				'menu_title'      => __( '&nbsp; &rdsh; Categories', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'taxonomy'  => 'person-category',
@@ -1769,11 +1773,12 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_manage_categories_cap', 'edit_posts' ),
 			),
 			array(
-				'page_title' => __( 'Organisations', 'sympose' ),
-				'menu_title' => __( 'Organisations', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'Organisations', 'sympose' ),
+				'menu_title'      => __( 'Organisations', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'post_type' => 'organisation',
@@ -1781,11 +1786,12 @@ class Sympose_Admin {
 						'edit.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_manage_organisations_cap', 'edit_posts' ),
 			),
 			array(
-				'page_title' => __( 'Organisation categories', 'sympose' ),
-				'menu_title' => __( '&nbsp; &rdsh; Categories', 'sympose' ),
-				'callback'   => esc_html(
+				'page_title'      => __( 'Organisation categories', 'sympose' ),
+				'menu_title'      => __( '&nbsp; &rdsh; Categories', 'sympose' ),
+				'callback'        => esc_html(
 					add_query_arg(
 						array(
 							'taxonomy'  => 'organisation-category',
@@ -1794,6 +1800,7 @@ class Sympose_Admin {
 						'edit-tags.php'
 					)
 				),
+				'capability_type' => apply_filters( 'sympose_manage_categories_cap', 'edit_posts' ),
 			),
 		);
 
@@ -1805,7 +1812,7 @@ class Sympose_Admin {
 				$parent_slug,
 				$page['page_title'],
 				$page['menu_title'],
-				'edit_posts',
+				$page['capability_type'],
 				$page['callback']
 			);
 		}
@@ -1823,7 +1830,7 @@ class Sympose_Admin {
 			$parent_slug,
 			__( 'Extensions', 'sympose' ),
 			__( 'Extensions', 'sympose' ),
-			'edit_posts',
+			apply_filters( 'sympose_manage_extensions_cap', 'manage_options' ),
 			'sympose-extensions',
 			array( $this, 'extensions' )
 		);
@@ -1832,7 +1839,7 @@ class Sympose_Admin {
 			$parent_slug,
 			'Quick Start',
 			'Quick Start',
-			'edit_posts',
+			apply_filters( 'sympose_quick_start_cap', 'edit_posts' ),
 			'sympose-quick-start',
 			array( $this, 'configurator' )
 		);
@@ -1841,7 +1848,7 @@ class Sympose_Admin {
 			$parent_slug,
 			__( 'Settings', 'sympose' ),
 			__( 'Settings', 'sympose' ),
-			'edit_posts',
+			apply_filters( 'sympose_manage_settings_cap', 'manage_options' ),
 			esc_html(
 				add_query_arg(
 					array(
