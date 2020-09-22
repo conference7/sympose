@@ -3,7 +3,7 @@ Contributors: mklasen
 Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
-Tested up to: 5.4.2
+Tested up to: 5.5.1
 Stable tag: trunk
 Requires PHP: 5.4
 Stable tag: 1.3.2
