@@ -3,7 +3,7 @@ Contributors: mklasen
 Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
-Tested up to: 7.4.2
+Tested up to: 5.4.2
 Stable tag: trunk
 Requires PHP: 5.4
 Stable tag: 1.3.2
@@ -80,8 +80,8 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 == Changelog ==
 
 = 1.3.2 =
-* Fixes the "No results found" issue when searchin for sessions in the dashboard.
-* Allow authors to use Sympose.
+* Fixes the "No results found" issue when searching for sessions in the dashboard.
+* Allows authors to use Sympose and adds extra filters for managing capabilities.
 * Adds a missing parameter for register_rest_route which caused a notice to show.
 
 = 1.3.1 =
