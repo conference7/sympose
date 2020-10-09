@@ -9,11 +9,11 @@
  *
  * @sympose
  * Plugin Name:       Sympose
- * Plugin URI:        https://sympose.net/
+ * Plugin URI:        https://sympose.net
  * Description:       Manage events on your WordPress website
  * Version:           1.3.2
- * Author:            Sympose
- * Author URI:        https://sympose.net/
+ * Author:            Conference7
+ * Author URI:        https://conference7.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       sympose
