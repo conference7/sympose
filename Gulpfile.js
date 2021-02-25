@@ -118,8 +118,8 @@ gulp.task('generate-pot', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('css/src/*/**.scss', gulp.series(['css']));
-    gulp.watch('js/src/*.js', gulp.series(['js']));
+    gulp.watch('css/src/**/*.scss', gulp.series(['css']));
+    gulp.watch('js/src/**/*.js', gulp.series(['js']));
 });
 
 /* Watch scss, js and html files, doing different things with each. */
