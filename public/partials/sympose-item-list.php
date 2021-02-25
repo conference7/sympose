@@ -43,7 +43,10 @@ endif;
 			<disv class="image">
 				<?php
                 // phpcs:disable
-                echo wp_filter_content_tags( $img );
+				if (function_exists('wp_filter_content_tags')) {
+					$img = wp_filter_content_tags( $img );
+				}
+                echo $img;
 				// phpcs:enable
 				?>
 			</disv>

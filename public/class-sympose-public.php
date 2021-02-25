@@ -432,8 +432,11 @@ class Sympose_Public {
 	 * @since 1.0.10
 	 */
 	public function render_image( $id = 0, $size = '', $type = '' ) {
-		$img    = wp_get_attachment_image( $id, $size ); // @todo - set custom image size
-		$output = wp_filter_content_tags( $img );
+		$img = wp_get_attachment_image( $id, $size ); // @todo - set custom image size
+		if ( function_exists( 'wp_filter_content_tags' ) ) {
+			$img = wp_filter_content_tags( $img );
+		}
+		$output = $img;
 
 		return apply_filters( 'sympose_render_image', $output, $id, $size, $type );
 	}
