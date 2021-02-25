@@ -27,8 +27,9 @@ jQuery(document).ready(function ($) {
         method: 'POST',
         processData: false,
         contentType: false,
-        beforeSend: function beforeSend() {
+        beforeSend: function beforeSend(xhr) {
           $('form#sympose-quick-start .spinner').addClass('is-active');
+          xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
         },
         data: formData,
         success: function success(data) {
@@ -87,6 +88,9 @@ jQuery(document).ready(function ($) {
     formData.append('save_data', 'yes');
     $.ajax({
       url: wpApiSettings.root + 'sympose/v1/quick_start_event',
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
+      },
       method: 'POST',
       processData: false,
       contentType: false,
@@ -102,6 +106,9 @@ jQuery(document).ready(function ($) {
     formData.append('save_data', 'yes');
     $.ajax({
       url: wpApiSettings.root + 'sympose/v1/quick_start_event',
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
+      },
       method: 'POST',
       processData: false,
       contentType: false,
