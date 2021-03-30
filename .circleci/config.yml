@@ -1,53 +1,52 @@
 version: 2.1
 executors:
   docker-executor:
-    docker: 
+    docker:
       - image: circleci/node
+# jobs:
+#   test_plugin:
+#     executor: docker-executor
+#     steps:
+#       - setup_remote_docker
+#       - run:
+#           name: Set up network
+#           command: |
+#             docker network create wp-network
+#       - run:
+#           name: Set up database
+#           command: |
+#             docker run -d \
+#               -e MYSQL_ROOT_PASSWORD=password \
+#               -e MYSQL_DATABASE=wordpress \
+#               --name db \
+#               --network wp-network \
+#               mysql:5.7
+#       - run:
+#           name: Setup WordPress
+#           command: |
+#             docker run -d \
+#               -e WORDPRESS_DB_HOST=db:3306 \
+#               -e WORDPRESS_DB_USER=root \
+#               -e WORDPRESS_DB_PASSWORD=password \
+#               -e WORDPRESS_DB_NAME=wordpress \
+#               -e WORDPRESS_CONFIG_EXTRA="define('WP_SITEURL', 'http://' . \$_SERVER['HTTP_HOST']); define('WP_HOME', 'http://' . \$_SERVER['HTTP_HOST']);" \
+#               --name wp-container \
+#               --network wp-network \
+#               wordpress
+#       - run:
+#           name: Install WordPress
+#           command: |
+#             docker run -it --rm \
+#               --volumes-from wp-container \
+#               --network wp-network \
+#               wordpress:cli core install \
+#                 --url=localhost \
+#                 --title=test \
+#                 --admin_user=admin \
+#                 --admin_password=password \
+#                 --admin_email=admin@local.test
 
-jobs:
-  test_plugin:
-    executor: docker-executor
-    steps:
-      - setup_remote_docker
-      - run:
-          name: Set up network
-          command: |
-            docker network create wp-network
-      - run:
-          name: Set up database
-          command: |
-            docker run -d \
-              -e MYSQL_ROOT_PASSWORD=password \
-              -e MYSQL_DATABASE=wordpress \
-              --name db \
-              --network wp-network \
-              mysql:5.7
-      - run:
-          name: Setup WordPress
-          command: |
-            docker run -d \
-              -e WORDPRESS_DB_HOST=db:3306 \
-              -e WORDPRESS_DB_USER=root \
-              -e WORDPRESS_DB_PASSWORD=password \
-              -e WORDPRESS_DB_NAME=wordpress \
-              -e WORDPRESS_CONFIG_EXTRA="define('WP_SITEURL', 'http://' . \$_SERVER['HTTP_HOST']); define('WP_HOME', 'http://' . \$_SERVER['HTTP_HOST']);" \
-              --name wp-container \
-              --network wp-network \
-              wordpress
-      - run:
-          name: Install WordPress
-          command: |
-            docker run -it --rm \
-              --volumes-from wp-container \
-              --network wp-network \
-              wordpress:cli core install \
-                --url=localhost \
-                --title=test \
-                --admin_user=admin \
-                --admin_password=password \
-                --admin_email=admin@local.test
-
-workflows:
-  test:
-    jobs:
-      - test_plugin
+# workflows:
+#   test:
+#     jobs:
+#       - test_plugin
