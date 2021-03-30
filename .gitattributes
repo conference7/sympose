@@ -10,14 +10,19 @@
 /.circleci export-ignore
 /node_modules export-ignore
 /scripts export-ignore
+/css/src export-ignore
+/js/src export-ignore
 
 # Files
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /Gulpfile.js export-ignore
-/phpcs.xml export-ignore
 /Gruntfile.js export-ignore
 /package.json export-ignore
+/package-lock.json export-ignore
 /phpcs.xml export-ignore
 /README.md export-ignore
 /.gitattributes export-ignore
+.DS_Store export-ignore
+.composer.json export-ignore
+.composer.lock export-ignore
