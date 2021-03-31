@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
       e.stopPropagation();
 
       if (e.target.closest('.saved-sessions-control')) {
-        schedule.dataset.showFavorites = schedule.dataset.showFavorites === 'true' ? 'false' : 'true';
+        // Check if has content
+        if (schedule.querySelectorAll('.session-row.is-favorite').length > 0) {
+          schedule.dataset.showFavorites = schedule.dataset.showFavorites === 'true' ? 'false' : 'true';
+        }
       }
 
       var target = e.target.closest('.session-saved');
