@@ -54,6 +54,10 @@ function sympose_get_image( $post ) {
 
 	$image = get_post_meta( $post->ID, '_sympose_image_id', true );
 
+	if ( is_wp_error( $image ) ) {
+		return false;
+	}
+
 	// Fallback for featured image.
 	if ( empty( $image ) && apply_filters( 'sympose_featured_image_fallback', true ) === true ) {
 		$image = get_post_thumbnail_id( $post );

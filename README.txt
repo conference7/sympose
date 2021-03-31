@@ -14,8 +14,12 @@ Sympose makes it easy for anyone to create a conference website. Install WordPre
 
 
 == Description ==
-Sympose provides you with functionality (people, organisations, agenda/schedule) for your event website.
-People and Organisations are displayed in different categories. The conference agenda displays the sessions, sorted by day.
+Sympose by [Conference7](https://conference7.com) makes it easy to share knowledge in WordPress. The core of this plugin is the schedule. Easily create schedules for events, and link the individual sessions to people (speakers) and organisation (sponsors).
+
+**Ready to start sharing knowledge?**
+
+Check out the demo at [https://demo.conference7.com](https://demo.conference7.com).
+
 
 **Sympose Quick Start**
 
