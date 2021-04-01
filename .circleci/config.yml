@@ -1,8 +1,8 @@
-version: 2.1
-executors:
-  docker-executor:
-    docker:
-      - image: circleci/node
+# version: 2.1
+# executors:
+#   docker-executor:
+#     docker:
+#       - image: circleci/node
 # jobs:
 #   test_plugin:
 #     executor: docker-executor
