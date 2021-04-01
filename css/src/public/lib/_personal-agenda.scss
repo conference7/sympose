@@ -1,28 +1,33 @@
 .session-saved {
-	&[data-state="on"] {
-		.star[data-state="on"] {
-			display: block;
-		}
-		.star[data-state="off"] {
-			display: none;
-		}
-	}
-	&[data-state="off"] {
-		.star[data-state="on"] {
-			display: none;
-		}
-		.star[data-state="off"] {
-			display: block;
-		}
-	}
-
 	.stars {
 		.star {
+			cursor: pointer;
 			> * {
 				pointer-events: none;
 				> * {
 					pointer-events: none;
 				}
+			}
+		}
+	}
+}
+
+.session-row {
+	.session-saved {
+		.star[data-state="on"] {
+			display: none;
+		}
+		.star[data-state="off"] {
+			display: block;
+		}
+	}
+	&[data-state="on"] {
+		.session-saved {
+			.star[data-state="on"] {
+				display: block;
+			}
+			.star[data-state="off"] {
+				display: none;
 			}
 		}
 	}
@@ -37,6 +42,11 @@
 		}
 	}
 
+	&.updating {
+		.star {
+			pointer-events: none;
+		}
+	}
 
 	&[data-show-favorites="false"] {
 		.saved-sessions-control {
@@ -65,4 +75,5 @@
 			}
 		}
 	}
+
 }

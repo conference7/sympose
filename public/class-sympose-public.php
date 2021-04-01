@@ -109,32 +109,27 @@ class Sympose_Public {
 	 * @since       1.3.3
 	 */
 	public function update_agenda_sessions( $request ) {
-		$params = json_decode( $request->get_body() );
 
-		$session_id     = absint( $params->id );
-		$event_id       = absint( $params->event_id );
+		if ( ! is_user_logged_in() ) {
+			return array(
+				'status' => 401,
+				'data'   => array(),
+			);
+		}
+
+		$params  = json_decode( $request->get_body() );
+		$user_id = get_current_user_id();
+
+		if ( ! property_exists( $params, 'saved_sessions' ) ) {
+			return array(
+				'status' => 200,
+				'data'   => get_user_meta( $user_id, $this->prefix . 'saved_sessions', true ),
+			);
+		}
+
 		$saved_sessions = $params->saved_sessions;
 
-		if ( empty( $saved_sessions ) ) {
-			$saved_sessions = (object) array();
-		}
-
-		if ( ! isset( $saved_sessions->{$event_id} ) || ! is_array( $saved_sessions->{$event_id} ) ) {
-			$saved_sessions->{$params->event_id} = array();
-		}
-
-		$found = array_search( $session_id, $saved_sessions->{$event_id}, true );
-
-		if ( false !== $found ) {
-			unset( $saved_sessions->{$event_id}[ $found ] );
-		} else {
-			$saved_sessions->{$event_id}[] = $session_id;
-		}
-
-		if ( is_user_logged_in() ) {
-			$user_id = get_current_user_id();
-			update_user_meta( $user_id, '_sympose_saved_sessions', $saved_sessions );
-		}
+		update_user_meta( $user_id, $this->prefix . 'saved_sessions', $saved_sessions );
 
 		return array(
 			'status' => 200,
@@ -674,6 +669,14 @@ class Sympose_Public {
 			$settings['rows'] = $settings['rows'] - 1;
 		}
 
+		if ( current_user_can( 'manage_options' ) ) {
+			$settings['rows'] = $settings['rows'] + 1;
+		}
+		if ( $enable_personal_agenda ) {
+			$settings['rows'] = $settings['rows'] - 1;
+		}
+	
+
 		$settings = apply_filters( 'sympose_schedule_settings', $settings, $event );
 
 		ob_start();
@@ -685,7 +688,7 @@ class Sympose_Public {
 		foreach ( $terms as $term ) {
 
 			if ( is_user_logged_in() ) {
-				$saved_sessions = get_user_meta( get_current_user_id(), '_sympose_saved_sessions', true );
+				$saved_sessions = get_user_meta( get_current_user_id(), $this->prefix . 'saved_sessions', true );
 
 				if ( isset( $saved_sessions->{$term->term_id} ) && ! empty( $saved_sessions->{$term->term_id} ) ) {
 					$event_sessions = $saved_sessions->{$term->term_id};
@@ -696,7 +699,7 @@ class Sympose_Public {
 				$event_sessions = array();
 			}
 
-			echo '<table class="sympose-schedule event" data-id="' . absint( $term->term_id ) . '" data-stars-hidden="' . ( ! is_user_logged_in() ? true : false ) . '" data-show-favorites=false>';
+			echo '<table class="sympose-schedule event" data-id="' . absint( $term->term_id ) . '" data-stars-hidden="0" data-show-favorites=false>';
 
 			$description = '';
 
@@ -705,13 +708,7 @@ class Sympose_Public {
 			}
 
 			if ( 0 !== $term->parent ) {
-				if ( current_user_can( 'manage_options' ) ) {
-					$settings['rows'] = $settings['rows'] + 1;
-				}
-				if ( $enable_personal_agenda ) {
-					$settings['rows'] = $settings['rows'] - 1;
-				}
-
+				
 				echo '<tr class="title-column">';
 				echo '<th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>';
 				// phpcs:disable
