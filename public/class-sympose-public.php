@@ -675,7 +675,6 @@ class Sympose_Public {
 		if ( $enable_personal_agenda ) {
 			$settings['rows'] = $settings['rows'] - 1;
 		}
-	
 
 		$settings = apply_filters( 'sympose_schedule_settings', $settings, $event );
 
@@ -708,7 +707,7 @@ class Sympose_Public {
 			}
 
 			if ( 0 !== $term->parent ) {
-				
+
 				echo '<tr class="title-column">';
 				echo '<th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>';
 				// phpcs:disable
