@@ -88,10 +88,22 @@ class Sympose {
 	 * @access   private
 	 */
 	private function set_locale() {
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		$plugin_i18n = new Sympose_I18n();
+	}
 
-		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
+	/**
+	 * Load the text domain
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_plugin_textdomain() {
+
+		load_plugin_textdomain(
+			'sympose',
+			false,
+			basename( dirname( dirname( __FILE__ ) ) ) . '/languages'
+		);
 
 	}
 
