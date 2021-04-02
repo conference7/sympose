@@ -67,7 +67,7 @@ gulp.task('js', function () {
             .pipe(rename({ suffix: '.min' }))
             .pipe(uglify().on('error', handleErrors))
             .pipe(gulp.dest('./js/dist/' + dir + '/'));
-        });
+    });
 
     return merge(tasks);
 });
@@ -127,7 +127,7 @@ gulp.task('default', gulp.series(['css', 'js', 'watch']), function () {
     //
 });
 
-gulp.task('dist:clean', function() {
+gulp.task('dist:clean', function () {
     gutil.log(gutil.colors.green('Cleaning build folder..'));
     return del([
         'dist/*',
@@ -135,30 +135,30 @@ gulp.task('dist:clean', function() {
     ]);
 });
 
-gulp.task('composer-install-no-dev', function(cb) {
+gulp.task('composer-install-no-dev', function (cb) {
     exec('composer install --no-dev', function (err, stdout, stderr) {
         cb(err);
-      });
+    });
 });
 
-gulp.task('dist:sync-to-svn', function(cb) {
+gulp.task('dist:sync-to-svn', function (cb) {
     exec('cp -r dist/ ../sympose-svn/trunk', function (err, stdout, stderr) {
         cb(err);
-      });
+    });
 });
 
-gulp.task('composer-install', function(cb) {
+gulp.task('composer-install', function (cb) {
     exec('composer install', function (err, stdout, stderr) {
         cb(err);
-      });
+    });
 });
 
-gulp.task('dist:build', function() {
+gulp.task('dist:build', function () {
     gutil.log(gutil.colors.green('Copying contents to ./dist'));
     return gulp.src([
-        '**', 
-        '!css/src/**', 
-        '!js/src/**', 
+        '**',
+        '!css/src/**',
+        '!js/src/**',
         '!node_modules/**',
         '!scripts/**',
         '!.circleci',
@@ -174,25 +174,25 @@ gulp.task('dist:build', function() {
         '!Gulpfile.js',
         '!phpcs.xml',
         '!README.md',
-        ])
+    ])
         .pipe(gulp.dest('./dist/'))
 });
 
-gulp.task('dist:clean-build', function() {
+gulp.task('dist:clean-build', function () {
     gutil.log(gutil.colors.green('Removing unnecessary files..'));
     return del(['./dist/.DS_Store'])
 });
 
-gulp.task('dist:build-zip', function() {
+gulp.task('dist:build-zip', function () {
     gutil.log(gutil.colors.green('Creating ZIP file'));
     return gulp.src(['./dist/**'])
         .pipe(zip('sympose.zip'))
         .pipe(gulp.dest('./'));
-    
+
 });
 
 // Build
-gulp.task('build', gulp.series(['dist:clean', 'composer-install-no-dev', 'dist:build', 'dist:clean-build', 'dist:sync-to-svn', 'dist:build-zip', 'composer-install']), function(cb) {
+gulp.task('build', gulp.series(['dist:clean', 'composer-install-no-dev', 'dist:build', 'dist:clean-build', 'dist:sync-to-svn', 'dist:build-zip', 'composer-install']), function (cb) {
     gutil.log(gutil.colors.green('🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉'));
     gutil.log(gutil.colors.green('Done building!'));
     return cb(null);

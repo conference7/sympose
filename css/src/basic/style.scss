@@ -1,0 +1,35 @@
+table.sympose-schedule {
+	border-radius: 15px;
+	margin-bottom: 1rem;
+	tr {
+		th {
+			padding: 0.5rem 1rem;
+			h3 {
+				font-size: 1.4rem;
+			}
+		}
+		td {
+			padding: 0;	
+			&.edit-link {
+				a {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+			&.people {
+				.sym-list {
+					img {
+						border-radius: 50%;
+					}
+				}
+			}
+			&.title {
+				.excerpt {
+					margin: 1rem;
+					width: 600px;
+				}
+			}
+		}
+	}
+}

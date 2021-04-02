@@ -150,6 +150,11 @@ class Sympose_Public {
 
 				if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
 					$event = sanitize_text_field( $atts['event'] );
+				} elseif ( is_archive() ) {
+					$term          = get_queried_object();
+					if ($term->taxonomy === 'event')  {
+						$event = $term->slug;
+					}
 				}
 
 				if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
@@ -760,15 +765,14 @@ class Sympose_Public {
 		}
 
 		if ( is_array( $organisations ) ) {
+			$organisations_html = '<div class="sym-list">';
 			foreach ( $organisations as $id ) {
-				$image = sympose_get_image( get_post( $id ) );
-				if ( $image ) {
-					$organisations_html .= $this->render_item(
-						$id,
-						$organisation_args
-					);
-				}
+				$organisations_html .= $this->render_item(
+					$id,
+					$organisation_args
+				);
 			}
+			$people_html .= '</div>';
 		}
 
 		$time = $start_time . ' - ' . $end_time;
@@ -786,19 +790,22 @@ class Sympose_Public {
 			$row .= '<td class="edit-link"><a href="' . get_edit_post_link( $post->ID ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
 		$row .= '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
-		$row .= '<td class="title">' . $link_start . $post->post_title . $link_end . '</td>';
+		$row .= '<td class="title">' . apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end ) . '</td>';
 		if ( 'true' === $settings['show_people'] ) {
 			$row .= '<td class="people"><div class="inner">' . $people_html . '</div></td>';
 		}
 		if ( 'true' === $settings['show_organisations'] ) {
 			$row .= '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
 		}
-		$row .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
-		$row .= '<td class="sympose-read-more">';
+		$row      .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
+		$read_more = '<td class="sympose-read-more">';
 		if ( ! $static_session ) {
-			$row .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+			$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
 		}
-		$row .= '</td>';
+		$read_more .= '</td>';
+
+		$row .= apply_filters( 'sympose_schedule_read_more', $read_more );
+
 		$row .= '</tr>';
 
 		// phpcs:disable
@@ -887,7 +894,7 @@ class Sympose_Public {
 
 			$post_type = get_post_type( get_the_ID() );
 
-			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) ) {
+			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) && is_single() ) {
 
 				$default_sidebar    = sympose_get_option( 'default_sidebar' );
 				$overwrite_sidebars = sympose_get_option( 'overwrite_sidebars' );

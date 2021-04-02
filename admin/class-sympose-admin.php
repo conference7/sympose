@@ -324,7 +324,7 @@ class Sympose_Admin {
 				array(
 					'hierarchical' => true,
 					'labels'       => $labels['event'],
-					'public'       => false,
+					'public'       => sympose_get_option( 'schedule_people_format' ),
 					'show_ui'      => true,
 					'show_in_rest' => true,
 				)
@@ -1278,6 +1278,18 @@ class Sympose_Admin {
 
 		$options->add_field(
 			array(
+				'name'            => __( 'Enable CSS', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => 'on',
+				'id'              => 'enable_css',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? 0 : $value;
+				},
+			)
+		);
+
+		$options->add_field(
+			array(
 				'id'            => $this->prefix . 'create_pages',
 				'type'          => 'mk-render-row',
 				'render_row_cb' => function () {
@@ -1304,6 +1316,28 @@ class Sympose_Admin {
 						</div>
 					</div>
 					<?php
+				},
+			)
+		);
+
+		do_action( 'sympose_register_settings_general_fields', $options );
+
+		$options->add_field(
+			array(
+				'name' => __( 'Events', 'sympose' ),
+				'id'   => $this->prefix . 'settings_events',
+				'type' => 'title',
+			)
+		);
+
+		$options->add_field(
+			array(
+				'name'            => __( 'Enable event pages', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => '',
+				'id'              => 'enable_event_pages',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
 				},
 			)
 		);
@@ -1363,8 +1397,8 @@ class Sympose_Admin {
 				'id'      => 'schedule_organisations_format',
 				'desc'    => __( 'How would you like organisations to show on the schedule?', 'sympose' ),
 				'options' => array(
-					'logo'      => __( 'Photo only', 'sympose' ),
-					'name'      => __( 'Logo only', 'sympose' ),
+					'logo'      => __( 'Logo only', 'sympose' ),
+					'name'      => __( 'Name only', 'sympose' ),
 					'logo_name' => __( 'Logo & name', 'sympose' ),
 				),
 			)

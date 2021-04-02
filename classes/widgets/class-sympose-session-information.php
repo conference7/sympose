@@ -146,10 +146,3 @@ class Sympose_Session_Information extends WP_Widget {
 		do_action( 'sympose_extend_session_information_widget_fields', $this, $instance );
 	}
 }
-
-add_action(
-	'widgets_init',
-	function () {
-		register_widget( 'Sympose_Session_Information' );
-	}
-);
