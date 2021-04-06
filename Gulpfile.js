@@ -13,16 +13,9 @@ const checktextdomain = require('gulp-checktextdomain');
 const wpPot = require('gulp-wp-pot');
 const concat = require('gulp-concat');
 const plumber = require('gulp-plumber');
-const browserSync = require('browser-sync');
-const reload = browserSync.reload;
 const fs = require('fs');
 const path = require('path');
 const merge = require('merge-stream');
-const del = require('del');
-const { doesNotMatch } = require('assert');
-const { src } = require('gulp');
-const gutil = require("gulp-util");
-const zip = require("gulp-zip");
 const exec = require('child_process').exec;
 
 sass.compiler = require('node-sass');
@@ -46,7 +39,6 @@ gulp.task('css', () => {
                 zindex: false
             }))
             .pipe(gulp.dest('./css/dist/' + dir + '/'))
-            .pipe(reload({ stream: true }))
     });
 
     return merge(tasks);
@@ -67,7 +59,7 @@ gulp.task('js', function () {
             .pipe(rename({ suffix: '.min' }))
             .pipe(uglify().on('error', handleErrors))
             .pipe(gulp.dest('./js/dist/' + dir + '/'));
-        });
+    });
 
     return merge(tasks);
 });
@@ -127,75 +119,16 @@ gulp.task('default', gulp.series(['css', 'js', 'watch']), function () {
     //
 });
 
-gulp.task('dist:clean', function() {
-    gutil.log(gutil.colors.green('Cleaning build folder..'));
-    return del([
-        'dist/*',
-        'sympose.zip'
-    ]);
-});
-
-gulp.task('composer-install-no-dev', function(cb) {
+gulp.task('composer-install-no-dev', function (cb) {
     exec('composer install --no-dev', function (err, stdout, stderr) {
         cb(err);
-      });
+    });
 });
 
-gulp.task('dist:sync-to-svn', function(cb) {
-    exec('cp -r dist/ ../sympose-svn/trunk', function (err, stdout, stderr) {
-        cb(err);
-      });
-});
-
-gulp.task('composer-install', function(cb) {
+gulp.task('composer-install', function (cb) {
     exec('composer install', function (err, stdout, stderr) {
         cb(err);
-      });
-});
-
-gulp.task('dist:build', function() {
-    gutil.log(gutil.colors.green('Copying contents to ./dist'));
-    return gulp.src([
-        '**', 
-        '!css/src/**', 
-        '!js/src/**', 
-        '!node_modules/**',
-        '!scripts/**',
-        '!.circleci',
-        '!.github',
-        '!.git',
-        '!.gitattributes',
-        '!.gitignore',
-        '!.DS_Store',
-        '!package.json',
-        '!package-lock.json',
-        '!composer.json',
-        '!composer.lock',
-        '!Gulpfile.js',
-        '!phpcs.xml',
-        '!README.md',
-        ])
-        .pipe(gulp.dest('./dist/'))
-});
-
-gulp.task('dist:clean-build', function() {
-    gutil.log(gutil.colors.green('Removing unnecessary files..'));
-    return del(['./dist/.DS_Store'])
-});
-
-gulp.task('dist:build-zip', function() {
-    gutil.log(gutil.colors.green('Creating ZIP file'));
-    return gulp.src(['./dist/**'])
-        .pipe(zip('sympose.zip'))
-        .pipe(gulp.dest('./'));
-    
-});
-
-// Build
-gulp.task('build', gulp.series(['dist:clean', 'composer-install-no-dev', 'dist:build', 'dist:clean-build', 'dist:sync-to-svn', 'dist:build-zip', 'composer-install']), function(cb) {
-    gutil.log(gutil.colors.green('🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉'));
-    gutil.log(gutil.colors.green('Done building!'));
-    return cb(null);
+    });
 });
 
 function handleErrors() {
