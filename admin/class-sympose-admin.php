@@ -144,7 +144,7 @@ class Sympose_Admin {
 		add_filter( 'admin_footer', array( $this, 'maybe_show_setup_wizard' ), 20, 2 );
 
 		// Add logic to disable Quick Start.
-		add_filter( 'admin_notices', array( $this, 'disable_quick_start_notice' ), 20, 2 );
+		add_action( 'admin_notices', array( $this, 'disable_quick_start_notice' ), 20, 2 );
 
 		// Mark current submenu.
 		add_filter( 'parent_file', array( $this, 'highlight_parent_menu_item' ), 20, 1 );
@@ -324,7 +324,7 @@ class Sympose_Admin {
 				array(
 					'hierarchical' => true,
 					'labels'       => $labels['event'],
-					'public'       => false,
+					'public'       => ( sympose_get_option( 'enable_event_pages' ) !== false ? true : false ),
 					'show_ui'      => true,
 					'show_in_rest' => true,
 				)
@@ -1308,6 +1308,28 @@ class Sympose_Admin {
 			)
 		);
 
+		do_action( 'sympose_register_settings_general_fields', $options );
+
+		$options->add_field(
+			array(
+				'name' => __( 'Events', 'sympose' ),
+				'id'   => $this->prefix . 'settings_events',
+				'type' => 'title',
+			)
+		);
+
+		$options->add_field(
+			array(
+				'name'            => __( 'Enable event pages', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => false,
+				'id'              => 'enable_event_pages',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
+				},
+			)
+		);
+
 		$options->add_field(
 			array(
 				'name' => __( 'Schedule', 'sympose' ),
@@ -1363,8 +1385,8 @@ class Sympose_Admin {
 				'id'      => 'schedule_organisations_format',
 				'desc'    => __( 'How would you like organisations to show on the schedule?', 'sympose' ),
 				'options' => array(
-					'logo'      => __( 'Photo only', 'sympose' ),
-					'name'      => __( 'Logo only', 'sympose' ),
+					'logo'      => __( 'Logo only', 'sympose' ),
+					'name'      => __( 'Name only', 'sympose' ),
 					'logo_name' => __( 'Logo & name', 'sympose' ),
 				),
 			)
