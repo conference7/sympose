@@ -19,7 +19,7 @@
 class Sympose_Session_Participants extends WP_Widget {
 
 	/**
-	 * Sympose_Session_Information constructor.
+	 * Sympose_Session_Participants constructor.
 	 */
 	public function __construct() {
 		parent::__construct( false, 'Sympose Session Participants' );
@@ -33,7 +33,8 @@ class Sympose_Session_Participants extends WP_Widget {
 		if ( is_plugin_active( 'sympose-session-people/sympose-session-people.php' ) || is_plugin_active( 'sympose-session-organisations/sympose-session-organisations.php' ) ) {
 			$class = 'notice notice-error is-dismissible';
 			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s %4$s', 'sympose' ), SYMPOSE_VERSION, 'people and organisations session widget', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Session People and Sympose Session Organisations' );
+			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s%4$s and re-evaluate your setup.', 'sympose' ), SYMPOSE_VERSION, 'people & organisations session widget', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Session People & Sympose Session Organisations' );
+			// phpcs:ignore
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
 		}
 	}
@@ -116,24 +117,23 @@ class Sympose_Session_Participants extends WP_Widget {
 	 * @param array $instance Form instance.
 	 */
 	public function form( $instance ) {
-		// Output admin widget options form
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title    = $instance['title'];
 		$type     = ( isset( $instance['type'] ) ? $instance['type'] : 'person' );
 		?>
-		<p><i><?php _e( 'Shows the people linked to the session.', 'sympose' ); ?></i></p>
+		<p><i><?php esc_html_e( 'Shows the people/organisations linked to the session.', 'sympose' ); ?></i></p>
 		<?php do_action( "sympose_widget_{$this->id_base}_content" ); ?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-					   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
-					   value="<?php echo $title; ?>"/>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">Title:
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
+					name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
+					value="<?php echo esc_attr( $title ); ?>"/>
 			</label>
-			<label for="<?php echo $this->get_field_id( 'type' ); ?>">Title:
-				<select class="widefat" id="<?php echo $this->get_field_id( 'type' ); ?>"
-					   name="<?php echo $this->get_field_name( 'type' ); ?>">
-					   <option value="organisations" <?php echo ( ( isset( $type ) && ( $type === 'organisation' ) ) ? ' selected="selected"' : '' ); ?>>Organisation</option>
-					   <option value="people" <?php echo ( ( isset( $type ) && ( $type === 'person' ) ) ? ' selected="selected"' : '' ); ?>>Person</option>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>">Post Type:
+				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"
+					name="<?php echo esc_attr( $this->get_field_name( 'type' ) ); ?>">
+					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisation</option>
+					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>Person</option>
 				</select>
 			</label>
 		</p>
