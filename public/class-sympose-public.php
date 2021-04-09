@@ -894,7 +894,7 @@ class Sympose_Public {
 
 			$post_type = get_post_type( get_the_ID() );
 
-			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) ) {
+			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) && is_single() ) {
 
 				$default_sidebar    = sympose_get_option( 'default_sidebar' );
 				$overwrite_sidebars = sympose_get_option( 'overwrite_sidebars' );
