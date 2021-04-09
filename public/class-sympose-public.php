@@ -150,6 +150,11 @@ class Sympose_Public {
 
 				if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
 					$event = sanitize_text_field( $atts['event'] );
+				} elseif ( is_archive() ) {
+					$term = get_queried_object();
+					if ( 'event' === $term->taxonomy ) {
+						$event = $term->slug;
+					}
 				}
 
 				if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
