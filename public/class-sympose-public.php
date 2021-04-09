@@ -765,15 +765,14 @@ class Sympose_Public {
 		}
 
 		if ( is_array( $organisations ) ) {
+			$organisations_html = '<div class="sym-list">';
 			foreach ( $organisations as $id ) {
-				$image = sympose_get_image( get_post( $id ) );
-				if ( $image ) {
-					$organisations_html .= $this->render_item(
-						$id,
-						$organisation_args
-					);
-				}
+				$organisations_html .= $this->render_item(
+					$id,
+					$organisation_args
+				);
 			}
+			$organisations_html .= '</div>';
 		}
 
 		$time = $start_time . ' - ' . $end_time;
