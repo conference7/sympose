@@ -35,7 +35,8 @@ class Sympose_Widget_Profile extends WP_Widget {
 		if ( is_plugin_active( 'sympose-person-profile/sympose-person-profile.php' ) || is_plugin_active( 'sympose-organisation-profile/sympose-organisation-profile.php' ) ) {
 			$class = 'notice notice-error is-dismissible';
 			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s%4$s.', 'sympose' ), SYMPOSE_VERSION, 'profile', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Person Profile and Sympose Organisation Profile' );
+			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s%4$s.', 'sympose' ), SYMPOSE_VERSION, 'profile', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Person Profile & Sympose Organisation Profile' );
+			// phpcs:ignore
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
 		}
 	}
@@ -59,7 +60,7 @@ class Sympose_Widget_Profile extends WP_Widget {
 
 		// phpcs:ignore
 		echo $args['before_widget'];
-		echo '<div class="sympose-person-widget sympose-widget">';
+		echo '<div class="sympose-' . esc_html( $post_type ) . '-widget sympose-widget">';
 
 		if ( isset( $instance['title'] ) && ! empty( $instance['title'] ) ) {
 			// phpcs:ignore
