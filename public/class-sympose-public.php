@@ -797,12 +797,15 @@ class Sympose_Public {
 		if ( 'true' === $settings['show_organisations'] ) {
 			$row .= '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
 		}
-		$row .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
-		$row .= '<td class="sympose-read-more">';
+		$row      .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
+		$read_more = '<td class="sympose-read-more">';
 		if ( ! $static_session ) {
-			$row .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+			$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
 		}
-		$row .= '</td>';
+		$read_more .= '</td>';
+
+		$row .= apply_filters( 'sympose_schedule_read_more', $read_more );
+
 		$row .= '</tr>';
 
 		// phpcs:disable
