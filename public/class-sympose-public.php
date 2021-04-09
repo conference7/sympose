@@ -790,7 +790,7 @@ class Sympose_Public {
 			$row .= '<td class="edit-link"><a href="' . get_edit_post_link( $post->ID ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
 		$row .= '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
-		$row .= '<td class="title">' . $link_start . $post->post_title . $link_end . '</td>';
+		$row .= '<td class="title">' . apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end ) . '</td>';
 		if ( 'true' === $settings['show_people'] ) {
 			$row .= '<td class="people"><div class="inner">' . $people_html . '</div></td>';
 		}
