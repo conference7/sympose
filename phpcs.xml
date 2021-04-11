@@ -26,6 +26,7 @@
     <exclude-pattern>admin/index.php</exclude-pattern>
     <exclude-pattern>public/index.php</exclude-pattern>
     <exclude-pattern>index.php</exclude-pattern>
+    <exclude-pattern>blocks/build/index.asset.php</exclude-pattern>
 
 
     <config name="minimum_supported_wp_version" value="4.7"/>
