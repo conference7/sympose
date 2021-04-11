@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Maybe trigger show/hide
             if (e.target.closest('.saved-sessions-control')) {
                 // Check if has content
-                if (schedule.querySelectorAll('.session-row.is-favorite').length > 0) {
+                if (schedule.querySelectorAll('.session-row[data-state="on"]').length > 0) {
                     schedule.dataset.showFavorites = (schedule.dataset.showFavorites === 'true' ? 'false' : 'true');
                 }
             } else {

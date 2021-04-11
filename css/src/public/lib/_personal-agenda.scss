@@ -70,7 +70,7 @@
 		}
 		.session-row {
 			display: none;
-			&.is-favorite {
+			&[data-state="on"] {
 				display: table-row;
 			}
 		}
