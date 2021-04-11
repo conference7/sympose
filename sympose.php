@@ -54,6 +54,7 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/cmb2/cmb2/init.php';
 function run_sympose() {
 
 	$plugin = new Sympose();
+	$blocks = new Sympose_Blocks();
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 		new Sympose_Debug();
