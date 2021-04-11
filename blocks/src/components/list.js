@@ -43,9 +43,7 @@ registerBlockType('sympose/list', {
             });
         });
 
-        const List = withState({
-            size: '50%',
-        })(({ size, setState }) => (
+        const List = withState({})(({ size, setState }) => (
 
             <div className="sympose-block sympose-list">
                 <div className="logo">{Icon}</div>
@@ -96,12 +94,6 @@ registerBlockType('sympose/list', {
                     checked={props.attributes.name}
                     onChange={(value) => props.setAttributes({ name: value })}
                 />
-
-                {/* <CheckboxControl
-                    label="Show organisations"
-                    checked={props.attributes.show_organisations}
-                    onChange={(value) => props.setAttributes({ show_organisations: value })}
-                /> */}
             </div>
         ));
 

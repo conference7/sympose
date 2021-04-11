@@ -164,9 +164,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
         });
       });
     });
-    var List = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({
-      size: '50%'
-    })(function (_ref) {
+    var List = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({})(function (_ref) {
       var size = _ref.size,
           setState = _ref.setState;
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
