@@ -509,7 +509,7 @@ class Sympose_Public {
 	 *
 	 * @return string return the schedule for the event.
 	 */
-	public function render_schedule( $event, $atts, $show_edit_link = true ) {
+	public function render_schedule( $event = '', $atts = array(), $show_edit_link = true ) {
 
 		$settings = array(
 			'show_people'        => 'false',
@@ -616,9 +616,13 @@ class Sympose_Public {
 				if ( current_user_can( 'manage_options' ) ) {
 					$settings['rows'] = $settings['rows'] + 1;
 				}
-				echo '<tr class="title-column">
-                        <th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>
-                    </tr>';
+				if ( isset( $settings['hide_title'] ) && 'true' === $settings['hide_title'] ) {
+					$settings['rows'] = $settings['rows'] - 1;
+				} else {
+					echo '<tr class="title-column">
+							<th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>
+						</tr>';
+				}
 			}
 
 			// Get sessions for day.
