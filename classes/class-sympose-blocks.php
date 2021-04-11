@@ -64,6 +64,7 @@ class Sympose_Blocks {
 			plugins_url( 'blocks/build/index.js', dirname( __FILE__ ) ),
 			$asset_file['dependencies'],
 			filemtime( plugin_dir_path( dirname( __FILE__ ) ) . '/blocks/build/index.js' ),
+			false
 		);
 
 		wp_register_style(
