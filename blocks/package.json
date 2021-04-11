@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@wordpress/api-fetch": "^3.23.0",
+    "@wordpress/blocks": "^8.0.1",
     "@wordpress/element": "^2.20.1"
   }
 }
