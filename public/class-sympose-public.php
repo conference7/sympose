@@ -188,14 +188,14 @@ class Sympose_Public {
 			return $this->render_schedule( $event, $atts );
 		}
 
-		if ( $event ) :
+		if ( $event ) {
 			$tax_query[] = array(
 				'taxonomy' => 'event',
 				'terms'    => $event,
 				'field'    => 'slug',
 				'operator' => 'IN',
 			);
-		endif;
+		}
 
 		$term_children = false;
 
@@ -220,7 +220,7 @@ class Sympose_Public {
 		}
 
 		if ( $term_children ) {
-			foreach ( $term_children as $term ) :
+			foreach ( $term_children as $term ) {
 				$tax_query['category'] = false;
 				if ( count( $tax_query ) > 0 ) {
 					$tax_query['relation'] = 'AND';
@@ -243,7 +243,7 @@ class Sympose_Public {
 				echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
 				echo '<span class="title">' . esc_html( $term->name ) . '</span>';
 				echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-				foreach ( $posts as $post ) :
+				foreach ( $posts as $post ) {
 					// phpcs:disable
 					echo $this->render_item(
 						$post->ID,
@@ -254,12 +254,11 @@ class Sympose_Public {
 						)
 					);
 					// phpcs:enable
-				endforeach;
+				}
 				echo '</div>';
 				echo '</div>';
 
-			endforeach;
-
+			}
 		} else {
 			if ( $mainterm ) {
 				if ( count( $tax_query ) > 0 ) {
@@ -373,10 +372,10 @@ class Sympose_Public {
 			}
 		}
 
-		if ( $args['image'] ) :
+		if ( $args['image'] ) {
 			$img_id  = sympose_get_image( $post );
 			$output .= $this->render_image( $img_id, $args['size'], $post_type );
-		endif;
+		}
 
 		if ( $args['name'] || isset( $args['name_or_image'] ) && $args['name_or_image'] ) {
 			$output .= '<span class="title">' . $post->post_title . '</span>';
