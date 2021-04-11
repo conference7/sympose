@@ -1394,6 +1394,18 @@ class Sympose_Admin {
 
 		$options->add_field(
 			array(
+				'name'            => __( 'Enable personal agenda', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => '',
+				'id'              => 'enable_personal_agenda',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
+				},
+			)
+		);
+
+		$options->add_field(
+			array(
 				'name' => __( 'Sidebars', 'sympose' ),
 				'id'   => $this->prefix . 'settings_sidebars',
 				'type' => 'title',
