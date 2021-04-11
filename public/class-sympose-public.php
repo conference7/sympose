@@ -73,7 +73,7 @@ class Sympose_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Shortcode.
-		add_action( 'init', array( $this, 'shortcodes' ) );
+		add_shortcode( 'sympose', array( $this, 'shortcodes' ) );
 
 		// Add related info to content.
 		add_filter( 'the_content', array( $this, 'add_content' ) );
@@ -118,12 +118,11 @@ class Sympose_Public {
 	/**
 	 * Register shortcodes
 	 *
+	 * @param array $atts An array of arguments.
+	 *
 	 * @since       1.0.0
 	 */
-	public function shortcodes() {
-		add_shortcode(
-			'sympose',
-			function ( $atts ) {
+	public function shortcodes( $atts ) {
 
 				$type        = false;
 				$category    = false;
@@ -308,9 +307,6 @@ class Sympose_Public {
 				}
 
 				return ob_get_clean();
-
-			}
-		);
 
 	}
 
