@@ -195,12 +195,12 @@ class Sympose_Public {
 				'field'    => 'slug',
 				'operator' => 'IN',
 			);
-				endif;
+		endif;
 
-				$term_children = false;
+		$term_children = false;
 
-				// Get main category specified from $category.
-				$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
+		// Get main category specified from $category.
+		$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
 		if ( $mainterm ) {
 			// Check if main category has children.
 			$term_children = get_terms(
@@ -306,7 +306,7 @@ class Sympose_Public {
 
 		}
 
-				return ob_get_clean();
+		return ob_get_clean();
 
 	}
 
