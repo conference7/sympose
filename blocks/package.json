@@ -1,0 +1,19 @@
+{
+  "name": "sympose-blocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/scripts": "14.1.0"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^3.23.0",
+    "@wordpress/element": "^2.20.1"
+  }
+}
