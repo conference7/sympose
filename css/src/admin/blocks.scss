@@ -1,0 +1,41 @@
+@import '../base/colors';
+
+.editor-styles-wrapper {
+	.wp-block {
+		.sympose-block {
+			$opacity: 1;
+			$saturate: 95;
+			background: linear-gradient(217deg, rgba(desaturate($c7_orange_1, $saturate), $opacity), rgba(desaturate($c7_orange_2, $saturate), $opacity) 70.71%);
+			padding: 10px 20px;
+			color: $white;
+			position: relative;
+
+			select {
+				width: 100%;
+			}
+
+			.logo {
+				display: flex;
+				fill: $white;
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				svg {
+					transform: scale(1.5);
+				}
+			}
+
+			.title {
+				margin: 0;
+			}
+
+		}
+		&.is-selected {
+			.sympose-block {
+				$opacity: 1;
+				$saturate: 0;
+				background: linear-gradient(217deg, rgba(desaturate($c7_orange_1, $saturate), $opacity), rgba(desaturate($c7_orange_2, $saturate), $opacity) 70.71%);
+			}
+		}
+	}
+}

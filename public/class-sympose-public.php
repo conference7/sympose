@@ -73,7 +73,7 @@ class Sympose_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Shortcode.
-		add_action( 'init', array( $this, 'shortcodes' ) );
+		add_shortcode( 'sympose', array( $this, 'shortcodes' ) );
 
 		// Add related info to content.
 		add_filter( 'the_content', array( $this, 'add_content' ) );
@@ -118,204 +118,199 @@ class Sympose_Public {
 	/**
 	 * Register shortcodes
 	 *
+	 * @param array $atts An array of arguments.
+	 *
 	 * @since       1.0.0
 	 */
-	public function shortcodes() {
-		add_shortcode(
-			'sympose',
-			function ( $atts ) {
+	public function shortcodes( $atts ) {
 
-				$type        = false;
-				$category    = false;
-				$event       = false;
-				$description = false;
-				$name        = false;
-				$align       = false;
+		$type        = false;
+		$category    = false;
+		$event       = false;
+		$description = false;
+		$name        = false;
+		$align       = false;
 
-				$style = '';
+		$style = '';
 
-				$tax_query = array();
+		$tax_query = array();
 
-				$list_classes = '';
+		$list_classes = '';
 
-				ob_start();
+		ob_start();
 
-				if ( isset( $atts['type'] ) && ! empty( $atts['type'] ) ) {
-					$type = sanitize_text_field( $atts['type'] );
-				}
+		if ( isset( $atts['type'] ) && ! empty( $atts['type'] ) ) {
+			$type = sanitize_text_field( $atts['type'] );
+		}
 
-				if ( isset( $atts['category'] ) && ! empty( $atts['category'] ) ) {
-					$category = sanitize_text_field( $atts['category'] );
-				}
+		if ( isset( $atts['category'] ) && ! empty( $atts['category'] ) ) {
+			$category = sanitize_text_field( $atts['category'] );
+		}
 
-				if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
-					$event = sanitize_text_field( $atts['event'] );
-				} elseif ( is_archive() ) {
-					$term = get_queried_object();
-					if ( 'event' === $term->taxonomy ) {
-						$event = $term->slug;
-					}
-				}
+		if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
+			$event = sanitize_text_field( $atts['event'] );
+		} elseif ( is_archive() ) {
+			$term = get_queried_object();
+			if ( 'event' === $term->taxonomy ) {
+				$event = $term->slug;
+			}
+		}
 
-				if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
-					$cols = absint( $atts['cols'] );
-				}
+		if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
+			$cols = absint( $atts['cols'] );
+		}
 
-				if ( isset( $atts['description'] ) && ! empty( $atts['description'] ) ) {
-					$description = filter_var( $atts['description'], FILTER_VALIDATE_BOOLEAN );
-				}
+		if ( isset( $atts['description'] ) && ! empty( $atts['description'] ) ) {
+			$description = filter_var( $atts['description'], FILTER_VALIDATE_BOOLEAN );
+		}
 
-				if ( isset( $atts['name'] ) && ! empty( $atts['name'] ) ) {
-					$name = filter_var( $atts['name'], FILTER_VALIDATE_BOOLEAN );
-				}
+		if ( isset( $atts['name'] ) && ! empty( $atts['name'] ) ) {
+			$name = filter_var( $atts['name'], FILTER_VALIDATE_BOOLEAN );
+		}
 
-				if ( isset( $atts['align'] ) && ! empty( $atts['align'] ) ) {
-					$align = sanitize_text_field( $atts['align'] );
-				}
+		if ( isset( $atts['align'] ) && ! empty( $atts['align'] ) ) {
+			$align = sanitize_text_field( $atts['align'] );
+		}
 
-				switch ( $align ) {
-					case 'center':
-						$style .= 'justify-content: center;';
-						break;
-					case 'left':
-						$style .= 'justify-content: flex-start;';
-						break;
-					case 'right':
-						$style .= 'justify-content: flex-end;';
-						break;
-				}
+		switch ( $align ) {
+			case 'center':
+				$style .= 'justify-content: center;';
+				break;
+			case 'left':
+				$style .= 'justify-content: flex-start;';
+				break;
+			case 'right':
+				$style .= 'justify-content: flex-end;';
+				break;
+		}
 
 				// Quit early if not found.
-				if ( ! $type ) {
-					return __( 'Nothing found.', 'sympose' );
-				}
+		if ( ! $type ) {
+			return __( 'Nothing found.', 'sympose' );
+		}
 
-				if ( 'schedule' === $type ) {
-					return $this->render_schedule( $event, $atts );
-				}
+		if ( 'schedule' === $type ) {
+			return $this->render_schedule( $event, $atts );
+		}
 
-				if ( $event ) :
-					$tax_query[] = array(
-						'taxonomy' => 'event',
-						'terms'    => $event,
-						'field'    => 'slug',
-						'operator' => 'IN',
-					);
-				endif;
+		if ( $event ) {
+			$tax_query[] = array(
+				'taxonomy' => 'event',
+				'terms'    => $event,
+				'field'    => 'slug',
+				'operator' => 'IN',
+			);
+		}
 
-				$term_children = false;
+		$term_children = false;
 
-				// Get main category specified from $category.
-				$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
-				if ( $mainterm ) {
-					// Check if main category has children.
-					$term_children = get_terms(
+		// Get main category specified from $category.
+		$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
+		if ( $mainterm ) {
+			// Check if main category has children.
+			$term_children = get_terms(
+				array(
+					'taxonomy'   => $type . '-category',
+					'orderby'    => 'meta_value_num',
+					'parent'     => $mainterm->term_id,
+					'order'      => 'ASC',
+					'meta_query' => array(
 						array(
-							'taxonomy'   => $type . '-category',
-							'orderby'    => 'meta_value_num',
-							'parent'     => $mainterm->term_id,
-							'order'      => 'ASC',
-							'meta_query' => array(
-								array(
-									'key'  => $this->prefix . 'sort_id',
-									'type' => 'NUMERIC',
-								),
-							),
+							'key'  => $this->prefix . 'sort_id',
+							'type' => 'NUMERIC',
+						),
+					),
+				)
+			);
+		}
+
+		if ( $term_children ) {
+			foreach ( $term_children as $term ) {
+				$tax_query['category'] = false;
+				if ( count( $tax_query ) > 0 ) {
+					$tax_query['relation'] = 'AND';
+				}
+
+				$tax_query['category'] = array(
+					'taxonomy' => $type . '-category',
+					'terms'    => $term->term_id,
+				);
+
+				$posts = get_posts(
+					array(
+						'post_type'   => $type,
+						'tax_query'   => $tax_query,
+						'numberposts' => - 1,
+						'orderby'     => 'menu_order',
+					)
+				);
+
+				echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
+				echo '<span class="title">' . esc_html( $term->name ) . '</span>';
+				echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+				foreach ( $posts as $post ) {
+					// phpcs:disable
+					echo $this->render_item(
+						$post->ID,
+						array(
+							'size' => esc_attr( $post->post_type . '-medium' ),
+							'name' => false,
+							'desc' => esc_html( $description ),
 						)
 					);
+					// phpcs:enable
 				}
-
-				if ( $term_children ) {
-					foreach ( $term_children as $term ) :
-						$tax_query['category'] = false;
-						if ( count( $tax_query ) > 0 ) {
-							$tax_query['relation'] = 'AND';
-						}
-
-						$tax_query['category'] = array(
-							'taxonomy' => $type . '-category',
-							'terms'    => $term->term_id,
-						);
-
-						$posts = get_posts(
-							array(
-								'post_type'   => $type,
-								'tax_query'   => $tax_query,
-								'numberposts' => - 1,
-								'orderby'     => 'menu_order',
-							)
-						);
-
-						echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-						echo '<span class="title">' . esc_html( $term->name ) . '</span>';
-						echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-						foreach ( $posts as $post ) :
-							// phpcs:disable
-							echo $this->render_item(
-								$post->ID,
-								array(
-									'size' => esc_attr( $post->post_type . '-medium' ),
-									'name' => false,
-									'desc' => esc_html( $description ),
-								)
-							);
-							// phpcs:enable
-						endforeach;
-						echo '</div>';
-						echo '</div>';
-
-					endforeach;
-
-				} else {
-					if ( $mainterm ) {
-						if ( count( $tax_query ) > 0 ) {
-							$tax_query['relation'] = 'AND';
-						}
-
-						$tax_query[] = array(
-							'taxonomy' => $type . '-category',
-							'terms'    => $mainterm->term_id,
-						);
-					}
-
-					$posts = get_posts(
-						array(
-							'post_type'   => $type,
-							'tax_query'   => $tax_query,
-							'numberposts' => - 1,
-							'orderby'     => 'menu_order',
-							'order'       => 'ASC',
-						)
-					);
-
-					if ( ! $posts ) {
-						return esc_html__( 'Nothing found', 'sympose' );
-					}
-
-					echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-					echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-					foreach ( $posts as $post ) {
-						// phpcs:disable
-						echo $this->render_item(
-							$post->ID,
-							array(
-								'name' => true,
-								'size' => esc_attr( $post->post_type . '-medium' ),
-								'desc' => esc_html( $description ),
-								'name' => esc_attr( $name ),
-							)
-						);
-						// phpcs:enable
-					}
-					echo '</div>';
-					echo '</div>';
-
-				}
-
-				return ob_get_clean();
+				echo '</div>';
+				echo '</div>';
 
 			}
-		);
+		} else {
+			if ( $mainterm ) {
+				if ( count( $tax_query ) > 0 ) {
+					$tax_query['relation'] = 'AND';
+				}
+
+				$tax_query[] = array(
+					'taxonomy' => $type . '-category',
+					'terms'    => $mainterm->term_id,
+				);
+			}
+
+			$posts = get_posts(
+				array(
+					'post_type'   => $type,
+					'tax_query'   => $tax_query,
+					'numberposts' => - 1,
+					'orderby'     => 'menu_order',
+					'order'       => 'ASC',
+				)
+			);
+
+			if ( ! $posts ) {
+				return esc_html__( 'Nothing found', 'sympose' );
+			}
+
+			echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
+			echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+			foreach ( $posts as $post ) {
+				// phpcs:disable
+				echo $this->render_item(
+					$post->ID,
+					array(
+						'name' => true,
+						'size' => esc_attr( $post->post_type . '-medium' ),
+						'desc' => esc_html( $description ),
+						'name' => esc_attr( $name ),
+					)
+				);
+				// phpcs:enable
+			}
+			echo '</div>';
+			echo '</div>';
+
+		}
+
+		return ob_get_clean();
 
 	}
 
@@ -382,10 +377,10 @@ class Sympose_Public {
 			}
 		}
 
-		if ( $args['image'] ) :
+		if ( $args['image'] ) {
 			$img_id  = sympose_get_image( $post );
 			$output .= $this->render_image( $img_id, $args['size'], $post_type );
-		endif;
+		}
 
 		if ( $args['name'] || isset( $args['name_or_image'] ) && $args['name_or_image'] ) {
 			$output .= '<span class="title">' . $post->post_title . '</span>';
@@ -518,7 +513,7 @@ class Sympose_Public {
 	 *
 	 * @return string return the schedule for the event.
 	 */
-	public function render_schedule( $event, $atts, $show_edit_link = true ) {
+	public function render_schedule( $event = '', $atts = array(), $show_edit_link = true ) {
 
 		$settings = array(
 			'show_people'        => 'false',
@@ -625,9 +620,13 @@ class Sympose_Public {
 				if ( current_user_can( 'manage_options' ) ) {
 					$settings['rows'] = $settings['rows'] + 1;
 				}
-				echo '<tr class="title-column">
-                        <th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>
-                    </tr>';
+				if ( isset( $settings['hide_title'] ) && 'true' === $settings['hide_title'] ) {
+					$settings['rows'] = $settings['rows'] - 1;
+				} else {
+					echo '<tr class="title-column">
+							<th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>
+						</tr>';
+				}
 			}
 
 			// Get sessions for day.
