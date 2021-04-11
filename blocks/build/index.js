@@ -97,21 +97,26 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../index.js */ "./src/index.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../index.js */ "./src/index.js");
 
 // src/index.js
-var registerBlockType = wp.blocks.registerBlockType;
 
 
 
 
-registerBlockType('sympose/list', {
+
+
+Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sympose/list', {
   title: 'Sympose List',
   icon: 'list-view',
   category: 'sympose',
@@ -136,10 +141,10 @@ registerBlockType('sympose/list', {
   edit: function edit(props) {
     var categoryList = [];
     categoryList.push({
-      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Select a category'),
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select a category'),
       value: 'all'
     });
-    wp.apiFetch({
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
       path: '/wp/v2/' + props.attributes.type + '-category?parent=0'
     }).then(function (data) {
       data.map(function (item) {
@@ -147,7 +152,7 @@ registerBlockType('sympose/list', {
           label: item.name,
           value: item.slug
         });
-        wp.apiFetch({
+        _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
           path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id
         }).then(function (children) {
           children.map(function (child) {
@@ -159,7 +164,7 @@ registerBlockType('sympose/list', {
         });
       });
     });
-    var List = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["withState"])({
+    var List = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({
       size: '50%'
     })(function (_ref) {
       var size = _ref.size,
@@ -168,15 +173,15 @@ registerBlockType('sympose/list', {
         className: "sympose-block sympose-list"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
         className: "logo"
-      }, _index_js__WEBPACK_IMPORTED_MODULE_4__["Icon"]), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      }, _index_js__WEBPACK_IMPORTED_MODULE_6__["Icon"]), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
         className: "title"
-      }, "Sympose List"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["SelectControl"], {
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Post Type'),
+      }, "Sympose List"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Post Type'),
         options: [{
-          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('People'),
+          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('People'),
           'value': 'person'
         }, {
-          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Organisations'),
+          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Organisations'),
           'value': 'organisation'
         }],
         value: props.attributes.type,
@@ -185,8 +190,8 @@ registerBlockType('sympose/list', {
             type: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["SelectControl"], {
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Category'),
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Category'),
         options: categoryList,
         value: props.attributes.category,
         onChange: function onChange(value) {
@@ -194,16 +199,16 @@ registerBlockType('sympose/list', {
             category: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["SelectControl"], {
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Alignment'),
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Alignment'),
         options: [{
-          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Left'),
+          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Left'),
           'value': 'left'
         }, {
-          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Center'),
+          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Center'),
           'value': 'center'
         }, {
-          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Right'),
+          'label': Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Right'),
           'value': 'right'
         }],
         value: props.attributes.align,
@@ -212,7 +217,7 @@ registerBlockType('sympose/list', {
             align: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["CheckboxControl"], {
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
         label: "Show name",
         checked: props.attributes.name,
         onChange: function onChange(value) {
@@ -242,16 +247,21 @@ registerBlockType('sympose/list', {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../index.js */ "./src/index.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../index.js */ "./src/index.js");
 
 // src/index.js
-var registerBlockType = wp.blocks.registerBlockType;
+
+
 
 
 
@@ -259,10 +269,10 @@ var registerBlockType = wp.blocks.registerBlockType;
 
 var eventList = [];
 eventList.push({
-  label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Select an event'),
+  label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select an event'),
   value: 'all'
 });
-wp.apiFetch({
+_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
   path: '/wp/v2/event?parent=0'
 }).then(function (data) {
   data.map(function (item) {
@@ -270,7 +280,7 @@ wp.apiFetch({
       label: item.name,
       value: item.slug
     });
-    wp.apiFetch({
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
       path: '/wp/v2/event?parent=' + item.id
     }).then(function (children) {
       children.map(function (child) {
@@ -282,7 +292,7 @@ wp.apiFetch({
     });
   });
 });
-registerBlockType('sympose/schedule', {
+Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sympose/schedule', {
   title: 'Sympose Schedule',
   icon: 'calendar-alt',
   category: 'sympose',
@@ -309,7 +319,7 @@ registerBlockType('sympose/schedule', {
     }
   },
   edit: function edit(props) {
-    var Schedule = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["withState"])({
+    var Schedule = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({
       size: '50%'
     })(function (_ref) {
       var size = _ref.size,
@@ -318,10 +328,10 @@ registerBlockType('sympose/schedule', {
         className: "sympose-block sympose-schedule-block"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
         className: "logo"
-      }, _index_js__WEBPACK_IMPORTED_MODULE_4__["Icon"]), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      }, _index_js__WEBPACK_IMPORTED_MODULE_6__["Icon"]), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
         className: "title"
-      }, "Sympose Schedule"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["SelectControl"], {
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Select an event'),
+      }, "Sympose Schedule"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select an event'),
         options: eventList,
         value: props.attributes.event,
         onChange: function onChange(value) {
@@ -329,7 +339,7 @@ registerBlockType('sympose/schedule', {
             event: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["CheckboxControl"], {
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
         label: "Show people",
         checked: props.attributes.show_people,
         onChange: function onChange(value) {
@@ -337,7 +347,7 @@ registerBlockType('sympose/schedule', {
             show_people: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["CheckboxControl"], {
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
         label: "Show organisations",
         checked: props.attributes.show_organisations,
         onChange: function onChange(value) {
@@ -345,7 +355,7 @@ registerBlockType('sympose/schedule', {
             show_organisations: value
           });
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["CheckboxControl"], {
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
         label: "Hide schedule title",
         checked: props.attributes.hide_title,
         onChange: function onChange(value) {
@@ -391,6 +401,28 @@ var Icon = wp.element.createElement('svg', {
     icon: Icon
   });
 })();
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blocks"]; }());
 
 /***/ }),
 
