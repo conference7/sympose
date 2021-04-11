@@ -128,7 +128,6 @@ class Sympose {
 		add_action( 'widgets_init', array( $this, 'register_widgets' ), 20, 1 );
 
 		new Sympose_Social_Media( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
-		new Sympose_Divi( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 
 	}
 
