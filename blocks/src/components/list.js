@@ -1,8 +1,9 @@
 // src/index.js
-const { registerBlockType } = wp.blocks;
+import { registerBlockType } from '@wordpress/blocks';
 import { SelectControl, CheckboxControl } from '@wordpress/components';
 import { withState } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
 import { Icon } from './../index.js'
 
 registerBlockType('sympose/list', {
@@ -31,10 +32,10 @@ registerBlockType('sympose/list', {
 
         let categoryList = [];
         categoryList.push({ label: __('Select a category'), value: 'all' });
-        wp.apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=0' }).then(data => {
+        apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=0' }).then(data => {
             data.map((item) => {
                 categoryList.push({ label: item.name, value: item.slug });
-                wp.apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id }).then(children => {
+                apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id }).then(children => {
                     children.map((child) => {
                         categoryList.push({ label: '-- ' + child.name, value: child.slug });
                     });
