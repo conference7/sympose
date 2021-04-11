@@ -113,7 +113,6 @@ class Sympose_Social_Media {
 	 */
 	public function add_widget_content() {
 		$social_media = get_post_meta( get_the_ID(), '_sympose_social_media', true );
-		var_dump( $social_media );
 		if ( $social_media ) {
 			?>
 			<div class="social-media">
