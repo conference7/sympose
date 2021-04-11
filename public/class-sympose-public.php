@@ -121,9 +121,13 @@ class Sympose_Public {
 		$user_id = get_current_user_id();
 
 		if ( ! property_exists( $params, 'saved_sessions' ) ) {
+			$user_sessions = get_user_meta( $user_id, $this->prefix . 'saved_sessions', true );
+			if ( empty( $user_sessions ) || ! is_array( $user_sessions ) ) {
+				$user_sessions = array();
+			}
 			return array(
 				'status' => 200,
-				'data'   => get_user_meta( $user_id, $this->prefix . 'saved_sessions', true ),
+				'data'   => $user_sessions,
 			);
 		}
 

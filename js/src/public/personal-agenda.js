@@ -13,17 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (localSavedSessions !== null) {
                 localSavedSessions = JSON.parse(localSavedSessions);
-                localSavedSessions.map((local_event) => {
-                    savedSessions.map((event) => {
-                        if (event.id === local_event.id) {
-                            local_event.sessions.map((sessionID) => {
-                                if (!event.sessions.includes(sessionID)) {
-                                    event.sessions.push(sessionID);
-                                }
-                            })
-                        }
-                    })
-                });
+                if (localSavedSessions.length > 0) {
+                    localSavedSessions.map((local_event) => {
+                        savedSessions.map((event) => {
+                            if (event.id === local_event.id) {
+                                local_event.sessions.map((sessionID) => {
+                                    if (!event.sessions.includes(sessionID)) {
+                                        event.sessions.push(sessionID);
+                                    }
+                                })
+                            }
+                        })
+                    });
+                }
             }
 
             localStorage.setItem('_sympose_saved_sessions', JSON.stringify(savedSessions));
@@ -42,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
             savedSessions = [];
         } else {
             savedSessions = JSON.parse(savedSessions);
+            if (savedSessions === null || savedSessions === '') {
+                savedSessions = [];
+            }
         }
 
         // Check local storage, add session favorites.
