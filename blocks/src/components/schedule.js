@@ -29,7 +29,7 @@ registerBlockType('sympose/schedule', {
             type: 'string',
             default: 'all'
         },
-        read_more: {
+        show_read_more: {
             type: 'boolean',
             default: true
         },
@@ -48,9 +48,7 @@ registerBlockType('sympose/schedule', {
     },
     edit(props) {
 
-        const Schedule = withState({
-            size: '50%',
-        })(({ size, setState }) => (
+        const Schedule = withState({})(({ size, setState }) => (
 
             <div className="sympose-block sympose-schedule-block">
                 <div className="logo">{Icon}</div>
@@ -78,6 +76,12 @@ registerBlockType('sympose/schedule', {
                     label="Hide schedule title"
                     checked={props.attributes.hide_title}
                     onChange={(value) => props.setAttributes({ hide_title: value })}
+                />
+
+                <CheckboxControl
+                    label="Show read more"
+                    checked={props.attributes.show_read_more}
+                    onChange={(value) => props.setAttributes({ show_read_more: value })}
                 />
             </div>
         ));

@@ -580,6 +580,7 @@ class Sympose_Public {
 			'show_organisations'     => 'false',
 			'enable_personal_agenda' => 'false',
 			'rows'                   => 6,
+			'show_read_more'         => 'true',
 		);
 
 		$show_people            = sympose_get_option( 'show_people_on_schedule' );
@@ -665,6 +666,10 @@ class Sympose_Public {
 
 		// Influence amount of rows.
 		if ( 'true' !== $settings['show_organisations'] ) {
+			$settings['rows'] = $settings['rows'] - 1;
+		}
+
+		if ( 'true' !== $settings['show_read_more'] ) {
 			$settings['rows'] = $settings['rows'] - 1;
 		}
 
@@ -891,14 +896,15 @@ class Sympose_Public {
 		if ( 'true' === $settings['show_organisations'] ) {
 			$row .= '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
 		}
-		$row      .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
-		$read_more = '<td class="sympose-read-more">';
-		if ( ! $static_session ) {
-			$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+		if ( 'true' === $settings['show_read_more'] ) {
+			$row      .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
+			$read_more = '<td class="sympose-read-more">';
+			if ( ! $static_session ) {
+				$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+			}
+			$read_more .= '</td>';
+			$row       .= apply_filters( 'sympose_schedule_read_more', $read_more );
 		}
-		$read_more .= '</td>';
-
-		$row .= apply_filters( 'sympose_schedule_read_more', $read_more );
 
 		if ( 'true' === $settings['enable_personal_agenda'] ) {
 			$row .= '<td class="session-saved" data-state="' . ( true === $session_saved ? 'on' : 'off' ) . '"><div class="inner">' . $this->stars . '</div></td>';

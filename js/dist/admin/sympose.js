@@ -95,8 +95,7 @@ jQuery(document).ready(function ($) {
       processData: false,
       contentType: false,
       data: formData,
-      success: function success(data) {
-        console.log(data);
+      success: function success(data) {//
       }
     });
   }); // Save on every field change

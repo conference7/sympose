@@ -301,7 +301,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
       type: 'string',
       default: 'all'
     },
-    read_more: {
+    show_read_more: {
       type: 'boolean',
       default: true
     },
@@ -319,9 +319,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
     }
   },
   edit: function edit(props) {
-    var Schedule = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({
-      size: '50%'
-    })(function (_ref) {
+    var Schedule = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({})(function (_ref) {
       var size = _ref.size,
           setState = _ref.setState;
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -361,6 +359,14 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
         onChange: function onChange(value) {
           return props.setAttributes({
             hide_title: value
+          });
+        }
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
+        label: "Show read more",
+        checked: props.attributes.show_read_more,
+        onChange: function onChange(value) {
+          return props.setAttributes({
+            show_read_more: value
           });
         }
       }));
