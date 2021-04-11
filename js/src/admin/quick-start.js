@@ -117,7 +117,7 @@ jQuery(document).ready(function ($) {
             contentType: false,
             data: formData,
             success: function (data) {
-                console.log(data)
+                //
             }
         })
     });
