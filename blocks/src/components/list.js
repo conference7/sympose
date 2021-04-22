@@ -19,6 +19,9 @@ registerBlockType('sympose/list', {
             type: 'string',
             default: 'all'
         },
+        categories: {
+            type: 'object'
+        },
         align: {
             type: 'string',
             default: 'left'
@@ -29,21 +32,28 @@ registerBlockType('sympose/list', {
         },
     },
     edit(props) {
-
-        let categoryList = [];
-        categoryList.push({ label: __('Select a category'), value: 'all' });
-        apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=0' }).then(data => {
-            data.map((item) => {
-                categoryList.push({ label: item.name, value: item.slug });
-                apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id }).then(children => {
-                    children.map((child) => {
-                        categoryList.push({ label: '-- ' + child.name, value: child.slug });
-                    });
-                })
+        if (!props.attributes.categories) {
+            let categoryList = [];
+            categoryList.push({ label: __('Select a category'), value: 'all' });
+            apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=0' }).then(data => {
+                data.map((item) => {
+                    categoryList.push({ label: item.name, value: item.slug });
+                    apiFetch({ path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id }).then(children => {
+                        children.map((child) => {
+                            categoryList.push({ label: '-- ' + child.name, value: child.slug });
+                        });
+                    })
+                });
+                props.setAttributes(
+                    {
+                        categories: categoryList
+                    }
+                )
             });
-        });
+        }
 
         const List = withState({})(({ size, setState }) => (
+
 
             <div className="sympose-block sympose-list">
                 <div className="logo">{Icon}</div>
@@ -65,7 +75,7 @@ registerBlockType('sympose/list', {
                 />
                 <SelectControl
                     label={__('Category')}
-                    options={categoryList}
+                    options={props.attributes.categories}
                     value={props.attributes.category}
                     onChange={(value) => props.setAttributes({ category: value })}
                 />

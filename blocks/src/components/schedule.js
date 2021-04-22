@@ -7,19 +7,6 @@ import { CheckboxControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { Icon } from './../index.js'
 
-let eventList = [];
-eventList.push({ label: __('Select an event'), value: 'all' });
-apiFetch({ path: '/wp/v2/event?parent=0' }).then(data => {
-    data.map((item) => {
-        eventList.push({ label: item.name, value: item.slug });
-        apiFetch({ path: '/wp/v2/event?parent=' + item.id }).then(children => {
-            children.map((child) => {
-                eventList.push({ label: '-- ' + child.name, value: child.slug });
-            });
-        })
-    });
-});
-
 registerBlockType('sympose/schedule', {
     title: 'Sympose Schedule',
     icon: 'calendar-alt',
@@ -28,6 +15,9 @@ registerBlockType('sympose/schedule', {
         event: {
             type: 'string',
             default: 'all'
+        },
+        events: {
+            type: 'object'
         },
         show_read_more: {
             type: 'boolean',
@@ -48,6 +38,27 @@ registerBlockType('sympose/schedule', {
     },
     edit(props) {
 
+        if (!props.attributes.events) {
+            let eventList = [];
+            eventList.push({ label: __('Select an event'), value: 'all' });
+            apiFetch({ path: '/wp/v2/event?parent=0' }).then(data => {
+                data.map((item) => {
+                    eventList.push({ label: item.name, value: item.slug });
+                    apiFetch({ path: '/wp/v2/event?parent=' + item.id }).then(children => {
+                        children.map((child) => {
+                            eventList.push({ label: '-- ' + child.name, value: child.slug });
+                        });
+                    })
+                });
+
+                props.setAttributes(
+                    {
+                        events: eventList
+                    }
+                )
+            });
+        }
+
         const Schedule = withState({})(({ size, setState }) => (
 
             <div className="sympose-block sympose-schedule-block">
@@ -55,7 +66,7 @@ registerBlockType('sympose/schedule', {
                 <p className="title">Sympose Schedule</p>
                 <SelectControl
                     label={__('Select an event')}
-                    options={eventList}
+                    options={props.attributes.events}
                     value={props.attributes.event}
                     onChange={(value) => props.setAttributes({ event: value })}
                 />
