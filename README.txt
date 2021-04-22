@@ -91,7 +91,7 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 * Integrates the Sympose Social Media plugin extension in the main plugin
 * Allows event archive pages and automatically sets event for sympose schedule shortcode/block
 * Prevent overriding sidebar on non single pages.
-
+* Added hooks 'sympose_before_schedule_title' and 'sympose_after_schedule_title'
 
 *Technical notes*
 * Deployment to the WordPress repository is now done with Github actions.
