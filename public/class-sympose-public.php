@@ -673,6 +673,10 @@ class Sympose_Public {
 			$settings['rows'] = $settings['rows'] - 1;
 		}
 
+		if ( 'true' !== $settings['enable_personal_agenda'] ) {
+			$settings['rows'] = $settings['rows'] + 1;
+		}
+
 		if ( ! $show_edit_link ) {
 			$settings['rows'] = $settings['rows'] - 1;
 		} else {
@@ -884,34 +888,37 @@ class Sympose_Public {
 			$link_end   = '</a>';
 		}
 
-		$row = '<tr class="' . implode( ' ', $classes ) . '" data-id="' . $post->ID . '">';
+		ob_start();
+
+		//phpcs:disable
+		echo '<tr class="' . implode( ' ', sanitize_html_class( $classes ) ) . '" data-id="' . esc_attr( $post->ID ) . '">';
 		if ( current_user_can( 'manage_options' ) && $show_edit_link ) {
-			$row .= '<td class="edit-link"><a href="' . get_edit_post_link( $post->ID ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
+			echo '<td class="edit-link"><a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
-		$row .= '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
-		$row .= '<td class="title">' . apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end ) . '</td>';
+		echo '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
+		echo '<td class="title">' . apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end ) . '</td>';
 		if ( 'true' === $settings['show_people'] ) {
-			$row .= '<td class="people"><div class="inner">' . $people_html . '</div></td>';
+			echo '<td class="people"><div class="inner">' . $people_html . '</div></td>';
 		}
 		if ( 'true' === $settings['show_organisations'] ) {
-			$row .= '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
+			echo '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
 		}
+		echo apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
 		if ( 'true' === $settings['show_read_more'] ) {
-			$row      .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
 			$read_more = '<td class="sympose-read-more">';
 			if ( ! $static_session ) {
 				$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
 			}
 			$read_more .= '</td>';
-			$row       .= apply_filters( 'sympose_schedule_read_more', $read_more );
+			echo apply_filters( 'sympose_schedule_read_more', $read_more );
 		}
 
 		if ( 'true' === $settings['enable_personal_agenda'] ) {
-			$row .= '<td class="session-saved" data-state="' . ( true === $session_saved ? 'on' : 'off' ) . '"><div class="inner">' . $this->stars . '</div></td>';
+			echo '<td class="session-saved" data-state="' . ( true === $session_saved ? 'on' : 'off' ) . '"><div class="inner">' . $this->stars . '</div></td>';
 		}
-		$row .= '</tr>';
+		echo '</tr>';
 
-		// phpcs:disable
+		$row = ob_get_clean();
 		echo apply_filters( 'sympose_schedule_row', $row, $post->ID );
 		// phpcs:enable
 
