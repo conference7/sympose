@@ -56,8 +56,11 @@ function run_sympose() {
 	$plugin = new Sympose();
 	$blocks = new Sympose_Blocks();
 
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true && defined( 'WP_LOCAL_DEV' ) && WP_LOCAL_DEV === true ) {
-		new Sympose_Debug();
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true && defined( 'WP_LOCAL_DEV' ) ) {
+		$local_dev = filter_var( WP_LOCAL_DEV, FILTER_VALIDATE_BOOLEAN );
+		if ( true === $local_dev ) {
+			new Sympose_Debug();
+		}
 	}
 
 }
