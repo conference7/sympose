@@ -896,7 +896,11 @@ class Sympose_Public {
 			echo '<td class="edit-link"><a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
 		echo '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
-		echo '<td class="title">' . apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end ) . '</td>';
+		echo '<td class="title">';
+		do_action('sympose_before_schedule_title', $post);
+		echo apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end );
+		do_action('sympose_after_schedule_title', $post);
+		echo '</td>';
 		if ( 'true' === $settings['show_people'] ) {
 			echo '<td class="people"><div class="inner">' . $people_html . '</div></td>';
 		}
