@@ -129,6 +129,9 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
       type: 'string',
       default: 'all'
     },
+    categories: {
+      type: 'object'
+    },
     align: {
       type: 'string',
       default: 'left'
@@ -139,31 +142,37 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
     }
   },
   edit: function edit(props) {
-    var categoryList = [];
-    categoryList.push({
-      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select a category'),
-      value: 'all'
-    });
-    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
-      path: '/wp/v2/' + props.attributes.type + '-category?parent=0'
-    }).then(function (data) {
-      data.map(function (item) {
-        categoryList.push({
-          label: item.name,
-          value: item.slug
-        });
-        _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
-          path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id
-        }).then(function (children) {
-          children.map(function (child) {
-            categoryList.push({
-              label: '-- ' + child.name,
-              value: child.slug
+    if (!props.attributes.categories) {
+      var categoryList = [];
+      categoryList.push({
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select a category'),
+        value: 'all'
+      });
+      _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
+        path: '/wp/v2/' + props.attributes.type + '-category?parent=0'
+      }).then(function (data) {
+        data.map(function (item) {
+          categoryList.push({
+            label: item.name,
+            value: item.slug
+          });
+          _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
+            path: '/wp/v2/' + props.attributes.type + '-category?parent=' + item.id
+          }).then(function (children) {
+            children.map(function (child) {
+              categoryList.push({
+                label: '-- ' + child.name,
+                value: child.slug
+              });
             });
           });
         });
+        props.setAttributes({
+          categories: categoryList
+        });
       });
-    });
+    }
+
     var List = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({})(function (_ref) {
       var size = _ref.size,
           setState = _ref.setState;
@@ -190,7 +199,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
         }
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Category'),
-        options: categoryList,
+        options: props.attributes.categories,
         value: props.attributes.category,
         onChange: function onChange(value) {
           return props.setAttributes({
@@ -265,31 +274,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var eventList = [];
-eventList.push({
-  label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select an event'),
-  value: 'all'
-});
-_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
-  path: '/wp/v2/event?parent=0'
-}).then(function (data) {
-  data.map(function (item) {
-    eventList.push({
-      label: item.name,
-      value: item.slug
-    });
-    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
-      path: '/wp/v2/event?parent=' + item.id
-    }).then(function (children) {
-      children.map(function (child) {
-        eventList.push({
-          label: '-- ' + child.name,
-          value: child.slug
-        });
-      });
-    });
-  });
-});
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sympose/schedule', {
   title: 'Sympose Schedule',
   icon: 'calendar-alt',
@@ -298,6 +282,9 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
     event: {
       type: 'string',
       default: 'all'
+    },
+    events: {
+      type: 'object'
     },
     show_read_more: {
       type: 'boolean',
@@ -317,6 +304,37 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
     }
   },
   edit: function edit(props) {
+    if (!props.attributes.events) {
+      var eventList = [];
+      eventList.push({
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select an event'),
+        value: 'all'
+      });
+      _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
+        path: '/wp/v2/event?parent=0'
+      }).then(function (data) {
+        data.map(function (item) {
+          eventList.push({
+            label: item.name,
+            value: item.slug
+          });
+          _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
+            path: '/wp/v2/event?parent=' + item.id
+          }).then(function (children) {
+            children.map(function (child) {
+              eventList.push({
+                label: '-- ' + child.name,
+                value: child.slug
+              });
+            });
+          });
+        });
+        props.setAttributes({
+          events: eventList
+        });
+      });
+    }
+
     var Schedule = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["withState"])({})(function (_ref) {
       var size = _ref.size,
           setState = _ref.setState;
@@ -328,7 +346,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('sym
         className: "title"
       }, "Sympose Schedule"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Select an event'),
-        options: eventList,
+        options: props.attributes.events,
         value: props.attributes.event,
         onChange: function onChange(value) {
           return props.setAttributes({
