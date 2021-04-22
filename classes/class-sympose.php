@@ -112,7 +112,6 @@ class Sympose {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		new Sympose_Public( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 
 	}
@@ -128,6 +127,7 @@ class Sympose {
 		add_action( 'widgets_init', array( $this, 'register_widgets' ), 20, 1 );
 
 		new Sympose_Social_Media( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+		new Sympose_Compatibility( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 
 	}
 
