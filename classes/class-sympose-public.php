@@ -957,13 +957,6 @@ class Sympose_Public {
 	}
 
 	/**
-	 * Render result
-	 */
-	public function render_result() {
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/' . $this->sympose . '-item-list.php';
-	}
-
-	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
