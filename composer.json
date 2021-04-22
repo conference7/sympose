@@ -26,10 +26,7 @@
     "prefer-stable": true,
     "autoload": {
 		"classmap": [
-            "classes/",
-            "public/",
-            "admin/",
-            "debug/"
+            "classes/"
 		]
 	},
     "scripts": {
