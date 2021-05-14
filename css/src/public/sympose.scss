@@ -1,6 +1,7 @@
 @import '../base/colors';
 @import 'lib/extensions';
 @import 'lib/schedule';
+@import 'lib/personal-agenda';
 
 table.sympose-schedule {
   width: 100%;
@@ -71,6 +72,7 @@ table.sympose-schedule {
   width: 100%;
   display: flex;
   .list-inner {
+    width: 100%;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;

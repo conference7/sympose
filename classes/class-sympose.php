@@ -44,7 +44,7 @@ class Sympose {
 	 * @access   protected
 	 * @var      string $version Current version
 	 */
-	protected $version;
+	public $version;
 
 	/**
 	 * Core
@@ -61,23 +61,10 @@ class Sympose {
 		$this->sympose = 'sympose';
 		$this->prefix  = '_sympose_';
 
-		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
-	}
-
-	/**
-	 * Load dependencies
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function load_dependencies() {
-
-		// Widgets.
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/widgets/class-sympose-session-information.php';
+		$this->define_hooks();
 
 	}
 
@@ -88,10 +75,22 @@ class Sympose {
 	 * @access   private
 	 */
 	private function set_locale() {
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		$plugin_i18n = new Sympose_I18n();
+	}
 
-		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
+	/**
+	 * Load the text domain
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_plugin_textdomain() {
+
+		load_plugin_textdomain(
+			'sympose',
+			false,
+			basename( dirname( dirname( __FILE__ ) ) ) . '/languages'
+		);
 
 	}
 
@@ -103,7 +102,7 @@ class Sympose {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Sympose_Admin( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+		new Sympose_Admin( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 	}
 
 	/**
@@ -113,9 +112,33 @@ class Sympose {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
+		new Sympose_Public( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 
-		$plugin_public = new Sympose_Public( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+	}
 
+	/**
+	 * General hooks
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_hooks() {
+		// Register widgets.
+		add_action( 'widgets_init', array( $this, 'register_widgets' ), 20, 1 );
+
+		new Sympose_Social_Media( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+		new Sympose_Compatibility( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+		new Sympose_Migrations( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+
+	}
+
+	/**
+	 * Register Sympose Widgets
+	 */
+	public function register_widgets() {
+		register_widget( 'Sympose_Widget_Profile' );
+		register_widget( 'Sympose_Session_Information' );
+		register_widget( 'Sympose_Session_Participants' );
 	}
 
 	/**

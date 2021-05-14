@@ -30,11 +30,11 @@ jQuery(document).ready(function ($) {
             var formData = new FormData(document.querySelector('form#sympose-quick-start'));
 
             $.ajax({
-                url: wpApiSettings.root+'sympose/v1/quick_start_event',
+                url: wpApiSettings.root + 'sympose/v1/quick_start_event',
                 method: 'POST',
                 processData: false,
                 contentType: false,
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     $('form#sympose-quick-start .spinner').addClass('is-active');
                     xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
                 },
@@ -45,14 +45,14 @@ jQuery(document).ready(function ($) {
                     $('.notice', form.parent()).remove();
 
                     if (data.status === 400) {
-                        form.parent().prepend('<div class="notice notice-error is-dismissible"> <p>'+data.message+'</p> </div>');
+                        form.parent().prepend('<div class="notice notice-error is-dismissible"> <p>' + data.message + '</p> </div>');
                     } else {
-                        form.parent().prepend('<div class="notice notice-success is-dismissible"> <p>'+data.message+'</p> </div>');
+                        form.parent().prepend('<div class="notice notice-success is-dismissible"> <p>' + data.message + '</p> </div>');
 
                         // Clean
                         $('form#sympose-quick-start table tr[data-type=clone], form#sympose-quick-start table tr[data-type=first]').remove();
 
-                        $('form#sympose-quick-start .content .block table').map(function(key, val) {
+                        $('form#sympose-quick-start .content .block table').map(function (key, val) {
                             if ($('tr[data-type=first]', this).length < 1) {
                                 addRow(val, 'first', false);
                             }
@@ -76,21 +76,21 @@ jQuery(document).ready(function ($) {
     });
 
     // Initally go through every table and add a row
-    $('form#sympose-quick-start .content .block table').map(function(key, val) {
+    $('form#sympose-quick-start .content .block table').map(function (key, val) {
         if ($('tr[data-type=first]', this).length < 1) {
             addRow(val, 'first', false);
         }
     });
 
     // On click new row
-    $('form#sympose-quick-start .content').on('click', '.block table a[data-action="add"]', function(e) {
+    $('form#sympose-quick-start .content').on('click', '.block table a[data-action="add"]', function (e) {
         e.preventDefault();
         var table = $(this).closest('table');
         addRow(table, 'clone', true);
     });
 
     // On tab
-    $('form#sympose-quick-start').on('keyup', function(e) {
+    $('form#sympose-quick-start').on('keyup', function (e) {
         if ($(e.target).parents('tr').is(':last-child') && e.which == '9' && $(e.target).parents('td').is(':last-child')) {
             if (!e.shiftKey) {
                 var table = $(e.target).closest('table');
@@ -100,7 +100,7 @@ jQuery(document).ready(function ($) {
     });
 
     // Delete
-    $('form#sympose-quick-start .content .block table').on('click', 'a[data-action="delete"]', function(e) {
+    $('form#sympose-quick-start .content .block table').on('click', 'a[data-action="delete"]', function (e) {
         e.preventDefault();
         $(this).closest('tr').remove();
 
@@ -108,36 +108,36 @@ jQuery(document).ready(function ($) {
         formData.append('save_data', 'yes');
 
         $.ajax({
-            url: wpApiSettings.root+'sympose/v1/quick_start_event',
-            beforeSend: function(xhr) {
+            url: wpApiSettings.root + 'sympose/v1/quick_start_event',
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
             },
             method: 'POST',
             processData: false,
             contentType: false,
             data: formData,
-            success: function(data) {
-                console.log(data)
+            success: function (data) {
+                //
             }
         })
     });
 
     // Save on every field change
-    $('form#sympose-quick-start').on('change', function(e) {
+    $('form#sympose-quick-start').on('change', function (e) {
         var formData = new FormData(document.querySelector('form#sympose-quick-start'));
 
         formData.append('save_data', 'yes');
 
         $.ajax({
-            url: wpApiSettings.root+'sympose/v1/quick_start_event',
-            beforeSend: function(xhr) {
+            url: wpApiSettings.root + 'sympose/v1/quick_start_event',
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
             },
             method: 'POST',
             processData: false,
             contentType: false,
             data: formData,
-            success: function(data) {
+            success: function (data) {
                 // TODO: Show data saved message.
             }
         })
@@ -158,7 +158,7 @@ function addRow(table, type, focus) {
 
     var clonedElem = elem.clone().attr('data-type', type).attr('data-id', newRow);
 
-    let fields  = jQuery('input, select', clonedElem);
+    let fields = jQuery('input, select', clonedElem);
     fields.map((key, field) => {
         jQuery(field).attr('name', jQuery(field).attr('name').replace('row', newRow));
     })
@@ -189,7 +189,7 @@ function refreshPage(step) {
 
     // Focus on first input
 
-    jQuery('form#sympose-quick-start .block[data-id='+step+'] input:visible').first().focus();
+    jQuery('form#sympose-quick-start .block[data-id=' + step + '] input:visible').first().focus();
 }
 
 // Update schedule with people/organisations
@@ -212,7 +212,7 @@ function updateSchedule() {
     for (i = 1; i <= days; i++) {
 
         // Check if exists
-        let tableExists = jQuery('form#sympose-quick-start table.schedule[data-id='+i+']');
+        let tableExists = jQuery('form#sympose-quick-start table.schedule[data-id=' + i + ']');
 
         // If it doesn't exist..
         if (tableExists.length < 1) {
@@ -225,7 +225,7 @@ function updateSchedule() {
             jQuery('.title', clone).text(jQuery('.title', clone).text() + ' ' + i);
 
             // Update names
-            let fields  = jQuery('input, select', clone);
+            let fields = jQuery('input, select', clone);
             fields.map((key, field) => {
                 jQuery(field).attr('name', jQuery(field).attr('name').replace('initial', i));
             })
@@ -239,19 +239,19 @@ function updateSchedule() {
 
     selectElements.map((key, elem) => {
         // Populate field.
-        let elems = jQuery('tr:not([data-type=initial]) input[name="'+elem.dataset.type+'[]"]');
+        let elems = jQuery('tr:not([data-type=initial]) input[name="' + elem.dataset.type + '[]"]');
 
         let options = '';
 
         jQuery('option:first-child', elem).map((key, elem) => {
-            options += '<option value="0">'+elem.textContent+'</option>';
+            options += '<option value="0">' + elem.textContent + '</option>';
         });
 
         elems.map((key, item) => {
             key++;
             let name = jQuery(item).val();
             if (name) {
-                options += '<option value="'+key+'">'+name+'</option>';
+                options += '<option value="' + key + '">' + name + '</option>';
             }
         })
         jQuery(elem).html(options);

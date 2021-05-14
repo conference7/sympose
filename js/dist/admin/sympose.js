@@ -1,5 +1,32 @@
 "use strict";
 
+document.addEventListener('DOMContentLoaded', function () {
+  var startMigrationButton = document.querySelector('a[data-action="sympose-start-migration"]');
+
+  if (startMigrationButton !== null) {
+    startMigrationButton.addEventListener('click', function () {
+      startMigrationButton.nextElementSibling.classList.add('is-active');
+      startMigrationButton.setAttribute('disabled', true);
+      var url = wpApiSettings.root + 'sympose/v1/migrate';
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          version: startMigrationButton.dataset.version
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (result) {
+        if (result.status === 200) {
+          startMigrationButton.nextElementSibling.classList.remove('is-active');
+          startMigrationButton.setAttribute('disabled', false);
+          startMigrationButton.innerHTML = 'Done!';
+        }
+      });
+    });
+  }
+});
+"use strict";
+
 jQuery(document).ready(function ($) {
   refreshPage();
   var form = $('form#sympose-quick-start'); // Next step
@@ -95,8 +122,7 @@ jQuery(document).ready(function ($) {
       processData: false,
       contentType: false,
       data: formData,
-      success: function success(data) {
-        console.log(data);
+      success: function success(data) {//
       }
     });
   }); // Save on every field change

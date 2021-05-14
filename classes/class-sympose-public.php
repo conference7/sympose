@@ -73,12 +73,72 @@ class Sympose_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Shortcode.
-		add_action( 'init', array( $this, 'shortcodes' ) );
+		add_shortcode( 'sympose', array( $this, 'shortcodes' ) );
+
+		// Register REST.
+		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 
 		// Add related info to content.
 		add_filter( 'the_content', array( $this, 'add_content' ) );
 
 		add_filter( 'sidebars_widgets', array( $this, 'change_sidebars' ) );
+	}
+
+	/**
+	 * Register REST Endpoints
+	 */
+	public function register_rest_routes() {
+		register_rest_route(
+			'sympose/v1',
+			'/update_agenda_sessions/',
+			array(
+				'methods'             => array( 'GET', 'POST' ),
+				'callback'            => array( $this, 'update_agenda_sessions' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * REST Endpoint for updating agenda sessions
+	 * Used for both localStorage as user meta
+	 *
+	 * @param object $request The POST or GET request.
+	 *
+	 * @return string An array with status and result.
+	 * @since       1.3.3
+	 */
+	public function update_agenda_sessions( $request ) {
+
+		if ( ! is_user_logged_in() ) {
+			return array(
+				'status' => 401,
+				'data'   => array(),
+			);
+		}
+
+		$params  = json_decode( $request->get_body() );
+		$user_id = get_current_user_id();
+
+		if ( ! property_exists( $params, 'saved_sessions' ) ) {
+			$user_sessions = get_user_meta( $user_id, $this->prefix . 'saved_sessions', true );
+			if ( empty( $user_sessions ) || ! is_array( $user_sessions ) ) {
+				$user_sessions = array();
+			}
+			return array(
+				'status' => 200,
+				'data'   => $user_sessions,
+			);
+		}
+
+		$saved_sessions = $params->saved_sessions;
+
+		update_user_meta( $user_id, $this->prefix . 'saved_sessions', $saved_sessions );
+
+		return array(
+			'status' => 200,
+			'data'   => $saved_sessions,
+		);
 	}
 
 	/**
@@ -118,199 +178,199 @@ class Sympose_Public {
 	/**
 	 * Register shortcodes
 	 *
+	 * @param array $atts An array of arguments.
+	 *
 	 * @since       1.0.0
 	 */
-	public function shortcodes() {
-		add_shortcode(
-			'sympose',
-			function ( $atts ) {
+	public function shortcodes( $atts ) {
 
-				$type        = false;
-				$category    = false;
-				$event       = false;
-				$description = false;
-				$name        = false;
-				$align       = false;
+		$type        = false;
+		$category    = false;
+		$event       = false;
+		$description = false;
+		$name        = false;
+		$align       = false;
 
-				$style = '';
+		$style = '';
 
-				$tax_query = array();
+		$tax_query = array();
 
-				$list_classes = '';
+		$list_classes = '';
 
-				ob_start();
+		ob_start();
 
-				if ( isset( $atts['type'] ) && ! empty( $atts['type'] ) ) {
-					$type = sanitize_text_field( $atts['type'] );
-				}
+		if ( isset( $atts['type'] ) && ! empty( $atts['type'] ) ) {
+			$type = sanitize_text_field( $atts['type'] );
+		}
 
-				if ( isset( $atts['category'] ) && ! empty( $atts['category'] ) ) {
-					$category = sanitize_text_field( $atts['category'] );
-				}
+		if ( isset( $atts['category'] ) && ! empty( $atts['category'] ) ) {
+			$category = sanitize_text_field( $atts['category'] );
+		}
 
-				if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
-					$event = sanitize_text_field( $atts['event'] );
-				}
+		if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
+			$event = sanitize_text_field( $atts['event'] );
+		} elseif ( is_archive() ) {
+			$term = get_queried_object();
+			if ( 'event' === $term->taxonomy ) {
+				$event = $term->slug;
+			}
+		}
 
-				if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
-					$cols = absint( $atts['cols'] );
-				}
+		if ( isset( $atts['cols'] ) && ! empty( $atts['cols'] ) ) {
+			$cols = absint( $atts['cols'] );
+		}
 
-				if ( isset( $atts['description'] ) && ! empty( $atts['description'] ) ) {
-					$description = filter_var( $atts['description'], FILTER_VALIDATE_BOOLEAN );
-				}
+		if ( isset( $atts['description'] ) && ! empty( $atts['description'] ) ) {
+			$description = filter_var( $atts['description'], FILTER_VALIDATE_BOOLEAN );
+		}
 
-				if ( isset( $atts['name'] ) && ! empty( $atts['name'] ) ) {
-					$name = filter_var( $atts['name'], FILTER_VALIDATE_BOOLEAN );
-				}
+		if ( isset( $atts['name'] ) && ! empty( $atts['name'] ) ) {
+			$name = filter_var( $atts['name'], FILTER_VALIDATE_BOOLEAN );
+		}
 
-				if ( isset( $atts['align'] ) && ! empty( $atts['align'] ) ) {
-					$align = sanitize_text_field( $atts['align'] );
-				}
+		if ( isset( $atts['align'] ) && ! empty( $atts['align'] ) ) {
+			$align = sanitize_text_field( $atts['align'] );
+		}
 
-				switch ( $align ) {
-					case 'center':
-						$style .= 'justify-content: center;';
-						break;
-					case 'left':
-						$style .= 'justify-content: flex-start;';
-						break;
-					case 'right':
-						$style .= 'justify-content: flex-end;';
-						break;
-				}
+		switch ( $align ) {
+			case 'center':
+				$style .= 'justify-content: center;';
+				break;
+			case 'left':
+				$style .= 'justify-content: flex-start;';
+				break;
+			case 'right':
+				$style .= 'justify-content: flex-end;';
+				break;
+		}
 
 				// Quit early if not found.
-				if ( ! $type ) {
-					return __( 'Nothing found.', 'sympose' );
-				}
+		if ( ! $type ) {
+			return __( 'Nothing found.', 'sympose' );
+		}
 
-				if ( 'schedule' === $type ) {
-					return $this->render_schedule( $event, $atts );
-				}
+		if ( 'schedule' === $type ) {
+			return $this->render_schedule( $event, $atts );
+		}
 
-				if ( $event ) :
-					$tax_query[] = array(
-						'taxonomy' => 'event',
-						'terms'    => $event,
-						'field'    => 'slug',
-						'operator' => 'IN',
-					);
-				endif;
+		if ( $event ) {
+			$tax_query[] = array(
+				'taxonomy' => 'event',
+				'terms'    => $event,
+				'field'    => 'slug',
+				'operator' => 'IN',
+			);
+		}
 
-				$term_children = false;
+		$term_children = false;
 
-				// Get main category specified from $category.
-				$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
-				if ( $mainterm ) {
-					// Check if main category has children.
-					$term_children = get_terms(
+		// Get main category specified from $category.
+		$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
+		if ( $mainterm ) {
+			// Check if main category has children.
+			$term_children = get_terms(
+				array(
+					'taxonomy'   => $type . '-category',
+					'orderby'    => 'meta_value_num',
+					'parent'     => $mainterm->term_id,
+					'order'      => 'ASC',
+					'meta_query' => array(
 						array(
-							'taxonomy'   => $type . '-category',
-							'orderby'    => 'meta_value_num',
-							'parent'     => $mainterm->term_id,
-							'order'      => 'ASC',
-							'meta_query' => array(
-								array(
-									'key'  => $this->prefix . 'sort_id',
-									'type' => 'NUMERIC',
-								),
-							),
+							'key'  => $this->prefix . 'sort_id',
+							'type' => 'NUMERIC',
+						),
+					),
+				)
+			);
+		}
+
+		if ( $term_children ) {
+			foreach ( $term_children as $term ) {
+				$tax_query['category'] = false;
+				if ( count( $tax_query ) > 0 ) {
+					$tax_query['relation'] = 'AND';
+				}
+
+				$tax_query['category'] = array(
+					'taxonomy' => $type . '-category',
+					'terms'    => $term->term_id,
+				);
+
+				$posts = get_posts(
+					array(
+						'post_type'   => $type,
+						'tax_query'   => $tax_query,
+						'numberposts' => - 1,
+						'orderby'     => 'menu_order',
+					)
+				);
+
+				echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
+				echo '<span class="title">' . esc_html( $term->name ) . '</span>';
+				echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+				foreach ( $posts as $post ) {
+					// phpcs:disable
+					echo $this->render_item(
+						$post->ID,
+						array(
+							'size' => esc_attr( $post->post_type . '-medium' ),
+							'name' => false,
+							'desc' => esc_html( $description ),
 						)
 					);
+					// phpcs:enable
 				}
-
-				if ( $term_children ) {
-					foreach ( $term_children as $term ) :
-						$tax_query['category'] = false;
-						if ( count( $tax_query ) > 0 ) {
-							$tax_query['relation'] = 'AND';
-						}
-
-						$tax_query['category'] = array(
-							'taxonomy' => $type . '-category',
-							'terms'    => $term->term_id,
-						);
-
-						$posts = get_posts(
-							array(
-								'post_type'   => $type,
-								'tax_query'   => $tax_query,
-								'numberposts' => - 1,
-								'orderby'     => 'menu_order',
-							)
-						);
-
-						echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-						echo '<span class="title">' . esc_html( $term->name ) . '</span>';
-						echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-						foreach ( $posts as $post ) :
-							// phpcs:disable
-							echo $this->render_item(
-								$post->ID,
-								array(
-									'size' => esc_attr( $post->post_type . '-medium' ),
-									'name' => false,
-									'desc' => esc_html( $description ),
-								)
-							);
-							// phpcs:enable
-						endforeach;
-						echo '</div>';
-						echo '</div>';
-
-					endforeach;
-
-				} else {
-					if ( $mainterm ) {
-						if ( count( $tax_query ) > 0 ) {
-							$tax_query['relation'] = 'AND';
-						}
-
-						$tax_query[] = array(
-							'taxonomy' => $type . '-category',
-							'terms'    => $mainterm->term_id,
-						);
-					}
-
-					$posts = get_posts(
-						array(
-							'post_type'   => $type,
-							'tax_query'   => $tax_query,
-							'numberposts' => - 1,
-							'orderby'     => 'menu_order',
-							'order'       => 'ASC',
-						)
-					);
-
-					if ( ! $posts ) {
-						return esc_html__( 'Nothing found', 'sympose' );
-					}
-
-					echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-					echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-					foreach ( $posts as $post ) {
-						// phpcs:disable
-						echo $this->render_item(
-							$post->ID,
-							array(
-								'name' => true,
-								'size' => esc_attr( $post->post_type . '-medium' ),
-								'desc' => esc_html( $description ),
-								'name' => esc_attr( $name ),
-							)
-						);
-						// phpcs:enable
-					}
-					echo '</div>';
-					echo '</div>';
-
-				}
-
-				return ob_get_clean();
+				echo '</div>';
+				echo '</div>';
 
 			}
-		);
+		} else {
+			if ( $mainterm ) {
+				if ( count( $tax_query ) > 0 ) {
+					$tax_query['relation'] = 'AND';
+				}
+
+				$tax_query[] = array(
+					'taxonomy' => $type . '-category',
+					'terms'    => $mainterm->term_id,
+				);
+			}
+
+			$posts = get_posts(
+				array(
+					'post_type'   => $type,
+					'tax_query'   => $tax_query,
+					'numberposts' => - 1,
+					'orderby'     => 'menu_order',
+					'order'       => 'ASC',
+				)
+			);
+
+			if ( ! $posts ) {
+				return esc_html__( 'Nothing found', 'sympose' );
+			}
+
+			echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
+			echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+			foreach ( $posts as $post ) {
+				// phpcs:disable
+				echo $this->render_item(
+					$post->ID,
+					array(
+						'name' => true,
+						'size' => esc_attr( $post->post_type . '-medium' ),
+						'desc' => esc_html( $description ),
+						'name' => esc_attr( $name ),
+					)
+				);
+				// phpcs:enable
+			}
+			echo '</div>';
+			echo '</div>';
+
+		}
+
+		return ob_get_clean();
 
 	}
 
@@ -377,10 +437,10 @@ class Sympose_Public {
 			}
 		}
 
-		if ( $args['image'] ) :
+		if ( $args['image'] ) {
 			$img_id  = sympose_get_image( $post );
 			$output .= $this->render_image( $img_id, $args['size'], $post_type );
-		endif;
+		}
 
 		if ( $args['name'] || isset( $args['name_or_image'] ) && $args['name_or_image'] ) {
 			$output .= '<span class="title">' . $post->post_title . '</span>';
@@ -513,16 +573,21 @@ class Sympose_Public {
 	 *
 	 * @return string return the schedule for the event.
 	 */
-	public function render_schedule( $event, $atts, $show_edit_link = true ) {
+	public function render_schedule( $event = '', $atts = array(), $show_edit_link = true ) {
 
 		$settings = array(
-			'show_people'        => 'false',
-			'show_organisations' => 'false',
-			'rows'               => 5,
+			'show_people'            => 'false',
+			'show_organisations'     => 'false',
+			'enable_personal_agenda' => 'false',
+			'rows'                   => 6,
+			'show_read_more'         => 'true',
 		);
 
-		$show_people        = sympose_get_option( 'show_people_on_schedule' );
-		$show_organisations = sympose_get_option( 'show_organisations_on_schedule' );
+		$show_people            = sympose_get_option( 'show_people_on_schedule' );
+		$show_organisations     = sympose_get_option( 'show_organisations_on_schedule' );
+		$enable_personal_agenda = sympose_get_option( 'enable_personal_agenda' );
+
+		$this->stars = apply_filters( 'sympose_customize_favorite_stars', '<div class="stars"><div class="star" data-state="on"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div><div class="star" data-state="off"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg></div>' );
 
 		if ( 'on' === $show_people ) {
 			$settings['show_people'] = 'true';
@@ -530,6 +595,10 @@ class Sympose_Public {
 
 		if ( 'on' === $show_organisations ) {
 			$settings['show_organisations'] = 'true';
+		}
+
+		if ( 'on' === $enable_personal_agenda ) {
+			$settings['enable_personal_agenda'] = 'true';
 		}
 
 		$settings = array_merge( $settings, $atts );
@@ -600,15 +669,45 @@ class Sympose_Public {
 			$settings['rows'] = $settings['rows'] - 1;
 		}
 
+		if ( 'true' !== $settings['show_read_more'] ) {
+			$settings['rows'] = $settings['rows'] - 1;
+		}
+
+		if ( 'true' !== $settings['enable_personal_agenda'] ) {
+			$settings['rows'] = $settings['rows'] + 1;
+		}
+
+		if ( ! $show_edit_link ) {
+			$settings['rows'] = $settings['rows'] - 1;
+		} else {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$settings['rows'] = $settings['rows'] - 1;
+			}
+		}
+
 		$settings = apply_filters( 'sympose_schedule_settings', $settings, $event );
 
 		ob_start();
 
 		// @todo - Add filters.
-		echo '<table class="sympose-schedule">';
+		echo '<div class="sympose-schedule">';
 
 		// Build up schedule per day.
 		foreach ( $terms as $term ) {
+
+			if ( is_user_logged_in() ) {
+				$saved_sessions = get_user_meta( get_current_user_id(), $this->prefix . 'saved_sessions', true );
+
+				if ( isset( $saved_sessions->{$term->term_id} ) && ! empty( $saved_sessions->{$term->term_id} ) ) {
+					$event_sessions = $saved_sessions->{$term->term_id};
+				} else {
+					$event_sessions = array();
+				}
+			} else {
+				$event_sessions = array();
+			}
+
+			echo '<table class="sympose-schedule event" data-id="' . absint( $term->term_id ) . '" data-stars-hidden="0" data-show-favorites=false>';
 
 			$description = '';
 
@@ -617,12 +716,14 @@ class Sympose_Public {
 			}
 
 			if ( 0 !== $term->parent ) {
-				if ( current_user_can( 'manage_options' ) ) {
-					$settings['rows'] = $settings['rows'] + 1;
+				if ( ! isset( $settings['hide_title'] ) || 'true' !== $settings['hide_title'] ) {
+					echo '<tr class="title-column">';
+					echo '<th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>';
+					// phpcs:disable
+					echo ( $enable_personal_agenda === 'on' ) ? '<th colspan="1"><div class="saved-sessions-control" data-state="hidden">' . $this->stars . '</div></th>' : '';
+					// phpcs:enable
+					echo '</tr>';
 				}
-				echo '<tr class="title-column">
-                        <th colspan="' . ( esc_attr( $settings['rows'] ) ) . '"><h3><span>' . esc_html( $term->name ) . '</span>' . esc_html( $description ) . '</h3></th>
-                    </tr>';
 			}
 
 			// Get sessions for day.
@@ -644,13 +745,15 @@ class Sympose_Public {
 
 			// Display sessions.
 			foreach ( $posts as $post ) {
-				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link );
+				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link, in_array( $post->ID, $event_sessions, true ) );
 			}
+
+			echo '<tfoot></tfoot>';
+
+			echo '</table>';
 		}
 
-		echo '<tfoot></tfoot>';
-
-		echo '</table>';
+		echo '</div>';
 
 		$output = ob_get_clean();
 
@@ -666,8 +769,9 @@ class Sympose_Public {
 	 * @param object  $term The term object.
 	 * @param array   $args An array of arguments.
 	 * @param boolean $show_edit_link To hide or show the edit link in the row.
+	 * @param boolean $session_saved The saved state of the session.
 	 */
-	public function render_schedule_row( $post, $settings, $term, $args = array(), $show_edit_link ) {
+	public function render_schedule_row( $post, $settings, $term, $args = array(), $show_edit_link, $session_saved ) {
 
 		$defaults = array(
 			'show_time'   => true,
@@ -681,6 +785,10 @@ class Sympose_Public {
 		$classes       = array();
 
 		$classes[] = 'session-row';
+
+		if ( $session_saved ) {
+			$classes[] = 'is-favorite';
+		}
 
 		$classes = array_merge( $classes, $args['row_classes'] );
 
@@ -760,15 +868,14 @@ class Sympose_Public {
 		}
 
 		if ( is_array( $organisations ) ) {
+			$organisations_html = '<div class="sym-list">';
 			foreach ( $organisations as $id ) {
-				$image = sympose_get_image( get_post( $id ) );
-				if ( $image ) {
-					$organisations_html .= $this->render_item(
-						$id,
-						$organisation_args
-					);
-				}
+				$organisations_html .= $this->render_item(
+					$id,
+					$organisation_args
+				);
 			}
+			$organisations_html .= '</div>';
 		}
 
 		$time = $start_time . ' - ' . $end_time;
@@ -781,27 +888,41 @@ class Sympose_Public {
 			$link_end   = '</a>';
 		}
 
-		$row = '<tr class="' . implode( ' ', $classes ) . '">';
+		ob_start();
+
+		//phpcs:disable
+		echo '<tr class="' . implode( ' ', sanitize_html_class( $classes ) ) . '" data-id="' . esc_attr( $post->ID ) . '">';
 		if ( current_user_can( 'manage_options' ) && $show_edit_link ) {
-			$row .= '<td class="edit-link"><a href="' . get_edit_post_link( $post->ID ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
+			echo '<td class="edit-link"><a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
-		$row .= '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
-		$row .= '<td class="title">' . $link_start . $post->post_title . $link_end . '</td>';
+		echo '<td class="time">' . ( $args['show_time'] ? $link_start . $time . $link_end : '' ) . '</td>';
+		echo '<td class="title">';
+		do_action('sympose_before_schedule_title', $post);
+		echo apply_filters( 'sympose_schedule_title', $link_start . $post->post_title . $link_end, $post->ID, $link_start, $post->post_title, $link_end );
+		do_action('sympose_after_schedule_title', $post);
+		echo '</td>';
 		if ( 'true' === $settings['show_people'] ) {
-			$row .= '<td class="people"><div class="inner">' . $people_html . '</div></td>';
+			echo '<td class="people"><div class="inner">' . $people_html . '</div></td>';
 		}
 		if ( 'true' === $settings['show_organisations'] ) {
-			$row .= '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
+			echo '<td class="organisations"><div class="inner">' . $organisations_html . '</div></td>';
 		}
-		$row .= apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
-		$row .= '<td class="sympose-read-more">';
-		if ( ! $static_session ) {
-			$row .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+		echo apply_filters( 'sympose_schedule_row_before_read_more', '', $post->ID );
+		if ( 'true' === $settings['show_read_more'] ) {
+			$read_more = '<td class="sympose-read-more">';
+			if ( ! $static_session ) {
+				$read_more .= $link_start . __( 'Read more »', 'sympose' ) . $link_end;
+			}
+			$read_more .= '</td>';
+			echo apply_filters( 'sympose_schedule_read_more', $read_more );
 		}
-		$row .= '</td>';
-		$row .= '</tr>';
 
-		// phpcs:disable
+		if ( 'true' === $settings['enable_personal_agenda'] ) {
+			echo '<td class="session-saved" data-state="' . ( true === $session_saved ? 'on' : 'off' ) . '"><div class="inner">' . $this->stars . '</div></td>';
+		}
+		echo '</tr>';
+
+		$row = ob_get_clean();
 		echo apply_filters( 'sympose_schedule_row', $row, $post->ID );
 		// phpcs:enable
 
@@ -829,16 +950,10 @@ class Sympose_Public {
 				$settings,
 				$term,
 				$args,
-				$show_edit_link
+				$show_edit_link,
+				$session_saved
 			);
 		}
-	}
-
-	/**
-	 * Render result
-	 */
-	public function render_result() {
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/' . $this->sympose . '-item-list.php';
 	}
 
 	/**
@@ -858,7 +973,7 @@ class Sympose_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->sympose, plugin_dir_url( dirname( __FILE__ ) ) . 'js/dist/public/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->sympose, plugin_dir_url( dirname( __FILE__ ) ) . 'js/dist/public/sympose.' . ( ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? 'min.' : '' ) . 'js', array( 'jquery', 'wp-api' ), $this->version, false );
 	}
 
 	/**
@@ -887,7 +1002,7 @@ class Sympose_Public {
 
 			$post_type = get_post_type( get_the_ID() );
 
-			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) ) {
+			if ( in_array( $post_type, array( 'session', 'person', 'organisation' ), true ) && is_single() ) {
 
 				$default_sidebar    = sympose_get_option( 'default_sidebar' );
 				$overwrite_sidebars = sympose_get_option( 'overwrite_sidebars' );

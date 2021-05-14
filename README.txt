@@ -6,7 +6,7 @@ Requires at least: 3.0.1
 Tested up to: 5.5.1
 Stable tag: trunk
 Requires PHP: 5.4
-Stable tag: 1.3.2
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,20 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 [Extensions](https://sympose.net/extensions/?utm_source=wordpress-plugin-page) are available for download on the link below: [https://sympose.net/extensions/](https://sympose.net/extensions/?utm_source=wordpress-plugin-page)
 
 == Changelog ==
+
+= 1.4.0 =
+* Introduces personal agenda / agenda favorites
+* Introduces block editor (Gutenberg) blocks
+* Integrates the Sympose Session People and Sympose Session Organisations extensions into the main plugin
+* Integrates the Sympose Session Profile and Sympose Session Profile extensions into the main plugin
+* Integrates the Sympose Social Media plugin extension in the main plugin
+* Allows event archive pages and automatically sets event for sympose schedule shortcode/block
+* Prevent overriding sidebar on non single pages.
+* Added hooks 'sympose_before_schedule_title' and 'sympose_after_schedule_title'
+
+*Technical notes*
+* Deployment to the WordPress repository is now done with Github actions.
+* Reformatting
 
 = 1.3.2 =
 * Fixes the "No results found" issue when searching for sessions in the dashboard.
