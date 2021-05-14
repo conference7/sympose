@@ -23,20 +23,6 @@ class Sympose_Session_Participants extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct( false, 'Sympose Session Participants' );
-		add_action( 'admin_notices', array( $this, 'plugin_notice' ) );
-	}
-
-	/**
-	 * Show a notice when the deprecated plugin is active.
-	 */
-	public function plugin_notice() {
-		if ( is_plugin_active( 'sympose-session-people/sympose-session-people.php' ) || is_plugin_active( 'sympose-session-organisations/sympose-session-organisations.php' ) ) {
-			$class = 'notice notice-error is-dismissible';
-			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s%4$s and re-evaluate your setup.', 'sympose' ), SYMPOSE_VERSION, 'people & organisations session widget', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Session People & Sympose Session Organisations' );
-			// phpcs:ignore
-			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
-		}
 	}
 
 	/**
@@ -62,7 +48,7 @@ class Sympose_Session_Participants extends WP_Widget {
 		echo $args['before_widget'];
 
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$type  = (isset($instance['type']) ? $instance['type'] : 'person');
+		$type  = (isset($instance['type']) ? $instance['type'] : 'people');
 
 		if ( isset( $instance['title'] ) && ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
@@ -132,8 +118,8 @@ class Sympose_Session_Participants extends WP_Widget {
 			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>">Post Type:
 				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"
 					name="<?php echo esc_attr( $this->get_field_name( 'type' ) ); ?>">
-					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisation</option>
-					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>Person</option>
+					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisations</option>
+					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>People</option>
 				</select>
 			</label>
 		</p>

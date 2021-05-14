@@ -360,6 +360,40 @@ class Sympose_Admin {
 				},
 			)
 		);
+		register_rest_route(
+			'sympose/v1',
+			'/migrate',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'migrate' ),
+			)
+		);
+	}
+
+	/**
+	 * Migration actions
+	 *
+	 * @param object $request The request object.
+	 *
+	 * @since 1.4.0
+	 */
+	public function migrate( $request ) {
+		$output = array(
+			'status' => 200,
+			'data'   => '',
+		);
+
+		$body = $request->get_body();
+		$data = json_decode( $body );
+
+		if ( property_exists( $data, 'version' ) ) {
+			// Only keep numbers.
+			$version = preg_replace( '/\D/', '', $data->version );
+
+			Sympose_Migrations::migrate_to( $version );
+		}
+
+		return $output;
 	}
 
 	/**
@@ -1284,7 +1318,7 @@ class Sympose_Admin {
 					?>
 					<div class="cmb-row">
 						<div class="cmb-th">
-							<label for="_sympose_settings_create_pages">Generate sample content</label>
+							<label for="_sympose_settings_create_pages"><?php _esc_html_e( 'Generate Sample Data', 'sympose' ); ?></label>
 						</div>
 						<div class="cmb-td">
 							<p class="sympose-generate-sample-data">
