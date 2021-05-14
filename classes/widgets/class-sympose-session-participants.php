@@ -23,20 +23,6 @@ class Sympose_Session_Participants extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct( false, 'Sympose Session Participants' );
-		add_action( 'admin_notices', array( $this, 'plugin_notice' ) );
-	}
-
-	/**
-	 * Show a notice when the deprecated plugin is active.
-	 */
-	public function plugin_notice() {
-		if ( is_plugin_active( 'sympose-session-people/sympose-session-people.php' ) || is_plugin_active( 'sympose-session-organisations/sympose-session-organisations.php' ) ) {
-			$class = 'notice notice-error is-dismissible';
-			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			$message = sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable %5$s%4$s and re-evaluate your setup.', 'sympose' ), SYMPOSE_VERSION, 'people & organisations session widget', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>', 'Sympose Session People & Sympose Session Organisations' );
-			// phpcs:ignore
-			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
-		}
 	}
 
 	/**

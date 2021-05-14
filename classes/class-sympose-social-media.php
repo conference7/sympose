@@ -39,18 +39,6 @@ class Sympose_Social_Media {
 		add_action( 'sympose_register_general_custom_fields', array( $this, 'register_fields' ) );
 		add_filter( 'sympose_organisation_after_content', array( $this, 'profile_after_content' ), 10, 2 );
 		add_action( 'sympose_widget_profile_extend', array( $this, 'add_widget_content' ) );
-		add_action( 'admin_notices', array( $this, 'plugin_notice' ) );
-	}
-
-	/**
-	 * Show a notice when the deprecated plugin is active.
-	 */
-	public function plugin_notice() {
-		if ( is_plugin_active( 'sympose-social-media/sympose-social-media.php' ) ) {
-			$class = 'notice notice-error is-dismissible';
-			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), sprintf( esc_html__( 'Sympose %1$s has integrated %2$s functionality. To prevent interference, please %3$sdisable the plugin%4$s.', 'sympose' ), esc_html( $this->version ), 'Social Media', '<a href="' . esc_url( admin_url() . 'plugins.php' ) . '">', '</a>' ) );
-		}
 	}
 
 	/**
