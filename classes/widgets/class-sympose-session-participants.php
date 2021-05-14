@@ -105,7 +105,7 @@ class Sympose_Session_Participants extends WP_Widget {
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title    = $instance['title'];
-		$type     = ( isset( $instance['type'] ) ? $instance['type'] : 'person' );
+		$type     = ( isset( $instance['type'] ) ? $instance['type'] : 'people' );
 		?>
 		<p><i><?php esc_html_e( 'Shows the people/organisations linked to the session.', 'sympose' ); ?></i></p>
 		<?php do_action( "sympose_widget_{$this->id_base}_content" ); ?>
@@ -118,8 +118,8 @@ class Sympose_Session_Participants extends WP_Widget {
 			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>">Post Type:
 				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"
 					name="<?php echo esc_attr( $this->get_field_name( 'type' ) ); ?>">
-					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisations</option>
-					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>People</option>
+					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisations' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisations</option>
+					<option value="people" <?php echo ( ( isset( $type ) && ( 'people' === $type ) ) ? ' selected="selected"' : '' ); ?>>People</option>
 				</select>
 			</label>
 		</p>
