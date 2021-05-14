@@ -48,7 +48,7 @@ class Sympose_Session_Participants extends WP_Widget {
 		echo $args['before_widget'];
 
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$type  = (isset($instance['type']) ? $instance['type'] : 'person');
+		$type  = (isset($instance['type']) ? $instance['type'] : 'people');
 
 		if ( isset( $instance['title'] ) && ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
@@ -118,8 +118,8 @@ class Sympose_Session_Participants extends WP_Widget {
 			<label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>">Post Type:
 				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"
 					name="<?php echo esc_attr( $this->get_field_name( 'type' ) ); ?>">
-					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisation</option>
-					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>Person</option>
+					<option value="organisations" <?php echo ( ( isset( $type ) && ( 'organisation' === $type ) ) ? ' selected="selected"' : '' ); ?>>Organisations</option>
+					<option value="people" <?php echo ( ( isset( $type ) && ( 'person' === $type ) ) ? ' selected="selected"' : '' ); ?>>People</option>
 				</select>
 			</label>
 		</p>
