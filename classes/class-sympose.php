@@ -128,6 +128,7 @@ class Sympose {
 
 		new Sympose_Social_Media( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 		new Sympose_Compatibility( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
+		new Sympose_Migrations( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 
 	}
 
