@@ -1318,7 +1318,7 @@ class Sympose_Admin {
 					?>
 					<div class="cmb-row">
 						<div class="cmb-th">
-							<label for="_sympose_settings_create_pages"><?php _esc_html_e( 'Generate Sample Data', 'sympose' ); ?></label>
+							<label for="_sympose_settings_create_pages"><?php esc_html_e( 'Generate Sample Data', 'sympose' ); ?></label>
 						</div>
 						<div class="cmb-td">
 							<p class="sympose-generate-sample-data">
