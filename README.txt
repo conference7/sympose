@@ -3,10 +3,10 @@ Contributors: mklasen
 Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
-Tested up to: 5.5.1
+Tested up to: 5.7.2
 Stable tag: trunk
 Requires PHP: 5.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 [Extensions](https://sympose.net/extensions/?utm_source=wordpress-plugin-page) are available for download on the link below: [https://sympose.net/extensions/](https://sympose.net/extensions/?utm_source=wordpress-plugin-page)
 
 == Changelog ==
+
+= 1.4.1 =
+* Quick fix for missing blocks styling.
 
 = 1.4.0 =
 * Introduces personal agenda / agenda favorites
