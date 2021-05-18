@@ -18,7 +18,7 @@ Sympose by [Conference7](https://conference7.com) makes it easy to share knowled
 
 **Ready to start sharing knowledge?**
 
-Check out the demo at [https://demo.conference7.com](https://demo.conference7.com).
+Check out the demo at [https://sympose.net/sympose-demo](https://sympose.net/sympose-demo).
 
 
 **Sympose Quick Start**
