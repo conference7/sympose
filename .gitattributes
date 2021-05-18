@@ -27,3 +27,5 @@
 /.DS_Store export-ignore
 /composer.json export-ignore
 /composer.lock export-ignore
+/output.log export-ignore
+/docker_tag export-ignore

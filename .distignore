@@ -19,3 +19,5 @@ README.md
 .DS_Store
 composer.json
 composer.lock
+output.log
+docker_tag
