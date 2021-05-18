@@ -7,8 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
             startMigrationButton.setAttribute('disabled', true);
 
             let url = wpApiSettings.root + 'sympose/v1/migrate';
+            let headers = {
+                'X-WP-Nonce': wpApiSettings.nonce,
+            };
             fetch(url, {
                 method: "POST",
+                headers: headers,
                 body: JSON.stringify({
                     version: startMigrationButton.dataset.version
                 })
