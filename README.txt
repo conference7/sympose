@@ -83,6 +83,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.2 =
+* Quick fix for <PHP7.3
+
 = 1.4.1 =
 * Quick fix for missing blocks styling.
 

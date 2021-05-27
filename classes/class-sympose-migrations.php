@@ -65,9 +65,17 @@ class Sympose_Migrations {
 		);
 
 		if ( ! empty( $this->plugins_active( $plugins ) ) ) {
-			$class = 'notice notice-error is-dismissible';
-			/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
-			$message = sprintf( esc_html__( 'You\'re using extensions that have been migrated to Sympose %1$s %2$sStart migration%3$s', 'sympose' ), SYMPOSE_VERSION, '&nbsp; <a class="button" data-version="' . SYMPOSE_VERSION . '" data-action="sympose-start-migration" href="#">', '</a>', );
+			$class   = 'notice notice-error is-dismissible';
+			$message = sprintf(
+				/* translators: %1$s is the version. %2$s is the functionality. %3$s is the link start tag and %4$s is the link end tag. */
+				esc_html__(
+					'You\'re using extensions that have been migrated to Sympose %1$s %2$sStart migration%3$s',
+					'sympose'
+				),
+				SYMPOSE_VERSION,
+				'&nbsp; <a class="button" data-version="' . esc_attr( SYMPOSE_VERSION ) . '" data-action="sympose-start-migration" href="#">',
+				'</a>'
+			);
 			// phpcs:ignore
 			printf( '<div class="%1$s"><p>%2$s<span class="spinner"></span></p></div>', esc_attr( $class ), $message );
 		}
