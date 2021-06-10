@@ -77,7 +77,7 @@ const i18n_config = {
 
 gulp.task('checktextdomain', function () {
     return gulp
-        .src(['admin/', 'public/'])
+        .src(['classes/'])
         .pipe(checktextdomain({
             text_domain: 'sympose',
             keywords: [
