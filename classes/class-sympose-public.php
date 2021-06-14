@@ -1115,13 +1115,13 @@ class Sympose_Public {
 		if ( $args['show_session_title'] ) {
 
 			if ( $args['render_link'] ) {
-				echo '<h5><a href="' . esc_url( get_permalink( $id ) ) . '">' . esc_html( get_the_title( $id ) ) . '</a></h5>';
+				echo '<h5 class="session-title"><a href="' . esc_url( get_permalink( $id ) ) . '">' . esc_html( get_the_title( $id ) ) . '</a></h5>';
 			} else {
-				echo '<h5>' . esc_html( get_the_title( $id ) ) . '</h5>';
+				echo '<h5 class="session-title">' . esc_html( get_the_title( $id ) ) . '</h5>';
 			}
 		}
 
-		echo '<strong>';
+		echo '<p class="event-name"><strong>';
 
 		if ( $args['show_schedule_link'] ) {
 
@@ -1158,25 +1158,30 @@ class Sympose_Public {
 			}
 		}
 
-		echo '</strong>';
+		echo '</strong></p>';
 
 		if ( 'on' === $args['show_session_date'] || 'on' === $args['show_session_time'] || 'on' === $args['show_session_link'] ) {
 
-			echo '<p>';
+			echo '<div class="session-info">';
+
+			do_action( 'sympose_information_widget_session_info_before', $id, $args );
 
 			if ( 'on' === $args['show_session_date'] ) {
-				echo esc_html( $date_string );
+				echo '<span class="session-date">' . esc_html( $date_string ) . '</span>';
 			}
 
 			if ( 'on' === $args['show_session_time'] ) {
-				echo '<br/>' . esc_html( $start_time ) . ' - ' . esc_html( $end_time );
+				echo '<br/><span class="session-time">' . esc_html( $start_time ) . ' - ' . esc_html( $end_time ) . '</span>';
 			}
 
 			if ( 'on' === $args['show_session_link'] ) {
 				echo '<br/>';
 				echo '<a href="' . esc_url( get_permalink( $id ) ) . '">' . esc_html__( 'Go to session', 'sympose' ) . ' &raquo;</a>';
 			}
-			echo '</p>';
+
+			do_action( 'sympose_information_widget_session_info_after', $id, $args );
+
+			echo '</div>';
 
 		}
 
