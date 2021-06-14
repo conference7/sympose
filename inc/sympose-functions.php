@@ -50,11 +50,13 @@ function sympose_get_image( $post ) {
 
 	if ( is_int( $post ) ) {
 		$post = get_post( $post );
+	} elseif ( is_string( $post ) ) {
+		$post = get_post( intval( $post ) );
 	}
 
 	$image = get_post_meta( $post->ID, '_sympose_image_id', true );
 
-	if ( is_wp_error( $image ) ) {
+	if ( is_wp_error( $image ) || empty( $image ) ) {
 		return false;
 	}
 
