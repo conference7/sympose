@@ -692,8 +692,12 @@ class Sympose_Public {
 		// @todo - Add filters.
 		echo '<div class="sympose-schedule">';
 
+		do_action( 'sympose_before_schedule', $event, $terms );
+
 		// Build up schedule per day.
 		foreach ( $terms as $term ) {
+
+			do_action( 'sympose_before_schedule_event', $event, $term );
 
 			if ( is_user_logged_in() ) {
 				$saved_sessions = get_user_meta( get_current_user_id(), $this->prefix . 'saved_sessions', true );
@@ -751,9 +755,12 @@ class Sympose_Public {
 			echo '<tfoot></tfoot>';
 
 			echo '</table>';
+			do_action( 'sympose_after_schedule_event', $event, $term );
 		}
 
 		echo '</div>';
+
+		do_action( 'sympose_after_schedule_event', $event, $terms );
 
 		$output = ob_get_clean();
 
@@ -890,8 +897,23 @@ class Sympose_Public {
 
 		ob_start();
 
+		$dataset_html = '';
+		$dataset      = apply_filters(
+			'sympose_session_row_dataset',
+			array(
+				'id'    => $post->ID,
+				'event' => $term->term_id,
+			),
+			$post->ID,
+			$term
+		);
+
+		foreach ( $dataset as $data_key => $data_attr ) {
+			$dataset_html .= ' data-' . $data_key . '="' . $data_attr . '"';
+		}
+
 		//phpcs:disable
-		echo '<tr class="' . implode( ' ', sanitize_html_class( $classes ) ) . '" data-id="' . esc_attr( $post->ID ) . '">';
+		echo '<tr class="' . implode( ' ', sanitize_html_class( $classes ) ) . '"'.$dataset_html.'>';
 		if ( current_user_can( 'manage_options' ) && $show_edit_link ) {
 			echo '<td class="edit-link"><a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '"><span class="dashicons dashicons-edit"></span></a></td>';
 		}
