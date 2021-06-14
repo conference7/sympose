@@ -364,8 +364,8 @@ class Sympose_Admin {
 			'sympose/v1',
 			'/migrate',
 			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'migrate' ),
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'migrate' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
 				},
