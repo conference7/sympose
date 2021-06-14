@@ -58,7 +58,12 @@ class Sympose_Session_Information extends WP_Widget {
 		$instance['show_session_link'] = false;
 
 		$sympose = new Sympose_Public();
+		
+		echo '<div class="sympose-session-information sympose-widget">';
+		
 		$sympose->render_session( $id, $instance );
+		
+		echo '</div>';
 
 		echo $args['after_widget'];
 
