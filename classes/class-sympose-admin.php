@@ -784,10 +784,12 @@ class Sympose_Admin {
 	public function add_image_sizes() {
 		add_image_size( 'person-small', 100, 100, true );
 		add_image_size( 'person-medium', 150, 220, true );
+		add_image_size( 'person-large', 450, 660, true );
 		add_image_size( 'person-schedule', 50, 50, true );
 
 		add_image_size( 'organisation-small', 100, 100, false );
 		add_image_size( 'organisation-medium', 130, 80, false );
+		add_image_size( 'organisation-large', 130, 80, false );
 		add_image_size( 'organisation-schedule', 65, 40, false );
 	}
 
