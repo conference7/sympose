@@ -412,7 +412,7 @@ class Sympose_Public {
 			}
 		}
 
-		$args = array_merge( $defaults, $args );
+		$args = apply_filters( "sympose_render_item_{$post->post_type}", array_merge( $defaults, $args ), $post );
 
 		$classes = array(
 			'sym',
@@ -424,7 +424,7 @@ class Sympose_Public {
 		}
 
 		if ( $args['desc'] ) {
-			$description = get_post_meta( $post->ID, $this->prefix . 'description', true );
+			$description = apply_filters( 'sympose_customize_person_short_description', get_post_meta( $post->ID, $this->prefix . 'description', true ), $post->ID );
 		}
 
 		$output .= '<span class="' . implode( ' ', $classes ) . '" data-terms="' . implode( ' ', $terms ) . '">';
@@ -446,7 +446,7 @@ class Sympose_Public {
 			$output .= '<span class="title">' . $post->post_title . '</span>';
 		}
 
-		if ( $description ) {
+		if ( ! empty( $description ) ) {
 			$output .= '<span class="desc">' . $description . '</span>';
 		}
 
