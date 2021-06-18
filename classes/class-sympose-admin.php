@@ -1551,6 +1551,15 @@ class Sympose_Admin {
 	 */
 	public function save_post( $id, $post ) {
 
+		if ( get_post_type( $id ) === 'organisation' ) {
+			// Set the organisation ID to the people attached to this organisation.
+			$people = get_post_meta( $id, '_sympose_organisation_people', true );
+
+			foreach ( $people as $person_id ) {
+				update_post_meta( $person_id, '_sympose_linked_organisation', $id );
+			}
+		}
+
 		if ( get_post_type( $id ) !== 'session' ) {
 			return;
 		}
