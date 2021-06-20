@@ -1014,6 +1014,32 @@ class Sympose_Admin {
 
 		$general->add_field(
 			array(
+				'name'         => __( 'Organisation', 'sympose' ),
+				'type'         => 'select',
+				'object_types' => array( 'person' ),
+				'id'           => $this->prefix . 'linked_organisation',
+				'options_cb'   => function () {
+					$organisations  = get_posts(
+						array(
+							'post_type'   => 'organisation',
+							'numberposts' => - 1,
+						)
+					);
+					$options = array(
+						0 => '-- ' . __( 'Select an organisation', 'sympose' ),
+					);
+					foreach ( $organisations as $organsation ) {
+
+						$options[ $organsation->ID ] = $organsation->post_title;
+					}
+
+					return $options;
+				},
+			)
+		);
+
+		$general->add_field(
+			array(
 				'name'         => __( 'Image', 'sympose' ),
 				'type'         => 'file',
 				'object_types' => array( 'organisation', 'person' ),
@@ -1558,6 +1584,29 @@ class Sympose_Admin {
 			if ( is_array( $people ) ) {
 				foreach ( $people as $person_id ) {
 					update_post_meta( $person_id, '_sympose_linked_organisation', $id );
+				}
+			}
+		}
+
+		if ( get_post_type( $id ) === 'person' ) {
+			// Set the person ID to the organisation attached to this person
+			$organisation_id = get_post_meta( $id, '_sympose_linked_organisation', true );
+
+			if ( ! empty( $organisation_id ) ) {
+				$organisation = get_post( $organisation_id );
+
+				error_log(print_r($organisation), true);
+
+				if ( ! is_wp_error( $organisation ) && $organisation instanceof \WP_Post ) {
+					$people = get_post_meta( $organisation_id, '_sympose_organisation_people', true );
+					if ( is_array( $people ) ) {
+						$people[] = $id;
+					} else {
+						$people = array( $id );
+					}
+
+					// Save
+					update_post_meta( $organisation_id, '_sympose_organisation_people', $people );
 				}
 			}
 		}
