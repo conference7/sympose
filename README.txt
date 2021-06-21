@@ -82,6 +82,19 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.4 =
+* Introduce sympose_before_schedule, sympose_before_schedule_event, sympose_after_schedule_event and sympose_after_schedule_event actions
+* Introduce the sympose_session_row_dataset filter for adding extra information to a session row
+* Fixes a bug where an image cannot be loaded
+* Improve markup of the Sympose Session Information widget
+* Add te sympose_information_widget_session_info_after action to the Sympose Session Information widget
+* Introduce image sizes person-large and organisation-large
+* Make the list of people in an organisation sortable and add an edit link
+* When saving an organisation, sync the organisation to the person.
+* When saving a person, sync the person to the organisation.
+* Introduce "sympose_render_item_{$post->post_type}" and sympose_customize_person_short_description filter
+* Introduce extra filters for the person and organisation post types in the dashboard.
+
 = 1.4.1 - 1.4.3 =
 * Several fixes
 
