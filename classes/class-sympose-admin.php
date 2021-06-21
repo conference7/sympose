@@ -720,9 +720,11 @@ class Sympose_Admin {
 				break;
 
 			case 'person':
-				$taxonomies = array( 'person-category' );
+				$taxonomies = array( 'event', 'person-category' );
 				break;
-
+			case 'organisation':
+				$taxonomies = array( 'event', 'organisation-category' );
+				break;
 			default:
 				break;
 		}
@@ -1589,13 +1591,11 @@ class Sympose_Admin {
 		}
 
 		if ( get_post_type( $id ) === 'person' ) {
-			// Set the person ID to the organisation attached to this person
+			// Set the person ID to the organisation attached to this person.
 			$organisation_id = get_post_meta( $id, '_sympose_linked_organisation', true );
 
 			if ( ! empty( $organisation_id ) ) {
 				$organisation = get_post( $organisation_id );
-
-				error_log(print_r($organisation), true);
 
 				if ( ! is_wp_error( $organisation ) && $organisation instanceof \WP_Post ) {
 					$people = get_post_meta( $organisation_id, '_sympose_organisation_people', true );
@@ -1605,7 +1605,6 @@ class Sympose_Admin {
 						$people = array( $id );
 					}
 
-					// Save
 					update_post_meta( $organisation_id, '_sympose_organisation_people', $people );
 				}
 			}
@@ -2317,7 +2316,6 @@ class Sympose_Admin {
 				'status'  => 200,
 				'message' => __( 'We will not show the setup wizard again.', 'sympose' ),
 			);
-
 		} else {
 			if ( isset( $params['save_data'] ) ) {
 				unset( $params['save_data'] );
