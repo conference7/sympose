@@ -64,12 +64,13 @@ class Sympose_Session_Participants extends WP_Widget {
 				<?php
 				$post_ids = get_post_meta( $id, '_sympose_session_' . $type, true );
 
-				if ( $post_ids ) {
-
+				if ( is_array( $post_ids ) ) {
+					echo '<div class="list-inner">';
 					foreach ( $post_ids as $id ) {
 						$post = get_post( $id );
 						echo $sympose->render_item( $post->ID, array( 'size' => 'person-medium', 'name' => true, 'desc' => true ) );
 					}
+					echo '</div>';
 				}
 				?>
 			</div>
