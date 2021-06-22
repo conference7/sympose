@@ -50,6 +50,14 @@ class Sympose_Session_Participants extends WP_Widget {
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 		$type  = (isset($instance['type']) ? $instance['type'] : 'people');
 
+		$list_post_type = '';
+
+		if ($type === 'people') {
+			$list_post_type = 'person';
+		} else {
+			$list_post_type = 'organisation';
+		}
+
 		if ( isset( $instance['title'] ) && ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		} else {
@@ -60,7 +68,7 @@ class Sympose_Session_Participants extends WP_Widget {
 
 		?>
 		<div class="sympose-session-items sympose-widget">
-			<div class="sym-list">
+			<div class="sym-list <?php echo $list_post_type; ?>">
 				<?php
 				$post_ids = get_post_meta( $id, '_sympose_session_' . $type, true );
 
@@ -68,7 +76,7 @@ class Sympose_Session_Participants extends WP_Widget {
 					echo '<div class="list-inner">';
 					foreach ( $post_ids as $id ) {
 						$post = get_post( $id );
-						echo $sympose->render_item( $post->ID, array( 'size' => 'person-medium', 'name' => true, 'desc' => true ) );
+						echo $sympose->render_item( $post->ID, array( 'size' => $list_post_type . '-medium', 'name' => true, 'desc' => true ) );
 					}
 					echo '</div>';
 				}
