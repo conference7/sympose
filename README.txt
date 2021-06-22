@@ -82,6 +82,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.4.1 =
+* Small HTML Markup improvements
+
 = 1.4.4 =
 * Introduce sympose_before_schedule, sympose_before_schedule_event, sympose_after_schedule_event and sympose_after_schedule_event actions
 * Introduce the sympose_session_row_dataset filter for adding extra information to a session row
