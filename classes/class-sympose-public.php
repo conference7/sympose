@@ -730,22 +730,26 @@ class Sympose_Public {
 				}
 			}
 
-			// Get sessions for day.
-			$posts = get_posts(
-				array(
-					'post_type'   => 'session',
-					'numberposts' => - 1,
-					'post_parent' => 0,
-					'tax_query'   => array(
-						array(
-							'taxonomy' => 'event',
-							'terms'    => $term->term_id,
-						),
+			$posts_args = array(
+				'post_type'   => 'session',
+				'numberposts' => - 1,
+				'post_parent' => 0,
+				'tax_query'   => array(
+					array(
+						'taxonomy' => 'event',
+						'terms'    => $term->term_id,
 					),
-					'orderby'     => 'post_date',
-					'order'       => 'ASC',
-				)
+				),
+				'orderby'     => 'post_date',
+				'order'       => 'ASC',
 			);
+
+			if ( current_user_can( 'edit_posts' ) ) {
+				$posts_args['post_status'] = array( 'publish', 'private', 'draft' );
+			}
+
+			// Get sessions for day.
+			$posts = get_posts( $posts_args );
 
 			// Display sessions.
 			foreach ( $posts as $post ) {
