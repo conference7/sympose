@@ -1599,7 +1599,7 @@ class Sympose_Admin {
 
 				if ( ! is_wp_error( $organisation ) && $organisation instanceof \WP_Post ) {
 					$people = get_post_meta( $organisation_id, '_sympose_organisation_people', true );
-					if ( is_array( $people ) ) {
+					if ( is_array( $people ) && ! in_array( $id, $people, true ) ) {
 						$people[] = $id;
 					} else {
 						$people = array( $id );
