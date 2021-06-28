@@ -82,6 +82,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.6 =
+* Fixes an issue where people were added to an organisation multiple times.
+
 = 1.4.5 =
 * Show draft, private and published sessions in the schedule when logged in.
 
