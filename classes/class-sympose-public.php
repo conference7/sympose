@@ -431,7 +431,7 @@ class Sympose_Public {
 
 		if ( $args['link'] ) {
 			if ( ! $is_admin ) {
-				$output .= '<a title="' . __( 'Go to', 'sympose' ) . ' ' . $post->post_title . '" href="' . get_permalink( $post->ID ) . '">';
+				$output .= '<a title="' . __( 'Go to', 'sympose' ) . ' ' . $post->post_title . '" href="' . apply_filters( 'sympose_customize_item_link', get_permalink( $post->ID ), $post ) . '">';
 			} else {
 				$output .= '<a title="' . __( 'Go to', 'sympose' ) . ' ' . $post->post_title . '" href="' . get_edit_post_link( $post->ID ) . '">';
 			}
