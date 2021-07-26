@@ -170,7 +170,34 @@ class Sympose_Public {
 			}
 		}
 
-		$extra = ob_get_clean();
+		if ( sympose_get_option( 'render_people_after_content' ) === 'on' ) {
+			$id       = get_the_ID();
+			$post_ids = get_post_meta( $id, '_sympose_session_people', true );
+
+			$people_content = '';
+
+			$sympose = new Sympose_Public();
+
+			if ( is_array( $post_ids ) ) {
+				$people_content .= '<div class="sym-list person"><div class="list-inner">';
+				foreach ( $post_ids as $id ) {
+					$post            = get_post( $id );
+					$people_content .= $sympose->render_item(
+						$post->ID,
+						array(
+							'size' => 'person-medium',
+							'name' => true,
+							'desc' => true,
+						)
+					);
+				}
+				$people_content .= '</div></div>';
+			}
+
+			echo apply_filters( 'sympose_after_session_content_people', $people_content, $id );
+		}
+
+		$extra = apply_filters( 'sympose_after_session_content', ob_get_clean(), get_the_ID() );
 
 		return $content . $extra;
 	}

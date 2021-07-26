@@ -84,6 +84,7 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 = 1.4.6.2 =
 * Add 'static' class to static session rows.
+* Add option to show session participants after the session content.
 
 = 1.4.6.1 =
 * Add filter for customising item links (sympose_customize_item_link)

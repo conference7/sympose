@@ -1535,6 +1535,19 @@ class Sympose_Admin {
 			)
 		);
 
+		$options->add_field(
+			array(
+				'name'            => __( 'Show session people after post content', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => '',
+				'id'              => 'render_people_after_content',
+				'desc'            => __( 'Enable this option to display the session people after the post content.', 'sympose' ),
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
+				},
+			)
+		);
+
 		do_action( 'sympose_register_settings_fields', $options );
 	}
 
