@@ -813,6 +813,10 @@ class Sympose_Public {
 
 		$static_session = get_post_meta( $post->ID, $this->prefix . 'session_static', true );
 
+		if ( 'on' === $static_session ) {
+			$classes[] = 'static';
+		}
+
 		if ( $running ) {
 			$classes[] = 'running';
 		}
