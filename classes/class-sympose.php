@@ -126,6 +126,7 @@ class Sympose {
 		// Register widgets.
 		add_action( 'widgets_init', array( $this, 'register_widgets' ), 20, 1 );
 
+		new Sympose_CMB2();
 		new Sympose_Social_Media( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 		new Sympose_Compatibility( $this->get_sympose(), $this->get_version(), $this->get_prefix() );
 		new Sympose_Migrations( $this->get_sympose(), $this->get_version(), $this->get_prefix() );

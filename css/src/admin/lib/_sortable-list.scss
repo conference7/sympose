@@ -1,0 +1,10 @@
+ul.cmb2-list.sortable {
+	li {
+		display: flex;
+		align-items: center;
+		cursor: all-scroll;
+		small {
+			margin-left: 2px;
+		}
+	}
+}

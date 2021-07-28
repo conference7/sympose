@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
       startMigrationButton.nextElementSibling.classList.add('is-active');
       startMigrationButton.setAttribute('disabled', true);
       var url = wpApiSettings.root + 'sympose/v1/migrate';
+      var headers = {
+        'X-WP-Nonce': wpApiSettings.nonce
+      };
       fetch(url, {
         method: "POST",
+        headers: headers,
         body: JSON.stringify({
           version: startMigrationButton.dataset.version
         })
@@ -356,7 +360,12 @@ window.addEventListener('resize', resizeSetupWizard);
     var sortableElements = $('.cmb-row.sortable');
 
     if (sortableElements.length > 0) {
-      $('ul.cmb2-list', sortableElements).sortable();
+      $('ul.cmb2-list', sortableElements).sortable({
+        update: function update(event, ui) {
+          var order = $(this).sortable('toArray');
+          $(this).prev().val(JSON.stringify(order));
+        }
+      });
     }
   });
 })(jQuery);

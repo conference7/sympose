@@ -194,6 +194,7 @@ class Sympose_Public {
 				$people_content .= '</div></div>';
 			}
 
+			//phpcs:ignore
 			echo apply_filters( 'sympose_after_session_content_people', $people_content, $id );
 		}
 
@@ -258,6 +259,8 @@ class Sympose_Public {
 		if ( isset( $atts['align'] ) && ! empty( $atts['align'] ) ) {
 			$align = sanitize_text_field( $atts['align'] );
 		}
+
+		$event_term = get_term_by( 'slug', $event, 'event' );
 
 		switch ( $align ) {
 			case 'center':
@@ -335,7 +338,15 @@ class Sympose_Public {
 				echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
 				echo '<span class="title">' . esc_html( $term->name ) . '</span>';
 				echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+
+				$ordered_posts = array();
 				foreach ( $posts as $post ) {
+					$ordered_posts[ $post->ID ] = $post;
+				}
+
+				$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+
+				foreach ( $ordered_posts as $post ) {
 					// phpcs:disable
 					echo $this->render_item(
 						$post->ID,
@@ -377,9 +388,16 @@ class Sympose_Public {
 				return esc_html__( 'Nothing found', 'sympose' );
 			}
 
+			$ordered_posts = array();
+			foreach ( $posts as $post ) {
+				$ordered_posts[ $post->ID ] = $post;
+			}
+
+			$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+
 			echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
 			echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-			foreach ( $posts as $post ) {
+			foreach ( $ordered_posts as $post ) {
 				// phpcs:disable
 				echo $this->render_item(
 					$post->ID,
