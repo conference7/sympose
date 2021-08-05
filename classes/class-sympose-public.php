@@ -223,8 +223,6 @@ class Sympose_Public {
 
 		$tax_query = array();
 
-		$list_classes = '';
-
 		ob_start();
 
 		if ( isset( $atts['type'] ) && ! empty( $atts['type'] ) ) {
@@ -232,7 +230,8 @@ class Sympose_Public {
 		}
 
 		if ( isset( $atts['category'] ) && ! empty( $atts['category'] ) ) {
-			$category = sanitize_text_field( $atts['category'] );
+			$category   = sanitize_text_field( $atts['category'] );
+			$categories = explode( ',', $category );
 		}
 
 		if ( isset( $atts['event'] ) && ! empty( $atts['event'] ) ) {
@@ -274,7 +273,7 @@ class Sympose_Public {
 				break;
 		}
 
-				// Quit early if not found.
+		// Quit early if not found.
 		if ( ! $type ) {
 			return __( 'Nothing found.', 'sympose' );
 		}
@@ -283,6 +282,7 @@ class Sympose_Public {
 			return $this->render_schedule( $event, $atts );
 		}
 
+		// Add event to Tax Query.
 		if ( $event ) {
 			$tax_query[] = array(
 				'taxonomy' => 'event',
@@ -292,128 +292,116 @@ class Sympose_Public {
 			);
 		}
 
-		$term_children = false;
+		$cat_terms = array();
 
-		// Get main category specified from $category.
-		$mainterm = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
-		if ( $mainterm ) {
+		foreach ( $categories as $category ) {
+			$term = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
+			if ( is_a( $term, 'WP_Term' ) ) {
+				$cat_terms[] = $term;
+			}
+		}
+
+		if ( is_array( $cat_terms ) && count( $cat_terms ) > 0 ) {
 			// Check if main category has children.
-			$term_children = get_terms(
-				array(
-					'taxonomy'   => $type . '-category',
-					'orderby'    => 'meta_value_num',
-					'parent'     => $mainterm->term_id,
-					'order'      => 'ASC',
-					'meta_query' => array(
-						array(
-							'key'  => $this->prefix . 'sort_id',
-							'type' => 'NUMERIC',
-						),
-					),
-				)
+			$cat_query = array(
+				'relation' => 'OR',
 			);
-		}
-
-		if ( $term_children ) {
-			foreach ( $term_children as $term ) {
-				$tax_query['category'] = false;
-				if ( count( $tax_query ) > 0 ) {
-					$tax_query['relation'] = 'AND';
-				}
-
-				$tax_query['category'] = array(
-					'taxonomy' => $type . '-category',
-					'terms'    => $term->term_id,
-				);
-
-				$posts = get_posts(
+			if ( $cat_terms > 1 ) {
+				$tax_query['relation'] = 'OR';
+			}
+			foreach ( $cat_terms as $cat_term ) {
+				$term_children = get_terms(
 					array(
-						'post_type'   => $type,
-						'tax_query'   => $tax_query,
-						'numberposts' => - 1,
-						'orderby'     => 'menu_order',
+						'taxonomy' => $type . '-category',
+						'orderby'  => 'meta_value_num',
+						'parent'   => $cat_term->term_id,
+						'order'    => 'ASC',
 					)
 				);
 
-				echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-				echo '<span class="title">' . esc_html( $term->name ) . '</span>';
-				echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+				if ( ! empty( $term_children ) ) {
 
-				$ordered_posts = array();
-				foreach ( $posts as $post ) {
-					$ordered_posts[ $post->ID ] = $post;
-				}
+					foreach ( $term_children as $term ) {
 
-				$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+						$tax_query[] = array(
+							'taxonomy' => $type . '-category',
+							'terms'    => $term->term_id,
+						);
 
-				foreach ( $ordered_posts as $post ) {
-					// phpcs:disable
-					echo $this->render_item(
-						$post->ID,
-						array(
-							'size' => esc_attr( $post->post_type . '-medium' ),
-							'name' => false,
-							'desc' => esc_html( $description ),
-						)
+						$posts = get_posts(
+							array(
+								'post_type'   => $type,
+								'tax_query'   => $tax_query,
+								'numberposts' => - 1,
+								'orderby'     => 'menu_order',
+							)
+						);
+
+					}
+				} else {
+					if ( count( $tax_query ) > 0 ) {
+						$tax_query['relation'] = 'AND';
+					}
+
+					$cat_query[] = array(
+						'taxonomy' => $type . '-category',
+						'terms'    => $cat_term->term_id,
 					);
-					// phpcs:enable
 				}
-				echo '</div>';
-				echo '</div>';
-
 			}
-		} else {
-			if ( $mainterm ) {
-				if ( count( $tax_query ) > 0 ) {
-					$tax_query['relation'] = 'AND';
-				}
+			$tax_query[] = $cat_query;
+		}
 
-				$tax_query[] = array(
-					'taxonomy' => $type . '-category',
-					'terms'    => $mainterm->term_id,
-				);
-			}
+		$posts = get_posts(
+			array(
+				'post_type'   => $type,
+				'tax_query'   => $tax_query,
+				'numberposts' => - 1,
+				'orderby'     => 'menu_order',
+				'order'       => 'ASC',
+			)
+		);
 
-			$posts = get_posts(
+		if ( ! $posts ) {
+			return '<p>' . esc_html__( 'Nothing found', 'sympose' ) . '.</p>';
+		}
+
+		$ordered_posts = array();
+		foreach ( $posts as $post ) {
+			$ordered_posts[ $post->ID ] = $post;
+		}
+
+		$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+
+		$classes = array(
+			'sym-list',
+			'shortcode',
+			$type,
+		);
+
+		$categories = explode( ',', $category );
+
+		foreach ( $categories as $cat ) {
+			$classes[] = 'cat-' . $cat;
+		}
+
+		echo '<div class="' . esc_attr( implode( ' ', $classes ) ) . '" data-count="' . count( $ordered_posts ) . '">';
+		echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
+		foreach ( $ordered_posts as $post ) {
+			// phpcs:disable
+			echo $this->render_item(
+				$post->ID,
 				array(
-					'post_type'   => $type,
-					'tax_query'   => $tax_query,
-					'numberposts' => - 1,
-					'orderby'     => 'menu_order',
-					'order'       => 'ASC',
+					'name' => true,
+					'size' => esc_attr( $post->post_type . '-medium' ),
+					'desc' => esc_html( $description ),
+					'name' => esc_attr( $name ),
 				)
 			);
-
-			if ( ! $posts ) {
-				return esc_html__( 'Nothing found', 'sympose' );
-			}
-
-			$ordered_posts = array();
-			foreach ( $posts as $post ) {
-				$ordered_posts[ $post->ID ] = $post;
-			}
-
-			$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
-
-			echo '<div class="sym-list shortcode ' . esc_attr( $type ) . '">';
-			echo '<div class="list-inner" style="' . esc_attr( $style ) . '">';
-			foreach ( $ordered_posts as $post ) {
-				// phpcs:disable
-				echo $this->render_item(
-					$post->ID,
-					array(
-						'name' => true,
-						'size' => esc_attr( $post->post_type . '-medium' ),
-						'desc' => esc_html( $description ),
-						'name' => esc_attr( $name ),
-					)
-				);
-				// phpcs:enable
-			}
-			echo '</div>';
-			echo '</div>';
-
+			// phpcs:enable
 		}
+		echo '</div>';
+		echo '</div>';
 
 		return ob_get_clean();
 
