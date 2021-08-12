@@ -35,7 +35,8 @@
             $('ul.cmb2-list', sortableElements).sortable({
                 update: function (event, ui) {
                     let order = $(this).sortable('toArray');
-                    $(this).prev().val(JSON.stringify(order));
+                    let commaSeparated = order.join();
+                    $(this).prev().val(commaSeparated);
                 }
             });
         }

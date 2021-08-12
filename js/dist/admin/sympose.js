@@ -363,7 +363,8 @@ window.addEventListener('resize', resizeSetupWizard);
       $('ul.cmb2-list', sortableElements).sortable({
         update: function update(event, ui) {
           var order = $(this).sortable('toArray');
-          $(this).prev().val(JSON.stringify(order));
+          var commaSeparated = order.join();
+          $(this).prev().val(commaSeparated);
         }
       });
     }
