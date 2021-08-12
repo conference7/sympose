@@ -41,7 +41,13 @@ class Sympose_CMB2 {
 	 */
 	public function render_ordered_list( $field, $escaped_value, $object_id, $object_type, $field_type ) {
 
-		$order = json_decode( $field->value );
+		$order           = array();
+		$comma_separated = $escaped_value;
+		$value           = explode( ',', $comma_separated );
+
+		if ( is_array( $value ) && ! empty( $value ) ) {
+			$order = $value;
+		}
 
 		//phpcs:ignore
 		echo $field_type->hidden(
@@ -61,8 +67,10 @@ class Sympose_CMB2 {
 
 				echo '<ul class="cmb2-list ' . esc_attr( $field->args['classes'] ) . '">';
 				foreach ( $options as $key => $option ) {
-					//phpcs:ignore
-					echo '<li id="' . esc_attr( $key ) . '"><svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M20,9H4v2h16V9z M4,15h16v-2H4V15z"/></g></g></g></svg> ' . $option . '</li>';
+					if ( false !== $option && ! empty( $option ) ) {
+						//phpcs:ignore
+						echo '<li id="' . esc_attr( $key ) . '"><svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M20,9H4v2h16V9z M4,15h16v-2H4V15z"/></g></g></g></svg> ' . $option . '</li>';
+					}
 				}
 				echo '</ul>';
 			}
