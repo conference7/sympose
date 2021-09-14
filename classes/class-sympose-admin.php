@@ -554,10 +554,16 @@ class Sympose_Admin {
 				)
 			);
 
-			wp_set_object_terms( $sponsor, $event['term_id'], 'event', true );
-			wp_set_object_terms( $sponsor, $sponsors_category_term->term_id, 'organisation-category', true );
+			if ( ! is_wp_error( $sponsor ) ) {
+				$this->upload_set_featured_image( 'https://sympose.net/wp-json/loremlogo/v1/logo.png?id=' . $i, $sponsor );
 
-			$sponsors[] = $sponsor;
+				wp_set_object_terms( $sponsor, $event['term_id'], 'event', true );
+				wp_set_object_terms( $sponsor, $sponsors_category_term->term_id, 'organisation-category', true );
+				$sponsors[] = $sponsor;
+
+				// Fire action for extensions to hook into.
+				do_action( 'sympose_random_organisation_import', $speaker, $user );
+			}
 		}
 
 		$random_users = $this->get_random_users( 20 );
@@ -576,15 +582,18 @@ class Sympose_Admin {
 					)
 				);
 
-				wp_set_object_terms( $speaker, $event['term_id'], 'event', true );
-				wp_set_object_terms( $speaker, $speakers_category_term->term_id, 'person-category', true );
+				if ( ! is_wp_error( $speaker ) ) {
 
-				$speakers[] = $speaker;
+					wp_set_object_terms( $speaker, $event['term_id'], 'event', true );
+					wp_set_object_terms( $speaker, $speakers_category_term->term_id, 'person-category', true );
 
-				$this->upload_set_featured_image( $user->picture->large, $speaker );
+					$speakers[] = $speaker;
 
-				// Fire action for extensions to hook into.
-				do_action( 'sympose_random_user_import', $speaker, $user );
+					$this->upload_set_featured_image( $user->picture->large, $speaker );
+
+					// Fire action for extensions to hook into.
+					do_action( 'sympose_random_user_import', $speaker, $user );
+				}
 			}
 		}
 
