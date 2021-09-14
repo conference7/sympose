@@ -26,7 +26,7 @@ class Sympose_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_filter( 'block_categories', array( $this, 'register_block_categories' ), 10, 2 );
+		add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 10, 2 );
 	}
 
 	/**
