@@ -460,6 +460,8 @@ class Sympose_Public {
 			$description = apply_filters( 'sympose_customize_person_short_description', get_post_meta( $post->ID, $this->prefix . 'description', true ), $post->ID );
 		}
 
+		$classes = apply_filters( "sympose_customize_item_classes_{$post->post_type}", $classes, $post, $args );
+
 		$output .= '<span class="' . implode( ' ', $classes ) . '" data-terms="' . implode( ' ', $terms ) . '">';
 
 		if ( $args['link'] ) {
@@ -475,13 +477,17 @@ class Sympose_Public {
 			$output .= $this->render_image( $img_id, $args['size'], $post_type );
 		}
 
+		$content = '';
+
 		if ( $args['name'] || isset( $args['name_or_image'] ) && $args['name_or_image'] ) {
-			$output .= '<span class="title">' . $post->post_title . '</span>';
+			$content .= '<span class="title">' . $post->post_title . '</span>';
 		}
 
 		if ( ! empty( $description ) ) {
-			$output .= '<span class="desc">' . $description . '</span>';
+			$content .= '<span class="desc">' . $description . '</span>';
 		}
+
+		$output .= apply_filters( "sympose_customize_item_content_{$post->post_type}", $content, $post, $args );
 
 		if ( 'session' === $post->post_type ) {
 
@@ -718,6 +724,8 @@ class Sympose_Public {
 			}
 		}
 
+		$classes = array( 'sympose-schedule', 'event' );
+
 		$settings = apply_filters( 'sympose_schedule_settings', $settings, $event );
 
 		ob_start();
@@ -744,7 +752,11 @@ class Sympose_Public {
 				$event_sessions = array();
 			}
 
-			echo '<table class="sympose-schedule event" data-id="' . absint( $term->term_id ) . '" data-stars-hidden="0" data-show-favorites=false>';
+			if ( 'true' === $settings['enable_personal_agenda'] ) {
+				$classes[] = 'personal-agenda';
+			}
+
+			echo '<table class="' . esc_attr( implode( ' ', $classes ) ) . '" data-id="' . absint( $term->term_id ) . '" data-stars-hidden="0" data-show-favorites=false>';
 
 			$description = '';
 
