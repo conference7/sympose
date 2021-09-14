@@ -874,7 +874,10 @@ class Sympose_Admin {
 				}
 				break;
 			case 'time':
-				echo esc_html( get_post_meta( $post_id, $this->prefix . 'session_start', true ) ) . ' - ' . esc_html( get_post_meta( $post_id, $this->prefix . 'session_end', true ) );
+				echo '<span class="sympose-session-time">';
+				//phpcs:ignore
+				echo apply_filters( 'sympose_admin_column_time', esc_html( get_post_meta( $post_id, $this->prefix . 'session_start', true ) ) . ' - ' . esc_html( get_post_meta( $post_id, $this->prefix . 'session_end', true ) ), $post_id );
+				echo '</span>';
 				break;
 			case 'person-category':
 				$category      = wp_get_object_terms( $post_id, 'person-category' );
