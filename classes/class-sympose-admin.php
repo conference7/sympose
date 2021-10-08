@@ -562,7 +562,7 @@ class Sympose_Admin {
 				$sponsors[] = $sponsor;
 
 				// Fire action for extensions to hook into.
-				do_action( 'sympose_random_organisation_import', $speaker, $user );
+				do_action( 'sympose_random_organisation_import', $sponsor );
 			}
 		}
 
