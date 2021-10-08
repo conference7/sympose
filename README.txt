@@ -82,6 +82,10 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+
+= 1.4.7 =
+* Fixes issue in sample data generation.
+
 = 1.4.6.5 =
 * Sample data generation now imports sample logos.
 * Allow customising the time column content in Dashboard.
