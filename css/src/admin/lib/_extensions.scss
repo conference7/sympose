@@ -1,3 +1,31 @@
+.premium-wrapper {
+  display: flex;
+  background: $white;
+  padding: 2rem;
+  .content {
+    flex: 1;
+    ul {
+      list-style: disc inside;
+    }
+    .price {
+      del {
+        color: $grey;
+        display: block;
+      }
+      ins {
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-decoration: none;
+      }
+    }
+  }
+  .images {
+    width: 500px;
+    img {
+      width: 100%;
+    }
+  }
+}
 
 .extensions-wrapper {
   display: flex;

@@ -1339,6 +1339,8 @@ class Sympose_Admin {
 			)
 		);
 
+		do_action( 'sympose_register_settings_before_general_fields', $options );
+
 		$options->add_field(
 			array(
 				'name' => __( 'General', 'sympose' ),
@@ -1382,7 +1384,7 @@ class Sympose_Admin {
 								<span class="spinner"></span>
 							</p>
 							<label for="_sympose_settings_create_pages">
-								<span class="cmb2-metabox-description"><?php esc_html__( 'Create sample structure for a conference website.', 'sympose' ); ?></span>
+								<p class="cmb2-metabox-description"><?php esc_html_e( 'Create sample structure for a conference website.', 'sympose' ); ?></p>
 							</label>
 						</div>
 					</div>
@@ -1405,6 +1407,7 @@ class Sympose_Admin {
 			array(
 				'name'            => __( 'Enable event pages', 'sympose' ),
 				'type'            => 'checkbox',
+				'desc'            => __( 'Enable the event archive pages.', 'sympose' ),
 				'default'         => false,
 				'id'              => 'enable_event_pages',
 				'sanitization_cb' => function ( $value, $field_args, $field ) {
@@ -1769,6 +1772,14 @@ class Sympose_Admin {
 			update_option( 'sympose_extensions', $body );
 		}
 
+		$response = wp_remote_get( 'https://sympose.net/wp-json/wc/store/products/78786' );
+		$body     = wp_remote_retrieve_body( $response );
+
+		// Check for errors.
+		if ( ! is_wp_error( $body ) ) {
+			update_option( 'sympose_premium_information', $body );
+		}
+
 	}
 
 	/**
@@ -1987,14 +1998,16 @@ class Sympose_Admin {
 			array( $this, 'shortcodes' )
 		);
 
-		add_submenu_page(
-			$parent_slug,
-			__( 'Extensions', 'sympose' ),
-			__( 'Extensions', 'sympose' ),
-			apply_filters( 'sympose_manage_extensions_cap', 'manage_options' ),
-			'sympose-extensions',
-			array( $this, 'extensions' )
-		);
+		if ( ! class_exists( 'Sympose_Premium\Main' ) ) {
+			add_submenu_page(
+				$parent_slug,
+				__( 'Premium', 'sympose' ),
+				__( 'Premium', 'sympose' ) . ' ★',
+				'edit_posts',
+				'sympose-premium',
+				array( $this, 'premium' )
+			);
+		}
 
 		add_submenu_page(
 			$parent_slug,
@@ -2125,85 +2138,45 @@ class Sympose_Admin {
 	 *
 	 * @since   1.2.0
 	 */
-	public function extensions() {
+	public function premium() {
 
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Sympose Extensions', 'sympose' ); ?></h1>
+			<h1><?php esc_html_e( 'Sympose Premium', 'sympose' ); ?></h1>
 			<p></p>
-			<div class="extensions-wrapper">
+			<div class="premium-wrapper">
 				<?php
 
-				$remote_products = json_decode( get_option( 'sympose_extensions' ) );
+				$premium_info = json_decode( get_option( 'sympose_premium_information' ) );
 
-				if ( ! $remote_products || empty( $remote_products ) ) {
-					echo '<h2>' . esc_html__( 'Extensions could not be loaded', 'sympose' ) . '</h2>';
-					echo '<p>' . esc_html__( 'There was a problem retrieving the extensions. Try re-activating the plugin.', 'sympose' ) . '</p>';
-
+				if ( ! $premium_info || empty( $premium_info ) ) {
+					echo '<div class="content">';
+					echo '<h2>' . esc_html__( 'Premium information cannot be loaded.', 'sympose' ) . '</h2>';
+					echo '<p>' . esc_html__( 'There was a problem retrieving information. Try re-activating the plugin.', 'sympose' ) . '</p>';
+					echo '</div>';
 					return;
 				}
 
-				$parsed_link = wp_parse_url( $remote_products->products[0]->info->link );
+				echo '<div class="content">';
 
-				$checkout_link = $parsed_link['scheme'] . '://' . $parsed_link['host'] . '/checkout/';
+				echo '<h1>' . esc_html( $premium_info->name ) . '</h1>';
+				echo wp_kses_post( $premium_info->description );
+				echo '<p class="price">' . esc_html( $premium_info->price_html ) . '</p>';
+				echo '<a target="_blank" class="button button-primary" href="' . esc_url( $premium_info->permalink . $premium_info->add_to_cart->url ) . '">' . esc_html( $premium_info->add_to_cart->text ) . '</a>';
+				echo '</div>';
 
-				foreach ( $remote_products->products as $product ) {
-
-					if ( '0.00' === $product->pricing->amount ) {
-						$price         = __( 'Free', 'sympose' );
-						$download_link = $product->info->link;
-					} else {
-						$price         = '&euro;' . esc_html( $product->pricing->amount );
-						$download_link = add_query_arg(
-							array(
-								'edd_action'  => 'add_to_cart',
-								'download_id' => $product->info->id,
-							),
-							$checkout_link
-						);
+				if ( property_exists( $premium_info, 'images' ) && is_array( $premium_info->images ) ) {
+					echo '<div class="images">';
+					foreach ( $premium_info->images as $image ) {
+						?>
+						<picture>
+							<source
+								srcset="<?php echo esc_html( $image->srcset ); ?>"
+								sizes="<?php echo esc_html( $image->srcset ); ?>" />
+							<img src="<?php echo esc_html( $image->src ); ?>" alt="<?php echo esc_html( $image->alt ); ?>" />
+						</picture>
+						<?php
 					}
-
-					$license_key = '';
-
-					$licenses = sympose_get_option( 'licenses' );
-					if ( is_array( $licenses ) ) {
-						if ( isset( $licenses[ $product->info->slug ] ) && ! empty( $licenses[ $product->info->slug ] ) ) {
-							$license_key = $licenses[ $product->info->slug ];
-						}
-					}
-
-					echo '<div class="sympose-extension">';
-					echo '<div class="image">';
-					echo '<img alt="' . esc_html( $product->info->title ) . ' " width="75" height="75" src="' . esc_url( $product->info->thumbnail ) . '" />';
-					echo '</div>';
-					echo '<div class="title"><h3>' . esc_html( $product->info->title ) . '</h3></div>';
-					echo '<div class="content">';
-					echo '<p>' . esc_html( wp_trim_words( wp_kses( strip_shortcodes( $product->info->content ), '<i><p><strong><a>' ), 40 ) ) . '</p>';
-					echo '</div>';
-					echo '<div class="footer">';
-					$plugin_file = $product->info->slug . '/' . $product->info->slug . '.php';
-
-					if ( is_plugin_active( $plugin_file ) || 'all-extensions' === $product->info->slug ) {
-						if ( '0.00' === $product->pricing->amount ) {
-							echo '<a class="button button-primary disabled" href="#">' . esc_html__( 'Active', 'sympose' ) . '</a>';
-						} else {
-							echo '<form action="#" method="POST" class="activate-license">';
-							wp_nonce_field( 'activate-license', 'activate-license', '' );
-							echo '<input type="hidden" name="download-id" value="' . esc_html( $product->info->id ) . '"/>';
-							echo '<input type="hidden" name="plugin-name" value="' . esc_html( $product->info->slug ) . '" />';
-							$escaped_license_key = esc_html( $license_key );
-							echo '<input class="license regular-text ltr" name="license-key" type="' . ( ! empty( $escaped_license_key ) ? 'password' : 'text' ) . '" value="' . esc_html( $license_key ) . '" placeholder="' . esc_html__( 'Enter your license key..', 'sympose' ) . '" />';
-							submit_button( esc_html__( 'Activate', 'sympose' ), 'secondary', 'submit-license-activation', false );
-							echo '</form>';
-							echo '<p><a target="_blank" href="' . esc_url( $product->info->link ) . '">' . esc_html__( 'More information', 'sympose' ) . '</a></p>';
-						}
-					} elseif ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
-						echo '<a class="button button-primary" href="' . esc_url( admin_url() ) . esc_url( wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . rawurlencode( $plugin_file ) . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'activate-plugin_' . $plugin_file ) ) . '">' . esc_html__( 'Activate', 'sympose' ) . '</a>';
-					} else {
-						echo '<a target="_blank" class="text-link" href="' . esc_url( $product->info->link ) . '">' . esc_html__( 'More information', 'sympose' ) . '</a><a target="_blank" class="button button-primary" href="' . esc_url( $download_link ) . '">' . esc_html__( 'Download', 'sympose' ) . ' - ' . esc_html( $price ) . '</a>';
-					}
-					echo '</div>';
-
 					echo '</div>';
 				}
 
