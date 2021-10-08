@@ -2161,7 +2161,7 @@ class Sympose_Admin {
 
 				echo '<h1>' . esc_html( $premium_info->name ) . '</h1>';
 				echo wp_kses_post( $premium_info->description );
-				echo '<p class="price">' . esc_html( $premium_info->price_html ) . '</p>';
+				echo '<p class="price">' . wp_kses_post( $premium_info->price_html ) . '</p>';
 				echo '<a target="_blank" class="button button-primary" href="' . esc_url( $premium_info->permalink . $premium_info->add_to_cart->url ) . '">' . esc_html( $premium_info->add_to_cart->text ) . '</a>';
 				echo '</div>';
 
