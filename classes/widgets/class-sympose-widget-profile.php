@@ -57,7 +57,7 @@ class Sympose_Widget_Profile extends WP_Widget {
 
 		$sympose = new Sympose_Public();
 		// phpcs:ignore
-		echo $sympose->render_image( $img_id, 'person-medium', 'person' );
+		echo $sympose->render_image( $img_id, esc_html( $post_type ) . '-medium', esc_html( $post_type ) );
 
 		$post = get_post( get_the_ID() );
 		?>
@@ -106,7 +106,7 @@ class Sympose_Widget_Profile extends WP_Widget {
 		// phpcs:ignore
 		do_action( "sympose_widget_{$this->id_base}_content" );
 		// phpcs:disable
-		 ?>
+		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
