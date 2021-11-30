@@ -1187,11 +1187,11 @@ class Sympose_Admin {
 
 		$organisation->add_field(
 			array(
-				'name'        => __( 'People', 'sympose' ),
-				'type'        => 'multicheck',
-				'id'          => $this->prefix . 'organisation_people',
-				'classes'     => 'sympose-organisation-people sortable',
-				'options_cb'  => function () {
+				'name'            => __( 'People', 'sympose' ),
+				'type'            => 'multicheck',
+				'id'              => $this->prefix . 'organisation_people',
+				'classes'         => 'sympose-organisation-people sortable',
+				'options_cb'      => function () {
 					$people  = get_posts(
 						array(
 							'post_type'   => 'person',
@@ -1209,10 +1209,10 @@ class Sympose_Admin {
 
 					return $options;
 				},
-				'after_field' => function () {
+				'after_field'     => function () {
 					echo '<p><a target="_blank" href="' . esc_url( admin_url( 'post-new.php?post_type=person' ) ) . '">' . esc_html__( 'Create new person', 'sympose' ) . '</a></p>';
 				},
-				'description' => __( 'Tip: You can change the order of this list by dragging the items', 'sympose' ),
+				'description'     => __( 'Tip: You can change the order of this list by dragging the items', 'sympose' ),
 				'sanitization_cb' => function( $value ) {
 					return is_array( $value ) ? array_map( 'intval', $value ) : intval( $value );
 				},
