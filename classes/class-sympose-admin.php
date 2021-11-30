@@ -1213,6 +1213,9 @@ class Sympose_Admin {
 					echo '<p><a target="_blank" href="' . esc_url( admin_url( 'post-new.php?post_type=person' ) ) . '">' . esc_html__( 'Create new person', 'sympose' ) . '</a></p>';
 				},
 				'description' => __( 'Tip: You can change the order of this list by dragging the items', 'sympose' ),
+				'sanitization_cb' => function( $value ) {
+					return is_array( $value ) ? array_map( 'intval', $value ) : intval( $value );
+				},
 			)
 		);
 
