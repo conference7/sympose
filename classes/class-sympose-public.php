@@ -371,7 +371,9 @@ class Sympose_Public {
 			$ordered_posts[ $post->ID ] = $post;
 		}
 
-		$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+		if ( false !== $event_term ) {
+			$ordered_posts = apply_filters( 'sympose_customize_item_order', $ordered_posts, $event_term, $type );
+		}
 
 		$classes = array(
 			'sym-list',
