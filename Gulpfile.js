@@ -2,7 +2,7 @@
 
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('node-sass'));
 const cssnano = require('gulp-cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
