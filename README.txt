@@ -82,6 +82,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.7.3 =
+* Add sympose_before_profile_image and sympose_after_profile_image actions
+
 = 1.4.7.2 =
 * Save selected people for organisation as ints. Solves an issue with people showing twice in widgets.
 
