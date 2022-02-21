@@ -56,8 +56,10 @@ class Sympose_Widget_Profile extends WP_Widget {
 		$img_id = sympose_get_image( get_the_ID() );
 
 		$sympose = new Sympose_Public();
+		do_action( 'sympose_before_profile_image', $id, $img_id );
 		// phpcs:ignore
 		echo $sympose->render_image( $img_id, esc_html( $post_type ) . '-medium', esc_html( $post_type ) );
+		do_action( 'sympose_after_profile_image', $id, $img_id );
 
 		$post = get_post( get_the_ID() );
 		?>
