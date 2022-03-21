@@ -138,7 +138,7 @@ class Sympose_Admin {
 		add_filter( 'plugin_action_links_sympose/sympose.php', array( $this, 'plugin_row_actions' ), 10, 2 );
 
 		// Order session on event/day and time.
-		add_filter( 'edited_event', array( $this, 'republish_sessions' ), 20, 2 );
+		add_filter( 'cmb2_save_field__sympose_event_date', array( $this, 'republish_sessions' ), 20, 3 );
 
 		// Order session on event/day and time.
 		add_filter( 'admin_footer', array( $this, 'maybe_show_setup_wizard' ), 20, 2 );
@@ -2238,30 +2238,35 @@ class Sympose_Admin {
 	 *
 	 * Republishes the sessions with correct date after the event date changes
 	 *
-	 * @param int $term_id The term ID.
+	 * @param boolean $updated Updated.
+	 * @param string  $action The action taking place.
+	 * @param object  $field the CMB2_Field object.
 	 */
-	public function republish_sessions( $term_id ) {
-		// TODO: Only do this when the date actually changed.
-		$sessions = get_posts(
-			array(
-				'post_type'   => 'session',
-				'tax_query'   => array(
-					'taxonomy' => 'event',
-					'terms'    => $term_id,
-					'field'    => 'slug',
-					'operator' => 'IN',
-				),
-				'numberposts' => - 1,
-				'orderby'     => 'menu_order',
-			)
-		);
+	public function republish_sessions( $updated, $action, $field ) {
 
-		foreach ( $sessions as $session ) {
-			wp_update_post(
+		if ( true === $updated ) {
+
+			$sessions = get_posts(
 				array(
-					'ID' => $session->ID,
+					'post_type'   => 'session',
+					'tax_query'   => array(
+						'taxonomy' => 'event',
+						'terms'    => $field->object_id,
+						'field'    => 'slug',
+						'operator' => 'IN',
+					),
+					'numberposts' => -1,
+					'orderby'     => 'menu_order',
 				)
 			);
+
+			foreach ( $sessions as $session ) {
+				wp_update_post(
+					array(
+						'ID' => $session->ID,
+					)
+				);
+			}
 		}
 	}
 
