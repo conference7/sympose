@@ -82,6 +82,10 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.7.4 =
+* Only show valid ordered items when editing event
+* Update the session datetimes, on save of a linked event, only when the event date changed.
+
 = 1.4.7.3 =
 * Add sympose_before_profile_image and sympose_after_profile_image actions
 
