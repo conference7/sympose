@@ -1036,7 +1036,9 @@ class Sympose_Admin {
 					$organisations  = get_posts(
 						array(
 							'post_type'   => 'organisation',
-							'numberposts' => - 1,
+							'numberposts' => -1,
+							'order'       => 'ASC',
+							'orderby'     => 'post_title',
 						)
 					);
 					$options = array(
@@ -1120,7 +1122,9 @@ class Sympose_Admin {
 					$people  = get_posts(
 						array(
 							'post_type'   => 'person',
-							'numberposts' => - 1,
+							'numberposts' => -1,
+							'order'       => 'ASC',
+							'orderby'     => 'post_title',
 						)
 					);
 					$options = array();
@@ -1151,7 +1155,9 @@ class Sympose_Admin {
 					$organisations = get_posts(
 						array(
 							'post_type'   => 'organisation',
-							'numberposts' => - 1,
+							'numberposts' => -1,
+							'order'       => 'ASC',
+							'orderby'     => 'post_title',
 						)
 					);
 
@@ -1195,7 +1201,9 @@ class Sympose_Admin {
 					$people  = get_posts(
 						array(
 							'post_type'   => 'person',
-							'numberposts' => - 1,
+							'numberposts' => -1,
+							'order'       => 'ASC',
+							'orderby'     => 'post_title',
 						)
 					);
 					$options = array();
@@ -1251,7 +1259,7 @@ class Sympose_Admin {
 					$parent_pages = get_pages(
 						array(
 							'parent'      => 0,
-							'numberposts' => - 1,
+							'numberposts' => -1,
 						)
 					);
 					$output       = array();

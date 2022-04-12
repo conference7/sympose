@@ -294,10 +294,13 @@ class Sympose_Public {
 
 		$cat_terms = array();
 
-		foreach ( $categories as $category ) {
-			$term = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
-			if ( is_a( $term, 'WP_Term' ) ) {
-				$cat_terms[] = $term;
+		if ( is_array( $categories ) ) {
+
+			foreach ( $categories as $category ) {
+				$term = get_term_by( 'slug', $category, $type . '-category', array( 'include_children', true ) );
+				if ( is_a( $term, 'WP_Term' ) ) {
+					$cat_terms[] = $term;
+				}
 			}
 		}
 
