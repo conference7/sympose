@@ -82,6 +82,9 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.7.5 =
+* Make the people and organisations fields in person and organisation post types alphabetical.
+
 = 1.4.7.4 =
 * Only show valid ordered items when editing event
 * Update the session datetimes, on save of a linked event, only when the event date changed.
