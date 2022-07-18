@@ -2826,28 +2826,7 @@ class Sympose_Admin {
 												$organisations = $session['organisations'];
 											}
 
-											?>
-											<tr data-type="<?php echo( 1 === $key ? 'first' : 'clone' ); ?>"
-												data-id="<?php echo intval( $key ); ?>">
-												<td><input type="time" placeholder="Start time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][start_time]" id="sessions_start_time" value="<?php echo esc_html( isset( $session['start_time'] ) ? $session['start_time'] : '' ); ?>"/>
-												</td>
-												<td><input type="time" placeholder="End time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][end_time]" id="sessions_end_time" value="<?php echo esc_html( isset( $session['end_time'] ) ? $session['end_time'] : '' ); ?>"/>
-												</td>
-												<td><input type="text" placeholder="Title.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][title]" id="sessions_title" value="<?php echo esc_html( isset( $session['title'] ) ? $session['title'] : '' ); ?>"/>
-												</td>
-												<td>
-													<select data-type="people" data-selected='<?php echo wp_json_encode( $people ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][people][]" id="sessions_people">
-														<option>Select..</option>
-													</select>
-												</td>
-												<td>
-													<select data-type="organisations" data-selected='<?php echo wp_json_encode( $organisations ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][organisations][]" id="sessions_organisations">
-														<option>Select..</option>
-													</select>
-												</td>
-												<td><a data-action="delete" href=""> </a></td>
-											</tr>
-											<?php
+											$this->render_session_row( $key, $session, $people, $organisations );
 										}
 									}
 								}
@@ -2873,6 +2852,40 @@ class Sympose_Admin {
 				</div>
 			</form>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Render session row
+	 *
+	 * @param int    $key The session key.
+	 * @param object $session The session object.
+	 * @param array  $people Array of people.
+	 * @param array  $organisations Array or organisations.
+	 * @return void
+	 */
+	public static function render_session_row( $key, $session, $people, $organisations ) {
+		?>
+		<tr data-type="<?php echo( 1 === $key ? 'first' : 'clone' ); ?>"
+			data-id="<?php echo intval( $key ); ?>">
+			<td><input type="time" placeholder="Start time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][start_time]" id="sessions_start_time" value="<?php echo esc_html( isset( $session['start_time'] ) ? $session['start_time'] : '' ); ?>"/>
+			</td>
+			<td><input type="time" placeholder="End time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][end_time]" id="sessions_end_time" value="<?php echo esc_html( isset( $session['end_time'] ) ? $session['end_time'] : '' ); ?>"/>
+			</td>
+			<td><input type="text" placeholder="Title.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][title]" id="sessions_title" value="<?php echo esc_html( isset( $session['title'] ) ? $session['title'] : '' ); ?>"/>
+			</td>
+			<td>
+				<select data-type="people" data-selected='<?php echo wp_json_encode( $people ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][people][]" id="sessions_people">
+					<option>Select..</option>
+				</select>
+			</td>
+			<td>
+				<select data-type="organisations" data-selected='<?php echo wp_json_encode( $organisations ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][organisations][]" id="sessions_organisations">
+					<option>Select..</option>
+				</select>
+			</td>
+			<td><a data-action="delete" href=""> </a></td>
+		</tr>
 		<?php
 	}
 
