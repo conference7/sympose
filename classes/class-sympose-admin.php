@@ -154,6 +154,9 @@ class Sympose_Admin {
 
 		// Mark current submenu.
 		add_filter( 'admin_notices', array( $this, 'validate_sympose_license' ), 20, 1 );
+
+		// Remove past events from admin dashboards when linking content.
+		add_filter( 'get_terms', array( $this, 'remove_past_events_from_dashboard' ) );
 	}
 
 	/**
@@ -1418,6 +1421,18 @@ class Sympose_Admin {
 				'type'            => 'checkbox',
 				'default'         => false,
 				'id'              => 'enable_event_pages',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
+				},
+			)
+		);
+
+		$options->add_field(
+			array(
+				'name'            => __( 'Hide past events in Dashboard', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => false,
+				'id'              => 'hide_past_events',
 				'sanitization_cb' => function ( $value, $field_args, $field ) {
 					return is_null( $value ) ? false : $value;
 				},
@@ -3076,6 +3091,41 @@ class Sympose_Admin {
 			}
 		}
 
+	}
+
+	/**
+	 * Filter past events from dashboard
+	 */
+	public function remove_past_events_from_dashboard( $terms ) {
+		if ( ! is_admin() ) {
+			return $terms;
+		}
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return $terms;
+		}
+
+		$is_enabled = ( sympose_get_option( 'hide_past_events' ) !== false ? true : false );
+
+		if ( $is_enabled ) {
+
+			$screen = get_current_screen();
+
+			if ( $screen === null || $screen->parent_base !== 'edit' || $screen->base !== 'post' ) {
+				return $terms;
+			}
+
+			$now = time();
+			foreach ( $terms as $key => $term ) {
+				if ( is_a( $term, 'WP_Term' ) ) {
+					$term_date = absint( get_term_meta( $term->term_id, '_sympose_event_date', true ) );
+					if ( $term_date < $now ) {
+						unset( $terms[ $key ] );
+					}
+				}
+			}
+		}
+		return $terms;
 	}
 
 	/**
