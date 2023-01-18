@@ -154,6 +154,9 @@ class Sympose_Admin {
 
 		// Mark current submenu.
 		add_filter( 'admin_notices', array( $this, 'validate_sympose_license' ), 20, 1 );
+
+		// Remove past events from admin dashboards when linking content.
+		add_filter( 'get_terms', array( $this, 'remove_past_events_from_dashboard' ) );
 	}
 
 	/**
@@ -1418,6 +1421,18 @@ class Sympose_Admin {
 				'type'            => 'checkbox',
 				'default'         => false,
 				'id'              => 'enable_event_pages',
+				'sanitization_cb' => function ( $value, $field_args, $field ) {
+					return is_null( $value ) ? false : $value;
+				},
+			)
+		);
+
+		$options->add_field(
+			array(
+				'name'            => __( 'Hide past events in Dashboard', 'sympose' ),
+				'type'            => 'checkbox',
+				'default'         => false,
+				'id'              => 'hide_past_events',
 				'sanitization_cb' => function ( $value, $field_args, $field ) {
 					return is_null( $value ) ? false : $value;
 				},
@@ -2826,28 +2841,7 @@ class Sympose_Admin {
 												$organisations = $session['organisations'];
 											}
 
-											?>
-											<tr data-type="<?php echo( 1 === $key ? 'first' : 'clone' ); ?>"
-												data-id="<?php echo intval( $key ); ?>">
-												<td><input type="time" placeholder="Start time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][start_time]" id="sessions_start_time" value="<?php echo esc_html( isset( $session['start_time'] ) ? $session['start_time'] : '' ); ?>"/>
-												</td>
-												<td><input type="time" placeholder="End time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][end_time]" id="sessions_end_time" value="<?php echo esc_html( isset( $session['end_time'] ) ? $session['end_time'] : '' ); ?>"/>
-												</td>
-												<td><input type="text" placeholder="Title.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][title]" id="sessions_title" value="<?php echo esc_html( isset( $session['title'] ) ? $session['title'] : '' ); ?>"/>
-												</td>
-												<td>
-													<select data-type="people" data-selected='<?php echo wp_json_encode( $people ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][people][]" id="sessions_people">
-														<option>Select..</option>
-													</select>
-												</td>
-												<td>
-													<select data-type="organisations" data-selected='<?php echo wp_json_encode( $organisations ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][organisations][]" id="sessions_organisations">
-														<option>Select..</option>
-													</select>
-												</td>
-												<td><a data-action="delete" href=""> </a></td>
-											</tr>
-											<?php
+											$this->render_session_row( $key, $session, $people, $organisations );
 										}
 									}
 								}
@@ -2873,6 +2867,40 @@ class Sympose_Admin {
 				</div>
 			</form>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Render session row
+	 *
+	 * @param int    $key The session key.
+	 * @param object $session The session object.
+	 * @param array  $people Array of people.
+	 * @param array  $organisations Array or organisations.
+	 * @return void
+	 */
+	public static function render_session_row( $key, $session, $people, $organisations ) {
+		?>
+		<tr data-type="<?php echo( 1 === $key ? 'first' : 'clone' ); ?>"
+			data-id="<?php echo intval( $key ); ?>">
+			<td><input type="time" placeholder="Start time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][start_time]" id="sessions_start_time" value="<?php echo esc_html( isset( $session['start_time'] ) ? $session['start_time'] : '' ); ?>"/>
+			</td>
+			<td><input type="time" placeholder="End time.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][end_time]" id="sessions_end_time" value="<?php echo esc_html( isset( $session['end_time'] ) ? $session['end_time'] : '' ); ?>"/>
+			</td>
+			<td><input type="text" placeholder="Title.." name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][title]" id="sessions_title" value="<?php echo esc_html( isset( $session['title'] ) ? $session['title'] : '' ); ?>"/>
+			</td>
+			<td>
+				<select data-type="people" data-selected='<?php echo wp_json_encode( $people ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][people][]" id="sessions_people">
+					<option>Select..</option>
+				</select>
+			</td>
+			<td>
+				<select data-type="organisations" data-selected='<?php echo wp_json_encode( $organisations ); ?>' multiple name="sessions[<?php echo intval( $i ); ?>][<?php echo intval( $key ); ?>][organisations][]" id="sessions_organisations">
+					<option>Select..</option>
+				</select>
+			</td>
+			<td><a data-action="delete" href=""> </a></td>
+		</tr>
 		<?php
 	}
 
@@ -3063,6 +3091,41 @@ class Sympose_Admin {
 			}
 		}
 
+	}
+
+	/**
+	 * Filter past events from dashboard
+	 */
+	public function remove_past_events_from_dashboard( $terms ) {
+		if ( ! is_admin() ) {
+			return $terms;
+		}
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return $terms;
+		}
+
+		$is_enabled = ( sympose_get_option( 'hide_past_events' ) !== false ? true : false );
+
+		if ( $is_enabled ) {
+
+			$screen = get_current_screen();
+
+			if ( $screen === null || $screen->parent_base !== 'edit' || $screen->base !== 'post' ) {
+				return $terms;
+			}
+
+			$now = time();
+			foreach ( $terms as $key => $term ) {
+				if ( is_a( $term, 'WP_Term' ) ) {
+					$term_date = absint( get_term_meta( $term->term_id, '_sympose_event_date', true ) );
+					if ( $term_date < $now ) {
+						unset( $terms[ $key ] );
+					}
+				}
+			}
+		}
+		return $terms;
 	}
 
 	/**
