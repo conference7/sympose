@@ -1786,15 +1786,7 @@ class Sympose_Admin {
 	 * @since  1.0.10
 	 */
 	public function get_sympose_extensions() {
-		// Get all products.
-		$response = wp_remote_get( 'https://sympose.net/edd-api/v2/products/?number=99' );
-		$body     = wp_remote_retrieve_body( $response );
-
-		// Check for errors.
-		if ( ! is_wp_error( $body ) ) {
-			update_option( 'sympose_extensions', $body );
-		}
-
+		// Disabled.
 	}
 
 	/**
