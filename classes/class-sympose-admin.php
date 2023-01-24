@@ -3118,9 +3118,11 @@ class Sympose_Admin {
 			$now = time();
 			foreach ( $terms as $key => $term ) {
 				if ( is_a( $term, 'WP_Term' ) ) {
-					$term_date = absint( get_term_meta( $term->term_id, '_sympose_event_date', true ) );
-					if ( $term_date < $now ) {
-						unset( $terms[ $key ] );
+					if ( $term->taxonomy === 'event' ) {
+						$term_date = absint( get_term_meta( $term->term_id, '_sympose_event_date', true ) );
+						if ( empty( $term_date ) || ! empty( $term_date ) && $term_date < $now ) {
+							unset( $terms[ $key ] );
+						}
 					}
 				}
 			}
