@@ -218,6 +218,7 @@ class Sympose_Public {
 		$description = false;
 		$name        = false;
 		$align       = false;
+		$categories  = array();
 
 		$style = '';
 
@@ -780,16 +781,34 @@ class Sympose_Public {
 				}
 			}
 
+			$tax_query = array(
+				'relation' => 'AND',
+				array(
+					'taxonomy' => 'event',
+					'terms'    => $term->term_id,
+				),
+			);
+
+			if ( isset( $atts['tracks'] ) && ! empty( $atts['tracks'] ) ) {
+				$tracks_text = sanitize_text_field( $atts['tracks'] );
+				$tracks      = explode( ',', $tracks_text );
+
+				if ( is_array( $tracks ) ) {
+					foreach ( $tracks as $track ) {
+						$tax_query[] = array(
+							'taxonomy' => 'session-track',
+							'field'    => 'slug',
+							'terms'    => $track,
+						);
+					}
+				}
+			}
+
 			$posts_args = array(
 				'post_type'   => 'session',
 				'numberposts' => - 1,
 				'post_parent' => 0,
-				'tax_query'   => array(
-					array(
-						'taxonomy' => 'event',
-						'terms'    => $term->term_id,
-					),
-				),
+				'tax_query'   => $tax_query,
 				'orderby'     => 'post_date',
 				'order'       => 'ASC',
 			);
