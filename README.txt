@@ -82,6 +82,15 @@ Sympose is a free Wordpress plugin developed to manage events on your WordPress 
 
 == Changelog ==
 
+= 1.4.7.9 =
+* General fixes
+
+= 1.4.7.8 =
+* Add support for tracks in Sympose Shortcode
+
+= 1.4.7.7 =
+* Fixes issue in which other terms were also hidden when start date was in the past or non existen
+
 = 1.4.7.5 =
 * Make the people and organisations fields in person and organisation post types alphabetical.
 
