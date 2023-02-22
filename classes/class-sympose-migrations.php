@@ -34,7 +34,7 @@ class Sympose_Migrations {
 	 * @since 1.4.0
 	 */
 	public function migration_notices() {
-		$this->migrate_notices_140();
+		// $this->migrate_notices_140();
 	}
 
 	/**
