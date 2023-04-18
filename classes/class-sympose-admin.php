@@ -126,7 +126,7 @@ class Sympose_Admin {
 		add_filter( 'cron_schedules', array( $this, 'register_cron_schedules' ) );
 
 		// Link remote products function to cronjob.
-		add_action( 'sympose_refresh_extensions', array( $this, 'get_sympose_extensions' ) );
+		// add_action( 'sympose_refresh_extensions', array( $this, 'get_sympose_extensions' ) );
 
 		// Add Custom row actions.
 		add_action( 'event_row_actions', array( $this, 'add_row_actions' ), 10, 2 );
@@ -730,11 +730,13 @@ class Sympose_Admin {
 			case 'session':
 				$taxonomies = array( 'event' );
 				break;
-
 			case 'person':
 				$taxonomies = array( 'event', 'person-category' );
 				break;
 			case 'organisation':
+				$taxonomies = array( 'event', 'organisation-category' );
+				break;
+			case 'sympose-ticket':
 				$taxonomies = array( 'event', 'organisation-category' );
 				break;
 			default:
