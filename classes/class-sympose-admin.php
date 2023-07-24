@@ -125,9 +125,6 @@ class Sympose_Admin {
 		// Cron Schedules.
 		add_filter( 'cron_schedules', array( $this, 'register_cron_schedules' ) );
 
-		// Link remote products function to cronjob.
-		// add_action( 'sympose_refresh_extensions', array( $this, 'get_sympose_extensions' ) );
-
 		// Add Custom row actions.
 		add_action( 'event_row_actions', array( $this, 'add_row_actions' ), 10, 2 );
 
@@ -154,9 +151,6 @@ class Sympose_Admin {
 
 		// Mark current submenu.
 		add_filter( 'admin_notices', array( $this, 'validate_sympose_license' ), 20, 1 );
-
-		// Remove past events from admin dashboards when linking content.
-		add_filter( 'get_terms', array( $this, 'remove_past_events_from_dashboard' ) );
 	}
 
 	/**
@@ -2019,15 +2013,6 @@ class Sympose_Admin {
 
 		add_submenu_page(
 			$parent_slug,
-			__( 'Extensions', 'sympose' ),
-			__( 'Extensions', 'sympose' ),
-			apply_filters( 'sympose_manage_extensions_cap', 'manage_options' ),
-			'sympose-extensions',
-			array( $this, 'extensions' )
-		);
-
-		add_submenu_page(
-			$parent_slug,
 			'Quick Start',
 			'Quick Start',
 			apply_filters( 'sympose_quick_start_cap', 'edit_posts' ),
@@ -3099,6 +3084,8 @@ class Sympose_Admin {
 
 	/**
 	 * Filter past events from dashboard
+	 *
+	 * @param array $terms array of WP_Terms.
 	 */
 	public function remove_past_events_from_dashboard( $terms ) {
 		if ( ! is_admin() ) {
@@ -3109,20 +3096,20 @@ class Sympose_Admin {
 			return $terms;
 		}
 
-		$is_enabled = ( sympose_get_option( 'hide_past_events' ) !== false ? true : false );
+		$is_enabled = false !== ( sympose_get_option( 'hide_past_events' ) ? true : false );
 
 		if ( $is_enabled ) {
 
 			$screen = get_current_screen();
 
-			if ( $screen === null || $screen->parent_base !== 'edit' || $screen->base !== 'post' ) {
+			if ( null === $screen || 'edit' !== $screen->parent_base || 'post' !== $screen->base ) {
 				return $terms;
 			}
 
 			$now = time();
 			foreach ( $terms as $key => $term ) {
 				if ( is_a( $term, 'WP_Term' ) ) {
-					if ( $term->taxonomy === 'event' ) {
+					if ( 'event' === $term->taxonomy ) {
 						$term_date = absint( get_term_meta( $term->term_id, '_sympose_event_date', true ) );
 						if ( empty( $term_date ) || ! empty( $term_date ) && $term_date < $now ) {
 							unset( $terms[ $key ] );
