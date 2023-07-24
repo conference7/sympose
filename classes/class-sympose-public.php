@@ -537,13 +537,44 @@ class Sympose_Public {
 	 * @since 1.0.10
 	 */
 	public function render_image( $id = 0, $size = '', $type = '' ) {
+
 		$img = wp_get_attachment_image( $id, $size ); // @todo - set custom image size
 		if ( function_exists( 'wp_filter_content_tags' ) ) {
 			$img = wp_filter_content_tags( $img );
 		}
-		$output = $img;
+
+		if ( ! empty( $img ) ) {
+			$output = $img;
+		} else {
+			$output = $this->render_placeholder_image( $size, $type );
+		}
 
 		return apply_filters( 'sympose_render_image', $output, $id, $size, $type );
+	}
+
+	/**
+	 * Render placeholder image
+	 *
+	 * @param string $size Image size.
+	 * @param string $type Image type.
+	 */
+	public function render_placeholder_image( $size, $type ) {
+		$image_id = sympose_get_option( "fallback_{$type}_image_id" );
+		$image    = wp_get_attachment_image( $image_id, $size );
+
+		if ( empty( $image ) ) {
+			switch ( $type ) {
+
+				case 'person':
+					$image = '<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M24 23.95q-3.3 0-5.4-2.1-2.1-2.1-2.1-5.4 0-3.3 2.1-5.4 2.1-2.1 5.4-2.1 3.3 0 5.4 2.1 2.1 2.1 2.1 5.4 0 3.3-2.1 5.4-2.1 2.1-5.4 2.1ZM8 40v-4.7q0-1.9.95-3.25T11.4 30q3.35-1.5 6.425-2.25Q20.9 27 24 27q3.1 0 6.15.775 3.05.775 6.4 2.225 1.55.7 2.5 2.05.95 1.35.95 3.25V40Zm3-3h26v-1.7q0-.8-.475-1.525-.475-.725-1.175-1.075-3.2-1.55-5.85-2.125Q26.85 30 24 30t-5.55.575q-2.7.575-5.85 2.125-.7.35-1.15 1.075Q11 34.5 11 35.3Zm13-16.05q1.95 0 3.225-1.275Q28.5 18.4 28.5 16.45q0-1.95-1.275-3.225Q25.95 11.95 24 11.95q-1.95 0-3.225 1.275Q19.5 14.5 19.5 16.45q0 1.95 1.275 3.225Q22.05 20.95 24 20.95Zm0-4.5ZM24 37Z"/></svg>';
+					break;
+				case 'organisation':
+					$image = '<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M4 42V6h19.5v8.25H44V42Zm3-3h5.25v-5.25H7Zm0-8.25h5.25V25.5H7Zm0-8.25h5.25v-5.25H7Zm0-8.25h5.25V9H7ZM15.25 39h5.25v-5.25h-5.25Zm0-8.25h5.25V25.5h-5.25Zm0-8.25h5.25v-5.25h-5.25Zm0-8.25h5.25V9h-5.25ZM23.5 39H41V17.25H23.5v5.25h4v3h-4v5.25h4v3h-4Zm9.25-13.5v-3h3v3Zm0 8.25v-3h3v3Z"/></svg>';
+					break;
+			}
+		}
+
+		return $image;
 	}
 
 	/**
@@ -822,7 +853,7 @@ class Sympose_Public {
 
 			// Display sessions.
 			foreach ( $posts as $post ) {
-				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link, in_array( $post->ID, $event_sessions, true ) );
+				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link = false, in_array( $post->ID, $event_sessions, true ) );
 			}
 
 			echo '<tfoot></tfoot>';
@@ -851,7 +882,7 @@ class Sympose_Public {
 	 * @param boolean $show_edit_link To hide or show the edit link in the row.
 	 * @param boolean $session_saved The saved state of the session.
 	 */
-	public function render_schedule_row( $post, $settings, $term, $args = array(), $show_edit_link, $session_saved ) {
+	public function render_schedule_row( $post, $settings, $term, $args = array(), $show_edit_link = false, $session_saved = false ) {
 
 		$defaults = array(
 			'show_time'   => true,
@@ -1130,7 +1161,7 @@ class Sympose_Public {
 	 *
 	 * @throws Exception Throws exception.
 	 */
-	public function render_session( $id = false, $args ) {
+	public function render_session( $id = false, $args = array() ) {
 
 		$default_args = apply_filters(
 			'sympose_extend_session_information_widget_default_fields',
