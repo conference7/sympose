@@ -2,7 +2,7 @@
 
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 const cssnano = require('gulp-cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
@@ -17,8 +17,6 @@ const fs = require('fs');
 const path = require('path');
 const merge = require('merge-stream');
 const exec = require('child_process').exec;
-
-sass.compiler = require('node-sass');
 
 /* Sass task */
 gulp.task('css', () => {
