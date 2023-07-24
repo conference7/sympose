@@ -46,17 +46,8 @@ class Sympose_Activator {
 			$insert_term = wp_insert_term( 'running', 'session-status' );
 		}
 
-		// Schedule cronjob for remote extensions.
-		if ( ! wp_next_scheduled( 'sympose_refresh_extensions' ) ) {
-			wp_schedule_event( time(), 'daily', 'sympose_refresh_extensions' );
-		}
-
 		// Flush Rewrite Rules.
 		flush_rewrite_rules();
-
-		// Refresh Exensions.
-		$sympose_admin = new Sympose_Admin();
-		$sympose_admin->get_sympose_extensions();
 	}
 
 }
