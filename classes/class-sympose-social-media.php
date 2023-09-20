@@ -108,7 +108,7 @@ class Sympose_Social_Media {
 			foreach ( $social_media as $item ) {
 				if ( isset( $item['url'] ) && ! empty( $item['url'] ) ) {
 					// phpcs:ignore
-					echo '<a target="_blank" href="' . esc_url($item['url']) . '">' . $this->render_social_media_icon( $item['fa'] ) . '</a>';
+					echo '<a class="sympose-social-media-icon icon-' . esc_attr( $item['fa'] ) . '" target="_blank" href="' . esc_url($item['url']) . '">' . $this->render_social_media_icon( $item['fa'] ) . '</a>';
 				}
 			}
 			?>
