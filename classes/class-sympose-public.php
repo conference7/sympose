@@ -853,7 +853,7 @@ class Sympose_Public {
 
 			// Display sessions.
 			foreach ( $posts as $post ) {
-				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link = false, in_array( $post->ID, $event_sessions, true ) );
+				$this->render_schedule_row( $post, $settings, $term, $row_args, $show_edit_link, in_array( $post->ID, $event_sessions, true ) );
 			}
 
 			echo '<tfoot></tfoot>';
