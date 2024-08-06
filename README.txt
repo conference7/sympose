@@ -1,6 +1,5 @@
  === Sympose ===
 Contributors: mklasen
-Donate link: https://sympose.net/donate-to-sympose/
 Tags: conference, speakers, sponsors, schedule, sessions
 Requires at least: 3.0.1
 Tested up to: 5.7.2
@@ -13,18 +12,12 @@ Sympose makes it easy for anyone to create a conference website. Install WordPre
 
 
 == Description ==
-Sympose by [Conference7](https://conference7.com) makes it easy to share knowledge in WordPress. The core of this plugin is the schedule. Easily create schedules for events, and link the individual sessions to people (speakers) and organisation (sponsors).
-
-**Ready to start sharing knowledge?**
-
-Check out the demo at [https://sympose.net/sympose-demo](https://sympose.net/sympose-demo).
+Sympose is a WordPress plugin for conferences. Sympose makes it easy to create pages for conferences in WordPress. You can easily create schedules for events, and link the individual sessions to speakers and sponsors.
 
 
 **Sympose Quick Start**
 
-After activating Sympose, you can start shaping your event right away! Check out the video below for an example.
-
-https://www.youtube.com/watch?v=s3JBBcVYt-k
+After activating Sympose, you can start shaping your event right away with the Quick Start!
 
 === Shortcodes ===
 
@@ -54,11 +47,6 @@ Check out other shortcodes (after creating posts and categories) in the Sympose 
 
 I recommend to install plugins via your WordPress Dashboard. Go to Plugins -> Add new, and search for `Sympose`.
 
-
-== FAQ ==
-
-You'll find an index of [frequently asked questions](https://sympose.net/faq?utm_source=wordpress-plugin-page) on [https://sympose.net/faq](https://sympose.net/faq?utm_source=wordpress-plugin-page)
-
 == Screenshots ==
 
 1. Example of schedule page
@@ -76,9 +64,7 @@ You'll find an index of [frequently asked questions](https://sympose.net/faq?utm
 
 == Extensions ==
 
-Sympose is a free Wordpress plugin developed to manage events on your WordPress website. Sympose also provides a variety of extensions that add functionality to the main plugin. For more information check the [Sympose website](https://sympose.net?utm_source=wordpress-plugin-page).
-
-[Extensions](https://sympose.net/extensions/?utm_source=wordpress-plugin-page) are available for download on the link below: [https://sympose.net/extensions/](https://sympose.net/extensions/?utm_source=wordpress-plugin-page)
+Sympose is a free Wordpress plugin developed to manage events on your WordPress website. Sympose also provides a variety of extensions that add functionality to the main plugin.
 
 == Changelog ==
 
