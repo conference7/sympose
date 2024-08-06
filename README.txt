@@ -1,8 +1,8 @@
  === Sympose ===
 Contributors: mklasen
 Tags: conference, speakers, sponsors, schedule, sessions
-Requires at least: 3.0.1
-Tested up to: 5.7.2
+Requires at least: 6.0
+Tested up to: 6.6.1
 Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv2 or later
