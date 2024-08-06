@@ -11,7 +11,7 @@
  * Plugin Name:       Sympose
  * Plugin URI:        https://sympose.net
  * Description:       Manage events on your WordPress website
- * Version:           1.4.8.5
+ * Version:           1.5
  * Author:            Conference7
  * Author URI:        https://conference7.com
  * License:           GPL-2.0+
